@@ -1,0 +1,29 @@
+{
+  "name": "peace-of-mind",
+  "version": "1.0.0",
+  "description": "scheduling management and communication tool in healthcare",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quandarealest/PeaceofMind.git"
+  },
+  "author": "Quan Bui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quandarealest/PeaceofMind/issues"
+  },
+  "homepage": "https://github.com/quandarealest/PeaceofMind#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
