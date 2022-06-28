@@ -1,0 +1,15 @@
+{
+  "short_name": "PeaceOfMind",
+  "name": "Peace Of Mind",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "black",
+  "background_color": "white"
+}
