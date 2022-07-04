@@ -37,14 +37,6 @@ function Login() {
 
     dispatch(login(userData))
   }
-
-  // if (isLoading) {
-  //   return (
-  //     <Box sx={{ display: 'flex' }}>
-  //       <CircularProgress />
-  //     </Box>
-  //   )
-  // }
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
