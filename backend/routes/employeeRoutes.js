@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const {
   registerEmployee,
-  // getEmployeeList,
-  // getEmployeeDetail,
+  getEmployeeList,
+  getEmployeeDetail,
   // getResidentList,
   // getResidentDetail,
   // registerResident,
@@ -15,9 +15,9 @@ const {
 const { protect } = require('../middleware/authMiddleware')
 
 //employee functions
-router.route('/').post(protect, registerEmployee)
-// .get(protect, getEmployeeList)
-// router.route('/employee/:id').get(protect, getEmployeeDetail).put(protect, editEmployeeDetail).delete(protect, removeEmployee)
+router.route('/').post(protect, registerEmployee).get(protect, getEmployeeList)
+router.route('/:id').get(protect, getEmployeeDetail)
+// .put(protect, editEmployeeDetail).delete(protect, removeEmployee)
 
 //resident functions 
 // router.route('/resident/').post(protect, registerResident).get(protect, getResidentList)
