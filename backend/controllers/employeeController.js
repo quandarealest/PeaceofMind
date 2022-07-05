@@ -3,7 +3,7 @@ const Employee = require('../models/employeeModel')
 
 // @desc Register new employee
 // @route  POST /api/employee
-// @access Public
+// @access Private
 const registerEmployee = asyncHandler(async (req, res) => {
   const {
     firstName,
@@ -54,6 +54,39 @@ const registerEmployee = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc get employee list
+// @route  GET /api/employee
+// @access Private
+
+const getEmployeeList = asyncHandler(async (req, res) => {
+  const employeeList = await Employee.find()
+
+  res.status(200).json(employeeList)
+})
+
+// @desc get employee detail
+// @route  GET /api/employee/:id
+// @access Private
+
+const getEmployeeDetail = asyncHandler(async (req, res) => {
+  const employee = await Employee.findById(req.params.id)
+
+  if (!employee) {
+    res.status(400)
+    throw new Error('Employee not found')
+  }
+
+  // check for user
+  if (!req.user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  res.status(200).json(employee)
+})
+
 module.exports = {
-  registerEmployee
+  registerEmployee,
+  getEmployeeList,
+  getEmployeeDetail
 }
