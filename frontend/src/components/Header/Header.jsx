@@ -1,6 +1,4 @@
 import React from 'react'
-import { styled, useTheme } from '@mui/material/styles';
-import MuiAppBar from '@mui/material/AppBar';
 import { AppBar, Toolbar, Button, ThemeProvider, Container, Box } from '@mui/material'
 import { theme } from '../../theme/CustomizedTheme'
 import MailIcon from '@mui/icons-material/Mail'
@@ -15,26 +13,16 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../../features/auth/authSlice'
-import { FiSettings } from 'react-icons/fi';
-import { BsMessenger, BsBell, BsPersonLinesFill, BsPeopleFill } from "react-icons/bs";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import MessageIcon from '@mui/icons-material/Message';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import Typography from '@mui/material/Typography';
 import { isMobile } from 'react-device-detect';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import "./sidebar.css";
-// const useStyles = makeStyles({
-//   header: {
-//     position: "unset"
-//   }
-// })
+
 
 function Header() {
 
@@ -43,21 +31,11 @@ function Header() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.auth)
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorE2, setMobileMoreAnchorE2] = React.useState(null);
-  const isMobileMenuOpen1 = Boolean(mobileMoreAnchorE2);
+  const [drawerAnchorEl, setDrawerAnchorEl] = useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const handleMobiledrawerClose = () => {
-    setIsDrawerOpen(false);
-  };
-  const handleMobileMenuClose1 = () => {
-    setMobileMoreAnchorE2(null);
-  };
+  const isDrawerOpen = Boolean(drawerAnchorEl)
 
-  const handleMobileMenuOpen1 = (event) => {
-    setMobileMoreAnchorE2(event.currentTarget);
-  };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -65,6 +43,14 @@ function Header() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleDrawerMenuClose = () => {
+    setDrawerAnchorEl(null)
+  }
+
+  const handleDrawerMenuOpen = (event) => {
+    setDrawerAnchorEl(event.currentTarget)
+  }
 
   const onLogout = () => {
     dispatch(logout())
@@ -94,26 +80,6 @@ function Header() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem>
         <Button color="inherit">
           My Profile
         </Button>
@@ -127,52 +93,13 @@ function Header() {
     </Menu>
   );
 
-  //side bar
-  const mobilehamburgerId = 'primary-search-account-hamburger-mobile';
-  const renderMobileHamburger = (
-    <Menu
-      anchorEl={mobileMoreAnchorE2}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      id={mobilehamburgerId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      open={isMobileMenuOpen1}
-      onClose={handleMobileMenuClose1}
-    >
-      <MenuItem>
-        <PeopleAltIcon size="large" />
-                  Employees
-      </MenuItem>
-      <MenuItem>
-        <HomeIcon size="large" />
-                 Residents
-      </MenuItem>
-      <MenuItem>
-        <MessageIcon size="large" />
-                 Messages
-      </MenuItem>
-      <MenuItem>
-        <NotificationsIcon />
-                 Notification
-      </MenuItem>
-      <MenuItem>
-        <SettingsIcon />
-                Setting
-      </MenuItem>
-    </Menu>
-  );
-  const Sidebar = (
+  //Side bar
+  const drawerMenuId = 'primary-drawer-menu';
+  const renderSideBar = (
     <>
-      <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+      <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
         <Drawer
           sx={{
-
             flexShrink: 0,
             '& .MuiDrawer-paper': {
               width: drawerWidth,
@@ -181,37 +108,66 @@ function Header() {
           }}
           variant="persistent"
           anchor="left"
+          anchorEl={drawerAnchorEl}
+          id={drawerMenuId}
           open={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
+          onClose={handleDrawerMenuClose}
         >
           <Box p={2} textAlign='center' role='presentation'>
             <Typography variant='h6' component='div'>
               <div className="sidebar">
                 <div className="sidebarWrapper">
                   <div className="sidebarMenu">
-
-
+                    <div className="sidebarTop">
+                      <h3 className="sidebarTitle">Dashboard</h3>
+                      <ArrowCircleLeftOutlinedIcon className="sidebarArrow"
+                        onClick={handleDrawerMenuClose} />
+                    </div>
                     <ul className="sidebarList">
                       <li className="sidebarListItem">
-                        <PeopleAltIcon className="sidebarIcon" />
-                  Employees
-                 </li>
+                        <IconButton size="small" aria-label="show employees" color="inherit">
+                          {/* Badge is use for new notification alert */}
+                          <Badge>
+                            <PeopleAltIcon className="sidebarIcon" />
+                          </Badge>
+                        </IconButton>
+                        <p>Employees</p>
+                      </li>
                       <li className="sidebarListItem">
-                        <HomeIcon className="sidebarIcon" />
-                 Residents
-                 </li>
+                        <IconButton size="small" aria-label="show residents" color="inherit">
+                          {/* Badge is use for new notification alert */}
+                          <Badge>
+                            <HomeIcon className="sidebarIcon" />
+                          </Badge>
+                        </IconButton>
+                        <p>Residents</p>
+                      </li>
                       <li className="sidebarListItem">
-                        <MessageIcon className="sidebarIcon" />
-                 Messages
-                 </li>
+                        {/* <MailIcon className="sidebarIcon" />
+                        Messages */}
+                        <IconButton size="small" aria-label="show 4 new mails" color="inherit">
+                          <Badge badgeContent={4} color="error">
+                            <MailIcon className="sidebarIcon" />
+                          </Badge>
+                        </IconButton>
+                        <p>Messages</p>
+                      </li>
                       <li className="sidebarListItem">
-                        <NotificationsIcon className="sidebarIcon" />
-                 Notification
-                 </li>
+                        <IconButton size="small" aria-label="show 17 new notification" color="inherit">
+                          <Badge badgeContent={17} color="error">
+                            <NotificationsIcon className="sidebarIcon" />
+                          </Badge>
+                        </IconButton>
+                        <p>Notification</p>
+                      </li>
                       <li className="sidebarListItem">
-                        <SettingsIcon className="sidebarIcon" />
-                 Settings
-                 </li>
+                        <IconButton size="small" aria-label="setting" color="inherit">
+                          <Badge>
+                            <SettingsIcon className="sidebarIcon" />
+                          </Badge>
+                        </IconButton>
+                        <p>Settings</p>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -220,20 +176,6 @@ function Header() {
           </Box>
         </Drawer>
       </Box>
-      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-        <IconButton
-          size="large"
-          aria-label="show menu"
-          aria-controls={mobilehamburgerId}
-          aria-haspopup="true"
-          onClick={handleMobileMenuOpen1}
-          color="inherit"
-        >
-          <MenuIcon />
-        </IconButton>
-        {handleMobiledrawerClose}
-      </Box>
-      {renderMobileHamburger}
     </>
   );
   return (
@@ -243,42 +185,30 @@ function Header() {
           <AppBar color="primary" sx={{ position: "unset" }}>
             <Container maxWidth="xl">
               <Toolbar>
-                {user ? <>
-                  {isMobile ?
-                    null :
-                    <>
-                      {Sidebar}
-                    </>
-                  }
-                </> : (
-                    null
-                  )}
+                {renderSideBar}
                 {isDrawerOpen ?
                   null :
                   <>
-                    {isMobile ?
-                      null
-                      :
-                      <Box sx={{ display: { xs: 'none', md: 'flex' } }}
-                      >
-                        <>
-                          <IconButton
-                            size='large'
-                            edge='start'
-                            color='inherit'
-                            aria-label='logo'
-                            onClick={() => setIsDrawerOpen(true)}
-                          >
-                            <MenuIcon />
-                          </IconButton>
-                        </>
-                      </Box>
-                    }
+                    <Box sx={{ display: { xs: 'flex', md: 'flex' } }}
+                    >
+                      <>
+                        <IconButton
+                          size='large'
+                          edge='start'
+                          color='inherit'
+                          aria-label='drawer'
+                          onClick={handleDrawerMenuOpen}
+                          aria-controls={drawerMenuId}
+                        >
+                          <MenuIcon />
+                        </IconButton>
+                      </>
+                    </Box>
                   </>
                 }
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-                  <img src="/images/logo-banner-white.png" />
+                  <img src="/images/logo-banner-white.png" alt="logo" />
                 </Box>
 
                 {user ? (
