@@ -14,6 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/employee', require('./routes/employeeRoutes'))
+app.use('/api/resident', require('./routes/residentRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
 
 app.use(errorHandler);

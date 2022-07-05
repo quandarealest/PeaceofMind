@@ -23,7 +23,7 @@ const residentSchema = mongoose.Schema({
     type: Number,
     require: [true, 'Please enter the contact number']
   },
-  residentId: {
+  residentNumber: {
     type: String,
     require: [true, 'Please enter the resident number'],
     unique: true

@@ -20,11 +20,10 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
-import "./sidebar.css";
+import './Sidebar.css';
 
 function Header() {
 
-  // const classes = useStyles()
   const drawerWidth = 300;
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -106,7 +105,6 @@ function Header() {
           }}
           variant="persistent"
           anchor="left"
-          anchorEl={drawerAnchorEl}
           id={drawerMenuId}
           open={isDrawerOpen}
           onClose={handleDrawerMenuClose}
@@ -183,10 +181,9 @@ function Header() {
           <AppBar color="primary" sx={{ position: "unset" }}>
             <Container maxWidth="xl">
               <Toolbar>
-                {renderSideBar}
-                {isDrawerOpen ?
-                  null :
+                {user ? (
                   <>
+                    {renderSideBar}
                     <Box sx={{ display: { xs: 'flex', md: 'flex' } }}
                     >
                       <>
@@ -203,8 +200,9 @@ function Header() {
                       </>
                     </Box>
                   </>
-                }
-
+                ) : (
+                    null
+                  )}
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
                   <img src="/images/logo-banner-white.png" alt="logo" />
                 </Box>
