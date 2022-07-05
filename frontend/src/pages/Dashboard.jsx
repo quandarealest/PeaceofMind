@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Sidebar } from '../components/Sidebar/Sidebar'
 
 function Dashboard() {
   const navigate = useNavigate()
