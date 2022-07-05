@@ -172,7 +172,7 @@ function Header() {
   <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
   <Drawer
     sx={{
-      width: drawerWidth,
+      
       flexShrink: 0,
       '& .MuiDrawer-paper': {
         width: drawerWidth,
@@ -265,8 +265,7 @@ function Header() {
                       {isMobile?
                       null
                       :
-                     <Box sx={{  display: { xs: 'none', md: 'flex' } }
-                     }
+                     <Box sx={{  display: { xs: 'none', md: 'flex' } }}
                      >
                       <>
                           <IconButton
