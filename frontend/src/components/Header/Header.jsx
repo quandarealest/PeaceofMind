@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../../features/auth/authSlice'
 import { FiSettings } from 'react-icons/fi';
-import { BsMessenger,BsBell,BsPersonLinesFill,BsPeopleFill } from "react-icons/bs";
+import { BsMessenger, BsBell, BsPersonLinesFill, BsPeopleFill } from "react-icons/bs";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MessageIcon from '@mui/icons-material/Message';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -24,7 +24,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import Typography from '@mui/material/Typography';
-import {isMobile} from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
@@ -37,16 +37,16 @@ import "./sidebar.css";
 // })
 
 function Header() {
-  
+
   // const classes = useStyles()
   const drawerWidth = 300;
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.auth)
-  const [isDrawerOpen, setIsDrawerOpen]= useState(true)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [mobileMoreAnchorE2, setMobileMoreAnchorE2] = React.useState(null);
-  const isMobileMenuOpen1=Boolean(mobileMoreAnchorE2);
+  const isMobileMenuOpen1 = Boolean(mobileMoreAnchorE2);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const handleMobiledrawerClose = () => {
     setIsDrawerOpen(false);
@@ -126,11 +126,11 @@ function Header() {
       </MenuItem>
     </Menu>
   );
-  
+
   //side bar
   const mobilehamburgerId = 'primary-search-account-hamburger-mobile';
   const renderMobileHamburger = (
-     <Menu
+    <Menu
       anchorEl={mobileMoreAnchorE2}
       anchorOrigin={{
         vertical: 'top',
@@ -146,147 +146,141 @@ function Header() {
       onClose={handleMobileMenuClose1}
     >
       <MenuItem>
-      <PeopleAltIcon size="large" />
-                  Employees       
+        <PeopleAltIcon size="large" />
+                  Employees
       </MenuItem>
       <MenuItem>
-      <HomeIcon size="large"/>
+        <HomeIcon size="large" />
                  Residents
       </MenuItem>
       <MenuItem>
-      <MessageIcon size="large"/>  
+        <MessageIcon size="large" />
                  Messages
       </MenuItem>
       <MenuItem>
-      <NotificationsIcon />  
+        <NotificationsIcon />
                  Notification
       </MenuItem>
       <MenuItem>
-      <SettingsIcon />  
+        <SettingsIcon />
                 Setting
       </MenuItem>
     </Menu>
   );
-  const Sidebar=(
-    <> 
-  <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-  <Drawer
-    sx={{
-      
-      flexShrink: 0,
-      '& .MuiDrawer-paper': {
-        width: drawerWidth,
-        boxSizing: 'border-box',
-      },
-    }}
-    variant="persistent"
-    anchor="left"
-    open={isDrawerOpen}
-    onClose={()=>setIsDrawerOpen(false)}
-    >
-    <Box p={2}  textAlign='center' role='presentation'>
-      <Typography variant='h6' component='div'>
-      <div className="sidebar">
-        <div className="sidebarWrapper">
-           <div className="sidebarMenu">
+  const Sidebar = (
+    <>
+      <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+        <Drawer
+          sx={{
 
-             <div className="sidebarTop">
-                <h3 className="sidebarTitle" >Dashboard</h3>
-                  <ArrowCircleLeftOutlinedIcon  className="sidebarArrow"
-                  onClick={()=>setIsDrawerOpen(false)} />
-             </div>
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        >
+          <Box p={2} textAlign='center' role='presentation'>
+            <Typography variant='h6' component='div'>
+              <div className="sidebar">
+                <div className="sidebarWrapper">
+                  <div className="sidebarMenu">
 
-              
-              <ul className="sidebarList">
-                 <li className="sidebarListItem">
-                 <PeopleAltIcon className="sidebarIcon" />
+
+                    <ul className="sidebarList">
+                      <li className="sidebarListItem">
+                        <PeopleAltIcon className="sidebarIcon" />
                   Employees
                  </li>
-                 <li className="sidebarListItem">
-                 <HomeIcon className="sidebarIcon" />
+                      <li className="sidebarListItem">
+                        <HomeIcon className="sidebarIcon" />
                  Residents
                  </li>
-                 <li className="sidebarListItem">
-                 <MessageIcon className="sidebarIcon"/>  
+                      <li className="sidebarListItem">
+                        <MessageIcon className="sidebarIcon" />
                  Messages
                  </li>
-                 <li className="sidebarListItem">
-                 <NotificationsIcon className="sidebarIcon" />  
+                      <li className="sidebarListItem">
+                        <NotificationsIcon className="sidebarIcon" />
                  Notification
                  </li>
-                 <li className="sidebarListItem">
-                  <SettingsIcon className="sidebarIcon"/> 
+                      <li className="sidebarListItem">
+                        <SettingsIcon className="sidebarIcon" />
                  Settings
                  </li>
-              </ul>
-           </div>
-        </div>   
-    </div>
-      </Typography>
-    </Box>
-    </Drawer>
-    </Box>
-    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                  <IconButton
-                    size="large"
-                    aria-label="show menu"
-                    aria-controls={mobilehamburgerId}
-                    aria-haspopup="true"
-                    onClick={handleMobileMenuOpen1}
-                    color="inherit"
-                  >
-                  <MenuIcon />
-                  </IconButton>
-                  {handleMobiledrawerClose}
-                  </Box>
-                  {renderMobileHamburger}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </Typography>
+          </Box>
+        </Drawer>
+      </Box>
+      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+        <IconButton
+          size="large"
+          aria-label="show menu"
+          aria-controls={mobilehamburgerId}
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen1}
+          color="inherit"
+        >
+          <MenuIcon />
+        </IconButton>
+        {handleMobiledrawerClose}
+      </Box>
+      {renderMobileHamburger}
     </>
   );
   return (
     <div>
       <header className='header'>
-        <ThemeProvider theme={theme}>  
+        <ThemeProvider theme={theme}>
           <AppBar color="primary" sx={{ position: "unset" }}>
-            <Container maxWidth="xl">        
-             <Toolbar>
-              {user ?   <>
-                 {isMobile? 
-                 null  :
-                 <> 
-                   {Sidebar}
-                 </>   
-                 }
-                 </> : (
-                   null
+            <Container maxWidth="xl">
+              <Toolbar>
+                {user ? <>
+                  {isMobile ?
+                    null :
+                    <>
+                      {Sidebar}
+                    </>
+                  }
+                </> : (
+                    null
                   )}
-                {isDrawerOpen?
-                    null:
-                      <>
-                      {isMobile?
+                {isDrawerOpen ?
+                  null :
+                  <>
+                    {isMobile ?
                       null
                       :
-                     <Box sx={{  display: { xs: 'none', md: 'flex' } }}
-                     >
-                      <>
+                      <Box sx={{ display: { xs: 'none', md: 'flex' } }}
+                      >
+                        <>
                           <IconButton
-                        size='large'
-                        edge='start'
-                        color='inherit'
-                        aria-label='logo'
-                        onClick={()=>setIsDrawerOpen(true)}
-                        >
-                        <MenuIcon/>
-                        </IconButton>
+                            size='large'
+                            edge='start'
+                            color='inherit'
+                            aria-label='logo'
+                            onClick={() => setIsDrawerOpen(true)}
+                          >
+                            <MenuIcon />
+                          </IconButton>
                         </>
-                     </Box> 
+                      </Box>
                     }
-                       </>
-                      } 
-  
-               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-                      <img src="/images/logo-banner-white.png" />
-               </Box> 
-                
+                  </>
+                }
+
+                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+                  <img src="/images/logo-banner-white.png" />
+                </Box>
+
                 {user ? (
                   <>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -335,7 +329,7 @@ function Header() {
               </Toolbar>
             </Container>
           </AppBar>
-         
+
         </ThemeProvider>
       </header >
     </div >
