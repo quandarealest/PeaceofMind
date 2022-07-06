@@ -1,19 +1,34 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Box, ThemeProvider } from '@mui/material'
+import jwt_decode from 'jwt-decode'
 
 import { theme } from '../theme/CustomizedTheme'
 import AdminDashboard from '../components/AdminDashboard/AdminDashboard'
+import { logout, reset } from '../features/auth/authSlice'
 
 function Dashboard() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const { user } = useSelector(state => state.auth)
 
   useEffect(() => {
     if (!user) {
       navigate('/login')
+    }
+    if (user) {
+      const localUser = JSON.parse(localStorage.getItem('user'))
+      const token = localUser.token
+      //JWT check if token expired
+      if (token) {
+        const decodedToken = jwt_decode(token)
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+          dispatch(logout())
+          dispatch(reset())
+        };
+      }
     }
   }, [user, navigate])
 
