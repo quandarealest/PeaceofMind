@@ -71,7 +71,7 @@ const registerResident = asyncHandler(async (req, res) => {
 // @access Private
 
 const getResidentList = asyncHandler(async (req, res) => {
-  const residentList = await Employee.find()
+  const residentList = await Resident.find()
 
   res.status(200).json(residentList)
 })

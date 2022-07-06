@@ -20,33 +20,39 @@ function Dashboard() {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1, display: 'flex', margin: 4 }}>
-        {user.role === 'admin' ? (
+        {user ? (
           <>
-            <AdminDashboard />
-          </>
-        ) : (
-            user.role === 'supervisor' ? (
-              <>
-                This is supervisor dashboard
+            {
+              user.role === 'admin' ? (
+                <>
+                  <AdminDashboard />
+                </>
+              ) : (
+                  user.role === 'supervisor' ? (
+                    <>
+                      This is supervisor dashboard
             </>
-            ) : (
-                user.role === 'employee' ? (
-                  <>
-                    This is employee dashboard
-              </>
-                ) : (
-                    user.role === 'resident' ? (
-                      <>
-                        Hello resident
-                </>
-                    ) : (
+                  ) : (
+                      user.role === 'employee' ? (
                         <>
-                          This is resident's family member dashboard
+                          This is employee dashboard
+              </>
+                      ) : (
+                          user.role === 'resident' ? (
+                            <>
+                              Hello resident
                 </>
-                      )
-                  )
-              )
-          )}
+                          ) : (
+                              <>
+                                This is resident's family member dashboard
+                </>
+                            )
+                        )
+                    )
+                )
+            }
+          </>
+        ) : (null)}
       </Box>
     </ThemeProvider>
   )

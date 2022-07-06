@@ -1,6 +1,6 @@
 import axios from 'axios'
+import { EMP_API_URL } from '../../common/api'
 
-const API_URL = '/api/employee/'
 
 //get employee list
 const getEmployeeList = async (token) => {
@@ -10,13 +10,26 @@ const getEmployeeList = async (token) => {
     }
   }
 
-  const response = await axios.get(API_URL, config)
+  const response = await axios.get(EMP_API_URL, config)
+
+  return response.data
+}
+
+const getEmployeeDetail = async (token, id) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios.get(EMP_API_URL + id, config)
 
   return response.data
 }
 
 const employeeService = {
-  getEmployeeList
+  getEmployeeList,
+  getEmployeeDetail
 }
 
 export default employeeService

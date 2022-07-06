@@ -69,7 +69,7 @@ const getEmployeeList = asyncHandler(async (req, res) => {
 // @access Private
 
 const getEmployeeDetail = asyncHandler(async (req, res) => {
-  const employee = await Employee.findById(req.params.id)
+  const employee = await Employee.findOne({ userId: req.params.id })
 
   if (!employee) {
     res.status(400)
