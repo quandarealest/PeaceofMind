@@ -18,9 +18,9 @@ function Dashboard() {
     if (!user) {
       navigate('/login')
     }
-    if (user) {
-      const localUser = JSON.parse(localStorage.getItem('user'))
-      const token = localUser.token
+    const localUser = JSON.parse(localStorage.getItem('user'))
+    if (localUser) {
+      const token = localUser?.token
       //JWT check if token expired
       if (token) {
         const decodedToken = jwt_decode(token)
