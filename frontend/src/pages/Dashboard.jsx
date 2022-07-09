@@ -40,7 +40,7 @@ function Dashboard() {
             {
               user.role === 'admin' ? (
                 <>
-                  <AdminDashboard />
+                  <AdminDashboard user={user} />
                 </>
               ) : (
                   user.role === 'supervisor' ? (

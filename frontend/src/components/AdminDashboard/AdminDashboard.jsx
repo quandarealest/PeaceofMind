@@ -1,21 +1,20 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { getEmployeeList, reset as employeeReset } from '../../features/employee/employeeSlice'
 import { getResidentList, reset as residentReset } from '../../features/resident/residentSlice'
-import Title from '../Title/Title'
 import PoMTable from '../PoMTable/PoMTable'
 import { employeeHeaderCells, residentHeaderCells } from './AdminDashboardEnum'
 import { createData } from '../PoMTable/TableEnum'
 import { normalizeDate, normalizePhoneNumber } from '../../common/NormalizingData'
 
 
-function AdminDashboard() {
+function AdminDashboard(props) {
+  const { user } = props;
   const dispatch = useDispatch()
 
-  // const { employees, isLoading, isError, message } = useSelector(state => state.employees)
   const employeeSelector = useSelector(state => state.employees)
   const residentSelector = useSelector(state => state.residents)
 
@@ -63,11 +62,25 @@ function AdminDashboard() {
     }) : []
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Title>
-        Grace Remus Day Care
-      </Title>
-      <PoMTable headCells={employeeHeaderCells} rows={normalizedEmployeeList} isLoading={employeeSelector.isLoading} tableName="Employee List" />
-      <PoMTable headCells={residentHeaderCells} rows={normalizedResidentList} isLoading={residentSelector.isLoading} tableName="Resident List" />
+      <Typography component="h2" variant="h6" gutterBottom>
+        Hi {user.userName}, welcome back
+      </Typography>
+      <Typography component="h2" variant="h7" gutterBottom>
+        You're viewing Grace Remus Day Care's Dashboard
+      </Typography>
+      <br />
+      <PoMTable
+        headCells={employeeHeaderCells}
+        rows={normalizedEmployeeList}
+        isLoading={employeeSelector.isLoading}
+        tableName="Employee List"
+        tableType="employee" />
+      <PoMTable
+        headCells={residentHeaderCells}
+        rows={normalizedResidentList}
+        isLoading={residentSelector.isLoading}
+        tableName="Resident List"
+        tableType="resident" />
     </Box>
   )
 }

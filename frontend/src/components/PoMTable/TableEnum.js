@@ -18,3 +18,9 @@ export const getComparator = (order, orderBy) => {
 export const createData = (props) => {
   return [...props];
 }
+
+export const generateFilterOption = (headCells) => {
+  return headCells.map(column => {
+    return { value: column.id, title: column.label }
+  })
+}

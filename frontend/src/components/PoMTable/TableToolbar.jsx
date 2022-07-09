@@ -1,6 +1,7 @@
-import * as React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { alpha, styled } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -12,14 +13,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { generateFilterOption } from './TableEnum'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.neutral.main,
-  '&:hover': {
-    backgroundColor: theme.palette.neutral.main,
-  },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
@@ -37,20 +35,26 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.primary.main,
+  color: theme.palette.mui.fontColor,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
+    padding: theme.spacing(0.8, 0, 0.8, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    border: `2px solid ${theme.palette.primary.main}`,
-    color: theme.palette.primary.main,
-    borderRadius: '10px',
+    border: `1px solid ${theme.palette.mui.main}`,
+    '&:hover': {
+      border: `1px solid ${theme.palette.mui.borderColor}`,
+    },
+    '&:focus': {
+      border: `2px solid ${theme.palette.mui.onFocus}`,
+    },
+    color: theme.palette.mui.fontColor,
+    borderRadius: '4px',
     [theme.breakpoints.up('md')]: {
       width: '20ch',
     },
@@ -58,7 +62,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const TableToolbar = (props) => {
-  const { numSelected, tableName, isLoading } = props;
+  const { numSelected, tableName, isLoading, headCells, tableType } = props;
+  const filterOptionHeadCells = generateFilterOption(headCells)
+  const [option, setSelectedOption] = useState(filterOptionHeadCells[0])
+  const navigate = useNavigate()
+
+  const handleChangeFilterOption = (e) => {
+    setSelectedOption(filterOptionHeadCells.find(opt => opt.value === e.target.value))
+  }
+
+  const handleNavigateToAddUser = () => {
+    navigate('/user', {
+      state: {
+        newType: tableType
+      }
+    })
+  }
 
   return (
     <ThemeProvider>
@@ -98,9 +117,23 @@ const TableToolbar = (props) => {
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>
+              <FormControl size="small">
+                <InputLabel id="demo-simple-select-label">Search By</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={option.value}
+                  label={option.title}
+                  onChange={handleChangeFilterOption}
+                >
+                  {filterOptionHeadCells.map(opt => {
+                    return <MenuItem value={opt.value}>{opt.title}</MenuItem>
+                  })}
+                </Select>
+              </FormControl>
               <Tooltip title="Add New Row">
                 <IconButton>
-                  <PersonAddIcon />
+                  <PersonAddIcon onClick={handleNavigateToAddUser} />
                 </IconButton>
               </Tooltip>
               {isLoading ? (

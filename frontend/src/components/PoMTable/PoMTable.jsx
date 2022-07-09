@@ -30,7 +30,7 @@ import { getComparator } from './TableEnum'
 // }
 
 export default function PoMTable(props) {
-  const { headCells, rows, isLoading, tableName } = props;
+  const { headCells, rows, isLoading, tableName, tableType } = props;
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState(headCells[0].index);
   const [selected, setSelected] = React.useState([]);
@@ -107,7 +107,12 @@ export default function PoMTable(props) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableToolbar numSelected={selected.length} tableName={tableName} isLoading={isLoading} />
+        <TableToolbar
+          numSelected={selected.length}
+          tableName={tableName}
+          isLoading={isLoading}
+          headCells={headCells}
+          tableType={tableType} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

@@ -14,5 +14,12 @@ export const theme = createTheme({
       main: '#fff',
       contrastText: '#32c2b4',
     },
+    mui: {
+      main: '#c4c4c4',
+      borderColor: 'rgba(0, 0, 0, 0.87)',
+      fontColor: '#000',
+      hover: '#000',
+      onFocus: '#32c2b4',
+    }
   },
 });
