@@ -12,7 +12,6 @@ import { normalizeDate, normalizePhoneNumber } from '../../common/NormalizingDat
 
 
 function AdminDashboard(props) {
-  const { user } = props;
   const dispatch = useDispatch()
 
   const employeeSelector = useSelector(state => state.employees)
@@ -61,13 +60,7 @@ function AdminDashboard(props) {
       return createData(values)
     }) : []
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Typography component="h2" variant="h6" gutterBottom>
-        Hi {user.userName}, welcome back
-      </Typography>
-      <Typography component="h2" variant="h7" gutterBottom>
-        You're viewing Grace Remus Day Care's Dashboard
-      </Typography>
+    <Box sx={{ width: { xs: 420, sm: 730, md: '100%', lg: '100%' } }}>
       <br />
       <PoMTable
         headCells={employeeHeaderCells}
