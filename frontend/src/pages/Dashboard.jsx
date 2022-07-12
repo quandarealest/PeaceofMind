@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Box, ThemeProvider } from '@mui/material'
+import { Box, ThemeProvider, Typography } from '@mui/material'
 import jwt_decode from 'jwt-decode'
 
 import { theme } from '../theme/CustomizedTheme'
 import AdminDashboard from '../components/AdminDashboard/AdminDashboard'
+import SupervisorDashboard from '../components/SupervisorDashboard/SupervisorDashboard'
 import { logout, reset } from '../features/auth/authSlice'
 
 function Dashboard() {
@@ -34,19 +35,27 @@ function Dashboard() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1, display: 'flex', margin: 4 }}>
-        {user ? (
-          <>
+      {user ? (
+        <>
+          <Box sx={{ flexGrow: 1, margin: 4 }}>
+            <Typography component="h2" variant="h6" gutterBottom>
+              Hi {user.userName}, welcome back
+            </Typography>
+            <Typography component="h2" variant="h7" gutterBottom>
+              You're viewing Grace Remus Day Care's Dashboard
+            </Typography>
+          </Box>
+          <Box sx={{ flexGrow: 1, display: 'flex', margin: 4 }}>
             {
               user.role === 'admin' ? (
                 <>
-                  <AdminDashboard user={user} />
+                  <AdminDashboard />
                 </>
               ) : (
                   user.role === 'supervisor' ? (
                     <>
-                      This is supervisor dashboard
-            </>
+                      <SupervisorDashboard />
+                    </>
                   ) : (
                       user.role === 'employee' ? (
                         <>
@@ -66,9 +75,9 @@ function Dashboard() {
                     )
                 )
             }
-          </>
-        ) : (null)}
-      </Box>
+          </Box>
+        </>
+      ) : (null)}
     </ThemeProvider>
   )
 }
