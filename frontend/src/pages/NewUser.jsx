@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode'
 
 import EmployeeAddNew from '../components/EmployeeAddNew/EmployeeAddNew'
 import { logout, reset } from '../features/auth/authSlice'
+import ResidentAddNew from '../components/ResidentAddNew/ResidentAddNEw'
 
 function NewUser() {
   const location = useLocation()
@@ -38,7 +39,9 @@ function NewUser() {
     <>
       { newType === 'employee' ? (
         <EmployeeAddNew />
-      ) : (null)}
+      ) : (
+        <ResidentAddNew/>
+      )}
     </>
   )
 }
