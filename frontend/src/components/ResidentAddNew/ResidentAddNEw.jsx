@@ -21,7 +21,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import * as React from 'react';
 export default function ResidentAddNew() {
   
-  const [value, setValue] = React.useState(null);const handleSubmit = (event) => {
+  const [value, setValue] = React.useState(null);
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
