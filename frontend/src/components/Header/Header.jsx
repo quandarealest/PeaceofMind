@@ -48,7 +48,9 @@ function Header() {
   const handleDrawerMenuOpen = (event) => {
     setDrawerAnchorEl(event.currentTarget)
   }
-
+  const goToProfile=()=>{
+    navigate('/profile')
+  }
   const onLogout = () => {
     dispatch(logout())
     dispatch(reset())
@@ -77,7 +79,7 @@ function Header() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Button color="inherit">
+        <Button color="inherit" onClick={goToProfile}>
           My Profile
         </Button>
 
@@ -224,7 +226,7 @@ function Header() {
                           <NotificationsIcon />
                         </Badge>
                       </IconButton>
-                      <Button color="inherit">
+                      <Button color="inherit" onClick={goToProfile}>
                         My Profile
                         </Button>
                       <Button color="inherit" onClick={onLogout}>

@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/quandarealest/PeaceofMind#readme",
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@mui/lab": "^5.0.0-alpha.90",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.0.1",
