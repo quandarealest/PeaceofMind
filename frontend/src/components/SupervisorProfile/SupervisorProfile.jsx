@@ -110,147 +110,140 @@ const renderMobileMenu = (
                     flexGrow: 1, }}
             >
                <Grid container spacing={2}>
-               {isMobileMenuOpen?
-                      (
-                        <>
-                         <renderMobileMenu/>
-                        </>
-                      ):(
-                        <Grid item >
+               
+                    <Grid item >
                         <ButtonBase sx={{ width: 300, height:300 }}> 
                             <Img sx={{ width: 300, height:300 }} alt="profile" src="https://i.pinimg.com/474x/ae/ac/b9/aeacb924abc3e17e184d6d5d7f82dda0.jpg" />
                         </ButtonBase>    
-                        </Grid>
-                      )
-                      }
+                    </Grid>
 
-                    <Grid item xs={12} sm container> 
-                     
-                        <Grid item xs={10}>                          
-                        <Typography component="h4" variant="h6">    
-                           Farjana Rema
-                        </Typography>
-                        <Typography component="h4" variant="h8">    
-                           Employee ID: 100206108
-                        </Typography>                           
-                        </Grid>
-                      
-                        
-                       
-                        <Grid item xs={10}>  
-                           
-                          
-                             <TabContext value={value}>
-                                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                        <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                            <Tab label="About" value="1" />
-                                            <Tab label="Account Info" value="2" />
-                                        </TabList>
-                                    </Box>
-                                    
-                                    <TabPanel value="1">
-                                          <form onSubmit={handleAboutSave}> 
-                                                <Grid item xs={10} sm container  spacing={4}>
-                                                    <Grid item  xs={8}>
-                                                        <Typography component="h4" variant="h8">    
-                                                        First Name
-                                                        </Typography>    
-                                                     <TextField
-                                                            id="firstName-input"
-                                                            name="FirstName"
-                                                            type="text"
-                                                            value={AboutformValues.FirstName}
-                                                            onChange={handleAboutInputChange}
-                                                            
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={8}>
-                                                        <Typography component="h4" variant="h8">    
-                                                        Last Name
-                                                        </Typography> 
-                                                        <TextField
-                                                            id="LastName-input"
-                                                            name="LastName"
-                                                             type="text"
-                                                            value={AboutformValues.LastName}
-                                                           onChange={handleAboutInputChange}
-                                                        />
-                                                        </Grid>
-                                                        <Grid item xs={8}>
-                                                        <Typography component="h4" variant="h8">    
-                                                        Contact number
-                                                        </Typography> 
-                                                        <TextField
-                                                            id="ContactNumber-input"
-                                                            name="ContactNumber"
-                                                           
-                                                            type="text"
-                                                          value={AboutformValues.ContactNumber}
-                                                         onChange={handleAboutInputChange}
-                                                        />
-                                                        </Grid>
-                                                        <Grid item xs={8}>
-                                                        <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
-                                                            Save
-                                                        </Button> 
-                                                        </Grid>
-                                                         
-                                                </Grid>
-                                        </form> 
+                    <Grid item xs container direction="row" spacing={2}> 
+                            <Grid item xs={10}>                          
+                            <Typography component="h4" variant="h6">    
+                            Farjana Rema
+                            </Typography>
+                            <Typography component="h4" variant="h8">    
+                            Employee ID: 100206108
+                            </Typography>                           
+                            </Grid>   
 
-                                    </TabPanel>
-                                    <TabPanel value="2">
-                                         <form onSubmit={handleAccountInfoChange}> 
-                                         <Grid container direction="column"  spacing={4}>
-                                                   <Grid item >
-                                                        <Typography component="h4" variant="h8">    
-                                                        User Name
-                                                        </Typography> 
-                                                        <TextField
-                                                            id="UserName-input"
-                                                            name="UserName"
-                                                            type="text"
-                                                            value={AccountInfoformValues.UserName}
-                                                            onChange={handleAccountInfoInputChange}
-                                                        />
-                                                        </Grid>
-                                                        <Grid item >
-                                                        <Typography component="h4" variant="h8">    
-                                                        Email
-                                                        </Typography> 
-                                                        <TextField
-                                                            id="email-input"
-                                                            name="Email"
-                                                            type="text"
-                                                            value={AccountInfoformValues.Email}
-                                                            onChange={handleAccountInfoInputChange}
-                                                        />
-                                                        </Grid>
-                                                        <Grid item >
-                                                        <Typography component="h4" variant="h8">    
-                                                        Password
-                                                        </Typography> 
-                                                        <TextField
-                                                            id="Password-input"
-                                                            name="Password"
-                                                             type="password"
-                                                            value={AccountInfoformValues.Password}
-                                                            onChange={handleAccountInfoChange}
-                                                        />
-                                                        </Grid>
-                                                        
-                                                        <Grid item>
-                                                        <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
-                                                            Save
-                                                        </Button> 
-                                                        </Grid>
-                                                </Grid>
-                                         </form>  
-                                    </TabPanel>
-                                
-                            </TabContext>  
-                           
-                        </Grid>                            
+                            <Grid item xs={12}>
+                                <Grid item xs container direction="row">
+                                        <TabContext value={value}>
+                                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                                    <TabList onChange={handleChange} aria-label="lab API tabs example">
+                                                        <Tab label="About" value="1" />
+                                                        <Tab label="Account Info" value="2" />
+                                                    </TabList>
+                                                </Box>
+                                                
+                                                <TabPanel value="1">
+                                                    <form onSubmit={handleAboutSave}> 
+                                                            <Grid item container spacing={4}>
+                                                                <Grid item  xs={8}>
+                                                                    <Typography component="h4" variant="h8" padding={1}>    
+                                                                    First Name
+                                                                    </Typography>    
+                                                                <TextField
+                                                                        id="firstName-input"
+                                                                        name="FirstName"
+                                                                        type="text"
+                                                                        value={AboutformValues.FirstName}
+                                                                        onChange={handleAboutInputChange}
+                                                                        
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item xs={8}>
+                                                                    <Typography component="h4" variant="h8" padding={1}>    
+                                                                    Last Name
+                                                                    </Typography> 
+                                                                    <TextField
+                                                                        id="LastName-input"
+                                                                        name="LastName"
+                                                                        type="text"
+                                                                        value={AboutformValues.LastName}
+                                                                    onChange={handleAboutInputChange}
+                                                                    />
+                                                                    </Grid>
+                                                                    <Grid item xs={8}>
+                                                                    <Typography component="h4" variant="h8" padding={1}>    
+                                                                    Contact number
+                                                                    </Typography> 
+                                                                    <TextField
+                                                                        id="ContactNumber-input"
+                                                                        name="ContactNumber"
+                                                                    
+                                                                        type="text"
+                                                                    value={AboutformValues.ContactNumber}
+                                                                    onChange={handleAboutInputChange}
+                                                                    />
+                                                                    </Grid>
+                                                                    <Grid item xs={8}>
+                                                                    <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} >
+                                                                        Save
+                                                                    </Button> 
+                                                                    </Grid>
+                                                                    
+                                                            </Grid>
+                                                    </form> 
+
+                                                </TabPanel>
+                                                <TabPanel value="2">
+                                                    <form onSubmit={handleAccountInfoChange}> 
+                                                    <Grid container direction="column"  spacing={4}>
+                                                            <Grid item >
+                                                                    <Typography component="h4" variant="h8" padding={1}>    
+                                                                    User Name
+                                                                    </Typography> 
+                                                                    <TextField
+                                                                        id="UserName-input"
+                                                                        name="UserName"
+                                                                        type="text"
+                                                                        value={AccountInfoformValues.UserName}
+                                                                        onChange={handleAccountInfoInputChange}
+                                                                        disabled
+                                                                    />
+                                                                    </Grid>
+                                                                    <Grid item >
+                                                                    <Typography component="h4" variant="h8" padding={1}>    
+                                                                    Email
+                                                                    </Typography> 
+                                                                    <TextField
+                                                                        id="email-input"
+                                                                        name="Email"
+                                                                        type="text"
+                                                                        value={AccountInfoformValues.Email}
+                                                                        onChange={handleAccountInfoInputChange}
+                                                                    />
+                                                                    </Grid>
+                                                                    <Grid item >
+                                                                    <Typography component="h4" variant="h8" padding={1}>    
+                                                                    Password
+                                                                    </Typography> 
+                                                                    <TextField
+                                                                        id="Password-input"
+                                                                        name="Password"
+                                                                        type="password"
+                                                                        value={AccountInfoformValues.Password}
+                                                                        onChange={handleAccountInfoChange}
+                                                                    />
+                                                                    </Grid>
+                                                                    
+                                                                    <Grid item>
+                                                                    <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
+                                                                        Save
+                                                                    </Button> 
+                                                                    </Grid>
+                                                            </Grid>
+                                                    </form>  
+                                                </TabPanel>
+                                            
+                                        </TabContext> 
+                                </Grid>
+                               
+                            
+                            </Grid>   
+                                            
                    </Grid>            
                 </Grid>
             </Paper>

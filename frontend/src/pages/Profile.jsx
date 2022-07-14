@@ -37,33 +37,12 @@ function Profile() {
           <>
             <Box sx={{ flexGrow: 1, display: 'flex', margin: 4 }}>
               {
-                user.role === 'admin' ? (
+                user.role === 'resident' ? (
                   <>
-               
+                   This is resident's family member profile
                   </>
                 ) : (
-                    user.role === 'supervisor' ? (
-                      <>
-                       
-                       <SupervisorProfile/>
-                      </>
-                    ) : (
-                        user.role === 'employee' ? (
-                          <>
-                            This is employee dashboard
-                </>
-                        ) : (
-                            user.role === 'resident' ? (
-                              <>
-                                Hello resident Profile
-                  </>
-                            ) : (
-                                <>
-                                  This is resident's family member profile
-                  </>
-                              )
-                          )
-                      )
+                    <SupervisorProfile/>   
                   )
               }
             </Box>
