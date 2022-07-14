@@ -180,8 +180,8 @@ const renderMobileMenu = (
                                                                     fullWidth
                                                                     />
                                                                     </Grid>
-                                                                    <Grid item xs={8}>
-                                                                    <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} >
+                                                                    <Grid item xs={12}>
+                                                                    <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} fullWidth>
                                                                         Save
                                                                     </Button> 
                                                                     </Grid>
@@ -234,8 +234,8 @@ const renderMobileMenu = (
                                                                     />
                                                                     </Grid>
                                                                     
-                                                                    <Grid item xs={8}>
-                                                                    <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
+                                                                    <Grid item xs={12}>
+                                                                    <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} fullWidth>
                                                                         Save
                                                                     </Button> 
                                                                     </Grid>
