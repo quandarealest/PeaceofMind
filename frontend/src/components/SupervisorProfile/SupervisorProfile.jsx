@@ -117,8 +117,8 @@ const renderMobileMenu = (
                         </ButtonBase>    
                     </Grid>
 
-                    <Grid item xs container direction="row" spacing={2}> 
-                            <Grid item xs={10}>                          
+                    <Grid item xs={9} container direction="row" spacing={2}> 
+                            <Grid item>                          
                             <Typography component="h4" variant="h6">    
                             Farjana Rema
                             </Typography>
@@ -127,8 +127,8 @@ const renderMobileMenu = (
                             </Typography>                           
                             </Grid>   
 
-                            <Grid item xs={12}>
-                                <Grid item xs container direction="row">
+                            <Grid item >
+                                <Grid item xs={12} >
                                         <TabContext value={value}>
                                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                                     <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -140,7 +140,7 @@ const renderMobileMenu = (
                                                 <TabPanel value="1">
                                                     <form onSubmit={handleAboutSave}> 
                                                             <Grid item container spacing={4}>
-                                                                <Grid item  xs={8}>
+                                                                <Grid item xs ={6}>
                                                                     <Typography component="h4" variant="h8" padding={1}>    
                                                                     First Name
                                                                     </Typography>    
@@ -150,10 +150,10 @@ const renderMobileMenu = (
                                                                         type="text"
                                                                         value={AboutformValues.FirstName}
                                                                         onChange={handleAboutInputChange}
-                                                                        
+                                                                        fullWidth
                                                                     />
                                                                 </Grid>
-                                                                <Grid item xs={8}>
+                                                                <Grid item xs ={6}>
                                                                     <Typography component="h4" variant="h8" padding={1}>    
                                                                     Last Name
                                                                     </Typography> 
@@ -163,9 +163,10 @@ const renderMobileMenu = (
                                                                         type="text"
                                                                         value={AboutformValues.LastName}
                                                                     onChange={handleAboutInputChange}
+                                                                    fullWidth
                                                                     />
                                                                     </Grid>
-                                                                    <Grid item xs={8}>
+                                                                    <Grid item xs={6}>
                                                                     <Typography component="h4" variant="h8" padding={1}>    
                                                                     Contact number
                                                                     </Typography> 
@@ -176,6 +177,7 @@ const renderMobileMenu = (
                                                                         type="text"
                                                                     value={AboutformValues.ContactNumber}
                                                                     onChange={handleAboutInputChange}
+                                                                    fullWidth
                                                                     />
                                                                     </Grid>
                                                                     <Grid item xs={8}>
@@ -190,8 +192,8 @@ const renderMobileMenu = (
                                                 </TabPanel>
                                                 <TabPanel value="2">
                                                     <form onSubmit={handleAccountInfoChange}> 
-                                                    <Grid container direction="column"  spacing={4}>
-                                                            <Grid item >
+                                                    <Grid item container spacing={4}>
+                                                            <Grid item  xs={6}>
                                                                     <Typography component="h4" variant="h8" padding={1}>    
                                                                     User Name
                                                                     </Typography> 
@@ -202,9 +204,10 @@ const renderMobileMenu = (
                                                                         value={AccountInfoformValues.UserName}
                                                                         onChange={handleAccountInfoInputChange}
                                                                         disabled
+                                                                        fullWidth
                                                                     />
                                                                     </Grid>
-                                                                    <Grid item >
+                                                                    <Grid item xs={6}>
                                                                     <Typography component="h4" variant="h8" padding={1}>    
                                                                     Email
                                                                     </Typography> 
@@ -214,9 +217,10 @@ const renderMobileMenu = (
                                                                         type="text"
                                                                         value={AccountInfoformValues.Email}
                                                                         onChange={handleAccountInfoInputChange}
+                                                                        fullWidth
                                                                     />
                                                                     </Grid>
-                                                                    <Grid item >
+                                                                    <Grid item xs={6}>
                                                                     <Typography component="h4" variant="h8" padding={1}>    
                                                                     Password
                                                                     </Typography> 
@@ -226,10 +230,11 @@ const renderMobileMenu = (
                                                                         type="password"
                                                                         value={AccountInfoformValues.Password}
                                                                         onChange={handleAccountInfoChange}
+                                                                        fullWidth
                                                                     />
                                                                     </Grid>
                                                                     
-                                                                    <Grid item>
+                                                                    <Grid item xs={8}>
                                                                     <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
                                                                         Save
                                                                     </Button> 
