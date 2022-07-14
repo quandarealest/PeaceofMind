@@ -122,10 +122,10 @@ function SupervisorProfile() {
               <Grid item>
                 <Typography component="h4" variant="h6">
                   Farjana Rema
-                            </Typography>
+                </Typography>
                 <Typography component="h4" variant="h8">
                   Employee ID: 100206108
-                            </Typography>
+                </Typography>
               </Grid>
 
               <Grid item >
@@ -144,7 +144,7 @@ function SupervisorProfile() {
                           <Grid item xs={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               First Name
-                                                                    </Typography>
+                            </Typography>
                             <TextField
                               id="firstName-input"
                               name="FirstName"
@@ -157,7 +157,7 @@ function SupervisorProfile() {
                           <Grid item xs={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Last Name
-                                                                    </Typography>
+                              </Typography>
                             <TextField
                               id="LastName-input"
                               name="LastName"
@@ -170,11 +170,10 @@ function SupervisorProfile() {
                           <Grid item xs={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Contact number
-                                                                    </Typography>
+                            </Typography>
                             <TextField
                               id="ContactNumber-input"
                               name="ContactNumber"
-
                               type="text"
                               value={AboutformValues.ContactNumber}
                               onChange={handleAboutInputChange}
@@ -184,7 +183,7 @@ function SupervisorProfile() {
                           <Grid item xs={8}>
                             <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} >
                               Save
-                                                                    </Button>
+                            </Button>
                           </Grid>
 
                         </Grid>
@@ -197,7 +196,7 @@ function SupervisorProfile() {
                           <Grid item xs={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               User Name
-                                                                    </Typography>
+                            </Typography>
                             <TextField
                               id="UserName-input"
                               name="UserName"
@@ -211,7 +210,7 @@ function SupervisorProfile() {
                           <Grid item xs={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Email
-                                                                    </Typography>
+                            </Typography>
                             <TextField
                               id="email-input"
                               name="Email"
@@ -224,7 +223,7 @@ function SupervisorProfile() {
                           <Grid item xs={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Password
-                                                                    </Typography>
+                            </Typography>
                             <TextField
                               id="Password-input"
                               name="Password"
@@ -238,18 +237,133 @@ function SupervisorProfile() {
                           <Grid item xs={8}>
                             <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
                               Save
-                                                                    </Button>
+                            </Button>
                           </Grid>
                         </Grid>
                       </form>
                     </TabPanel>
 
                   </TabContext>
+                  <Grid item >
+                    <Grid item xs={12} >
+                      <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                          <TabList onChange={handleChange} aria-label="lab API tabs example">
+                            <Tab label="About" value="1" />
+                            <Tab label="Account Info" value="2" />
+                          </TabList>
+                        </Box>
+
+                        <TabPanel value="1">
+                          <form onSubmit={handleAboutSave}>
+                            <Grid item container spacing={4}>
+                              <Grid item xs={6}>
+                                <Typography component="h4" variant="h8" padding={1}>
+                                  First Name
+                                </Typography>
+                                <TextField
+                                  id="firstName-input"
+                                  name="FirstName"
+                                  type="text"
+                                  value={AboutformValues.FirstName}
+                                  onChange={handleAboutInputChange}
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography component="h4" variant="h8" padding={1}>
+                                  Last Name
+                                </Typography>
+                                <TextField
+                                  id="LastName-input"
+                                  name="LastName"
+                                  type="text"
+                                  value={AboutformValues.LastName}
+                                  onChange={handleAboutInputChange}
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography component="h4" variant="h8" padding={1}>
+                                  Contact number
+                                </Typography>
+                                <TextField
+                                  id="ContactNumber-input"
+                                  name="ContactNumber"
+
+                                  type="text"
+                                  value={AboutformValues.ContactNumber}
+                                  onChange={handleAboutInputChange}
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} fullWidth>
+                                  Save
+                                </Button>
+                              </Grid>
+
+                            </Grid>
+                          </form>
+
+                        </TabPanel>
+                        <TabPanel value="2">
+                          <form onSubmit={handleAccountInfoChange}>
+                            <Grid item container spacing={4}>
+                              <Grid item xs={6}>
+                                <Typography component="h4" variant="h8" padding={1}>
+                                  User Name
+                                </Typography>
+                                <TextField
+                                  id="UserName-input"
+                                  name="UserName"
+                                  type="text"
+                                  value={AccountInfoformValues.UserName}
+                                  onChange={handleAccountInfoInputChange}
+                                  disabled
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography component="h4" variant="h8" padding={1}>
+                                  Email
+                                </Typography>
+                                <TextField
+                                  id="email-input"
+                                  name="Email"
+                                  type="text"
+                                  value={AccountInfoformValues.Email}
+                                  onChange={handleAccountInfoInputChange}
+                                  fullWidth
+                                />
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography component="h4" variant="h8" padding={1}>
+                                  Password
+                                </Typography>
+                                <TextField
+                                  id="Password-input"
+                                  name="Password"
+                                  type="password"
+                                  value={AccountInfoformValues.Password}
+                                  onChange={handleAccountInfoChange}
+                                  fullWidth
+                                />
+                              </Grid>
+
+                              <Grid item xs={12}>
+                                <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} fullWidth>
+                                  Save
+                                </Button>
+                              </Grid>
+                            </Grid>
+                          </form>
+                        </TabPanel>
+                      </TabContext>
+                    </Grid>
+                  </Grid>
                 </Grid>
-
-
               </Grid>
-
             </Grid>
           </Grid>
         </Paper>
