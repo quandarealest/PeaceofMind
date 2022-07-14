@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 
 import { getEmployeeList, reset as employeeReset } from '../../features/employee/employeeSlice'
 import { getResidentList, reset as residentReset } from '../../features/resident/residentSlice'

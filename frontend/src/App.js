@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Header from './components/Header/Header';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import Register from './pages/Register';
+import Chat from './pages/Chat';
 import NewUser from './pages/NewUser';
 import Profile from './pages/Profile';
 
@@ -19,9 +19,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/user" element={<NewUser />} />
-            <Route path="/profile" element={<Profile/>} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/message" element={<Chat />} />
           </Routes>
         </div>
       </Router>
