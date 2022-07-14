@@ -61,6 +61,10 @@ function Header() {
     navigate('/login')
   }
 
+  const onNavigateMessage = () => {
+    navigate('/message')
+  }
+
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -143,7 +147,7 @@ function Header() {
                       <li className="sidebarListItem">
                         {/* <MailIcon className="sidebarIcon" />
                         Messages */}
-                        <IconButton size="small" aria-label="show 4 new mails" color="inherit">
+                        <IconButton size="small" aria-label="show 4 new mails" color="inherit" onClick={onNavigateMessage}>
                           <Badge badgeContent={4} color="error">
                             <MailIcon className="sidebarIcon" />
                           </Badge>
@@ -212,7 +216,7 @@ function Header() {
                 {user ? (
                   <>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                      <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                      <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={onNavigateMessage}>
                         <Badge badgeContent={4} color="error">
                           <MailIcon />
                         </Badge>

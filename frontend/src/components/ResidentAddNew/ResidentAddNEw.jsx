@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import FormLabel from '@mui/material/FormLabel'
@@ -20,7 +19,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import * as React from 'react';
 export default function ResidentAddNew() {
-  
+
   const [value, setValue] = React.useState(null);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,7 +50,7 @@ export default function ResidentAddNew() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -72,12 +71,12 @@ export default function ResidentAddNew() {
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
-              <Typography component="h4" variant="h6">
-            Personal Information:
+                <Typography component="h4" variant="h6">
+                  Personal Information:
           </Typography>
-             
+
               </Grid>
-              
+
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -119,19 +118,19 @@ export default function ResidentAddNew() {
                   autoComplete="phone"
                 />
               </Grid>
-              
+
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}
                 >
-                <DatePicker
-             
+                  <DatePicker
+
                     label="Date of Birth"
                     value={value}
                     onChange={(newValue) => {
-                    setValue(newValue);
+                      setValue(newValue);
                     }}
-                    renderInput={(params) => <TextField {...params}   fullWidth />}
-                />
+                    renderInput={(params) => <TextField {...params} fullWidth />}
+                  />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -149,10 +148,10 @@ export default function ResidentAddNew() {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={12}>
-              <Typography component="h4" variant="h6">
-              Medical Information:
+                <Typography component="h4" variant="h6">
+                  Medical Information:
           </Typography>
-             
+
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
@@ -166,7 +165,7 @@ export default function ResidentAddNew() {
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                  
+
                   fullWidth
                   id="Weight"
                   label="Weight"
@@ -176,7 +175,7 @@ export default function ResidentAddNew() {
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                
+
                   fullWidth
                   id="Height"
                   label="Height"
@@ -186,13 +185,13 @@ export default function ResidentAddNew() {
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
-                 multiline
-                 rows={4}
-                 maxRows={Infinity}
+                  multiline
+                  rows={4}
+                  maxRows={Infinity}
                   required
                   fullWidth
-                    
-                
+
+
                   id="Medication"
                   label="Medication"
                   name="Medication"
@@ -201,10 +200,10 @@ export default function ResidentAddNew() {
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
-                
-                 multiline
-                 rows={4}
-                 maxRows={Infinity}
+
+                  multiline
+                  rows={4}
+                  maxRows={Infinity}
                   fullWidth
                   id="Allergies"
                   label="Allergies"
@@ -214,10 +213,10 @@ export default function ResidentAddNew() {
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
-                    
-                 multiline
-                 rows={4}
-                 maxRows={Infinity}
+
+                  multiline
+                  rows={4}
+                  maxRows={Infinity}
                   fullWidth
                   id="Diet"
                   label="Diet"

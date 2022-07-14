@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler')
-const Employee = require('../models/employeeModel')
+const FamilyMember = require('../models/residentFamilyModel')
 const Resident = require('../models/residentModel')
 
-// @desc Register new employee
+// @desc Register new resident
 // @route  POST /api/resident
 // @access Private
 
@@ -62,7 +62,7 @@ const registerResident = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400)
-    throw new Error('Invalid employee data')
+    throw new Error('Invalid resident data')
   }
 })
 
@@ -76,7 +76,63 @@ const getResidentList = asyncHandler(async (req, res) => {
   res.status(200).json(residentList)
 })
 
+// @desc Register new family member
+// @route  POST /api/resident/family
+// @access Private
+
+const registerFamilyMember = asyncHandler(async (req, res) => {
+  const {
+    residentId,
+    userId,
+    firstName,
+    lastName,
+    contactNumber,
+    emergencyContact,
+  } = req.body
+  if (!firstName
+    || !lastName
+    || !contactNumber
+    || !residentId
+    || !userId
+    || !emergencyContact) {
+    res.status(400)
+    throw new Error('Please add all fields')
+  }
+
+  //check if employee number exist
+  // const residentNoExist = await Resident.findOne({ residentNumber })
+  // if (residentNoExist) {
+  //   res.status(409)
+  //   throw new Error('Resident number already exist')
+  // }
+
+  const member = await FamilyMember.create({
+    userId,
+    residentId,
+    emergencyContact,
+    firstName,
+    lastName,
+    contactNumber,
+  })
+
+  if (member) {
+    res.status(201).json({
+      _id: member._id,
+      userId: member.userId,
+      residentId: member.residentId,
+      firstName: member.firstName,
+      lastName: member.lastName,
+      contactNumber: member.contactNumber,
+      emergencyContact: member.emergencyContact
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid resident family member data')
+  }
+})
+
 module.exports = {
   registerResident,
-  getResidentList
+  getResidentList,
+  registerFamilyMember
 }
