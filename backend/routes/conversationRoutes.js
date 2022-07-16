@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 const {
   registerConversation,
+  getConversationList,
+  updateChatLog,
 } = require('../controllers/conversationController')
 const { protect } = require('../middleware/authMiddleware')
 
 //conversation functions
-router.route('/').post(registerConversation)
-// router.route('/').post(protect, registerEmployee).get(protect, getEmployeeList)
-// router.route('/:id').get(protect, getEmployeeDetail)
+router.route('/').post(registerConversation).get(getConversationList)
+router.route('/:roomId').put(updateChatLog)
 // .put(protect, editEmployeeDetail).delete(protect, removeEmployee)
 
 module.exports = router

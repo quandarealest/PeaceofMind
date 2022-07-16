@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
 const chatLog = mongoose.Schema({
-  name: {
+  firstName: {
+    type: String,
+    require: true,
+  },
+  lastName: {
     type: String,
     require: true,
   },
@@ -10,7 +14,7 @@ const chatLog = mongoose.Schema({
     require: true,
     ref: 'User'
   },
-  message: {
+  text: {
     type: String,
     require: true
   },

@@ -69,12 +69,27 @@ const registerResident = asyncHandler(async (req, res) => {
 // @desc get employee list
 // @route  GET /api/resident
 // @access Private
-
 const getResidentList = asyncHandler(async (req, res) => {
   const residentList = await Resident.find()
 
   res.status(200).json(residentList)
 })
+
+// @desc get employee list
+// @route  GET /api/resident/:id
+// @access Private
+const getResidentDetail = asyncHandler(async (req, res) => {
+  const resident = await Resident.findOne({ userId: req.params.id })
+  if (!resident) {
+    res.status(400)
+    throw new Error('Resident not found')
+  }
+  res.status(200).json(resident)
+})
+
+
+// --- FAMILY MEMBER --
+
 
 // @desc Register new family member
 // @route  POST /api/resident/family
@@ -131,8 +146,22 @@ const registerFamilyMember = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc get employee list
+// @route  GET /api/resident/:id
+// @access Private
+const getFamilyMemberDetail = asyncHandler(async (req, res) => {
+  const member = await FamilyMember.findOne({ userId: req.params.id })
+  if (!member) {
+    res.status(400)
+    throw new Error('Family member not found')
+  }
+  res.status(200).json(member)
+})
+
 module.exports = {
   registerResident,
   getResidentList,
-  registerFamilyMember
+  registerFamilyMember,
+  getResidentDetail,
+  getFamilyMemberDetail,
 }

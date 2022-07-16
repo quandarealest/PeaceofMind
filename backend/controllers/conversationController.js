@@ -35,6 +35,32 @@ const registerConversation = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc get conversation list
+// @route  GET /api/message
+// @access Private
+const getConversationList = asyncHandler(async (req, res) => {
+  const conversationList = await Conversation.find()
+
+  res.status(201).json(conversationList)
+})
+
+// @desc update chat log
+// @route  PUT /api/message/:roomId
+// @access Private
+const updateChatLog = asyncHandler(async (req, res) => {
+  const conversation = await Conversation.findOne({ roomId: req.params.roomId })
+  if (!conversation) {
+    res.status(400)
+    throw new Error('Conversation not found')
+  }
+
+  const updatedConversation = await Conversation.findByIdAndUpdate(conversation._id, req.body, { new: true })
+
+  res.status(200).json(updatedConversation)
+})
+
 module.exports = {
-  registerConversation
+  registerConversation,
+  getConversationList,
+  updateChatLog
 }

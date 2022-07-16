@@ -2,7 +2,7 @@ import axios from 'axios'
 import { RES_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
 
-//get employee list
+//get resident list
 const getResidentList = async (token) => {
   const config = {
     headers: {
@@ -24,8 +24,24 @@ const getResidentList = async (token) => {
   return await Promise.all(residentWithSupervisorDetailList)
 }
 
+//get resident detail
+const getResidentDetail = async (id) => {
+  const response = await axios.get(RES_API_URL + id)
+
+  return response.data
+}
+
+//get family member detail
+const getFamilyMemberDetail = async (id) => {
+  const response = await axios.get(RES_API_URL + '/family/' + id)
+
+  return response.data
+}
+
 const residentService = {
-  getResidentList
+  getResidentList,
+  getResidentDetail,
+  getFamilyMemberDetail
 }
 
 export default residentService
