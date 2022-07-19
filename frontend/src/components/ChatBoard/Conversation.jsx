@@ -10,8 +10,13 @@ import {
   Box,
   Typography,
   Fab,
+  IconButton,
+  Drawer
 } from '@mui/material'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SendIcon from '@mui/icons-material/Send';
+
+import './Message.css'
 
 import Message from './Message'
 import {
@@ -24,9 +29,12 @@ import {
 
 
 function Conversation(props) {
-  const { isLoading, activeChat, handleUpdateChat } = props
+  const drawerWidth = 300;
+  const { isLoading, activeChat, handleUpdateChat, mobileChatListComponent } = props
+  const [drawerAnchorEl, setDrawerAnchorEl] = useState(null)
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState(activeChat.chatLog)
+  const isDrawerOpen = Boolean(drawerAnchorEl)
 
   const { user } = useSelector(state => state.auth)
 
@@ -49,7 +57,6 @@ function Conversation(props) {
     socket.on('message', (message) => {
       const onSaveDB = true
       setMessages([...messages, message])
-      console.log(message)
       handleUpdateChat(activeChat.roomId,
         {
           familyMemberId: activeChat.familyMemberId,
@@ -66,8 +73,53 @@ function Conversation(props) {
     })
   }, [messages])
 
+  const handleDrawerMenuClose = () => {
+    setDrawerAnchorEl(null)
+  }
+
+  const handleDrawerMenuOpen = (event) => {
+    setDrawerAnchorEl(event.currentTarget)
+  }
+
   const handleChangeMessage = (e) => {
     setMessage(e.target.value)
+  }
+
+  const handleSideBar = (childComponent) => {
+    return (
+      <>
+        <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
+          {isDrawerOpen ? (
+            <div class="overlay" onClick={handleDrawerMenuClose}>
+            </div>
+          ) : (null)}
+          <Drawer
+            sx={{
+              zIndex: 99,
+              position: 'relative',
+              '& .MuiBackdrop-root': {
+                display: 'none',
+              },
+              '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                position: 'absolute',
+                height: 'calc(100vh - 90px - 32px - 32px)',
+              },
+              display: { xs: 'flex', md: 'flex', lg: 'none' }
+            }}
+            variant="persistent"
+            anchor="left"
+            id={drawerMenuId}
+            open={isDrawerOpen}
+            onClose={handleDrawerMenuClose}
+          >
+            {childComponent ? (
+              childComponent
+            ) : (null)}
+          </Drawer>
+        </Box>
+      </>
+    )
   }
 
   const handleSendMessage = (e) => {
@@ -97,8 +149,26 @@ function Conversation(props) {
     })
   }
 
+  const drawerMenuId = 'primary-drawer-menu';
+
   return (
-    <Grid item xs={9}>
+    <Grid item lg={9} md={12} xs={12}>
+      {handleSideBar(mobileChatListComponent)}
+      <Box sx={{ display: { xs: 'block', md: 'block', lg: 'none' }, paddingLeft: '20px' }}
+      >
+        <>
+          <IconButton
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='drawer'
+            onClick={handleDrawerMenuOpen}
+            aria-controls={drawerMenuId}
+          >
+            <ArrowBackIosNewIcon />
+          </IconButton>
+        </>
+      </Box>
       <ScrollToBottom className="messages">
         {Object.keys(activeChat).length !== 0 ? (
           isLoading ? (

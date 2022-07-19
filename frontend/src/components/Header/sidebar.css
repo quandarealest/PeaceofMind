@@ -40,3 +40,13 @@
     size:large;
     color: #32c2b4;
 }
+
+.headerOverlay {
+  position: absolute;
+  z-index: 98;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
+  height: 100vh;
+}

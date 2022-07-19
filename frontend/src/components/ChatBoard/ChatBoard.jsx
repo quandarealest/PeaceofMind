@@ -9,6 +9,7 @@ import {
 import './ChatBoard.css'
 
 import ChatList from './ChatList'
+import MobileChatList from './MobileChatList'
 import Conversation from './Conversation'
 import { reset, getChatList, getActiveChat, updateChatLog } from '../../features/conversation/conversationSlice'
 
@@ -24,8 +25,10 @@ function ChatBoard() {
     activeChat
   } = useSelector(state => state.conversation)
 
+  const { user } = useSelector(state => state.auth)
+
   useEffect(() => {
-    dispatch(getChatList())
+    dispatch(getChatList({ userId: user._id, role: user.role, token: user.token }))
     if (isError) {
       toast.error(message)
     }
@@ -50,11 +53,20 @@ function ChatBoard() {
         chatList={chatList}
         activeChat={activeChat}
         handleActiveChat={handleActiveChat}
+        user={user}
       />
       <Conversation
         activeChat={activeChat}
         isLoading={isConversationLoading}
         handleUpdateChat={handleUpdateChat}
+        mobileChatListComponent={
+          <MobileChatList
+            isLoading={isChatListLoading}
+            chatList={chatList}
+            activeChat={activeChat}
+            handleActiveChat={handleActiveChat}
+            user={user}
+          />}
       />
     </Grid>
   )

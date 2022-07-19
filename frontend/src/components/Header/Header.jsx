@@ -48,7 +48,7 @@ function Header() {
   const handleDrawerMenuOpen = (event) => {
     setDrawerAnchorEl(event.currentTarget)
   }
-  const goToProfile=()=>{
+  const goToProfile = () => {
     navigate('/profile')
   }
   const onLogout = () => {
@@ -63,6 +63,10 @@ function Header() {
 
   const onNavigateMessage = () => {
     navigate('/message')
+  }
+
+  const onNavigateDashboard = () => {
+    navigate('/')
   }
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -101,8 +105,13 @@ function Header() {
   const renderSideBar = (
     <>
       <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
+        {isDrawerOpen ? (
+          <div class="headerOverlay" onClick={handleDrawerMenuClose}>
+          </div>
+        ) : (null)}
         <Drawer
           sx={{
+            zIndex: 99,
             flexShrink: 0,
             '& .MuiDrawer-paper': {
               width: drawerWidth,
@@ -144,10 +153,10 @@ function Header() {
                         </IconButton>
                         <p>Residents</p>
                       </li>
-                      <li className="sidebarListItem">
+                      <li className="sidebarListItem" onClick={onNavigateMessage}>
                         {/* <MailIcon className="sidebarIcon" />
                         Messages */}
-                        <IconButton size="small" aria-label="show 4 new mails" color="inherit" onClick={onNavigateMessage}>
+                        <IconButton size="small" aria-label="show 4 new mails" color="inherit">
                           <Badge badgeContent={4} color="error">
                             <MailIcon className="sidebarIcon" />
                           </Badge>
@@ -210,7 +219,7 @@ function Header() {
                     null
                   )}
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-                  <img src="/images/logo-banner-white.png" alt="logo" />
+                  <img src="/images/logo-banner-white.png" alt="logo" onClick={onNavigateDashboard} />
                 </Box>
 
                 {user ? (

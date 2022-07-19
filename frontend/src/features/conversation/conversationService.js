@@ -1,25 +1,29 @@
 import axios from 'axios'
 import { CHAT_API_URL } from '../../common/api'
+import employeeService from '../employee/employeeService'
 import residentService from '../resident/residentService'
 
 
 //get chat list
-const getChatList = async () => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`
-  //   }
-  // }
+const getChatList = async (userId, role, token) => {
 
-  const response = await axios.get(CHAT_API_URL)
+  const response = await axios.get(CHAT_API_URL).then((res) => {
+    if (role === 'supervisor') {
+      return res.data.filter(chat => chat.supervisorId === userId)
+    } else {
+      return res.data.filter(chat => chat.familyMemberId === userId)
+    }
+  })
 
-  const chatList = await response.data.map(async (res) => {
+  const chatList = await response.map(async (res) => {
     const familyMemberInfo = await residentService.getFamilyMemberDetail(res.familyMemberId)
+    const supervisorInfo = await employeeService.getEmployeeDetail(token, res.supervisorId)
     const residentInfo = await residentService.getResidentDetail(familyMemberInfo.residentId)
     return {
       ...res,
       familyMemberInfo,
       residentInfo,
+      supervisorInfo,
     }
   })
 

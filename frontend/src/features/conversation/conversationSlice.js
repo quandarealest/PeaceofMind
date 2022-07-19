@@ -12,10 +12,10 @@ const initialState = {
 }
 
 // get resident list
-export const getChatList = createAsyncThunk('conversation/getAll', async (_, thunkAPI) => {
+export const getChatList = createAsyncThunk('conversation/getAll', async ({ userId, role, token }, thunkAPI) => {
   try {
     // const token = thunkAPI.getState().auth.user.token
-    return await conversationService.getChatList()
+    return await conversationService.getChatList(userId, role, token)
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)
@@ -35,7 +35,6 @@ export const getActiveChat = createAsyncThunk('conversation/activeChat', async (
 // get active chat
 export const updateChatLog = createAsyncThunk('conversation/updateChat', async ({ roomId, updatedConversation, onSaveDB }, thunkAPI) => {
   try {
-    console.log(onSaveDB)
     if (onSaveDB) {
       return await conversationService.updateChatLog(roomId, updatedConversation)
     } else {
@@ -79,7 +78,8 @@ export const conversationSlice = createSlice({
         state.activeChat = {
           ...action.payload,
           familyMemberInfo: prevChat.familyMemberInfo,
-          residentInfo: prevChat.residentInfo
+          residentInfo: prevChat.residentInfo,
+          supervisorInfo: prevChat.supervisorInfo
         }
         state.isSuccess = true
         state.isConversationLoading = false
@@ -96,12 +96,14 @@ export const conversationSlice = createSlice({
         state.chatList = [...state.chatList.filter(chat => chat.roomId !== action.payload.roomId), {
           ...action.payload,
           familyMemberInfo: state.activeChat.familyMemberInfo,
-          residentInfo: state.activeChat.residentInfo
+          residentInfo: state.activeChat.residentInfo,
+          supervisorInfo: state.activeChat.supervisorInfo
         }]
         state.activeChat = {
           ...action.payload,
           familyMemberInfo: state.activeChat.familyMemberInfo,
-          residentInfo: state.activeChat.residentInfo
+          residentInfo: state.activeChat.residentInfo,
+          supervisorInfo: state.activeChat.supervisorInfo
         }
         state.isSuccess = true
         state.isError = false

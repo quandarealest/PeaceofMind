@@ -43,7 +43,7 @@ const stringAvatar = (name) => {
   };
 }
 
-function ChatList(props) {
+function MobileChatList(props) {
 
   const { isLoading, chatList, activeChat, handleActiveChat, user } = props
 
@@ -87,7 +87,7 @@ function ChatList(props) {
   }
   return (
     <>
-      <Grid item lg={3} sx={{ borderRight: '1px solid #e0e0e0', display: { xs: 'none', md: 'none', lg: 'block' } }}>
+      <Grid item sx={{ borderRight: '1px solid #e0e0e0', display: { xs: 'block', md: 'block', lg: 'none' } }}>
         {isLoading ? (
           <>
             <Box sx={{ backgroundColor: '#f3f3f3', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -163,4 +163,4 @@ function ChatList(props) {
   )
 }
 
-export default ChatList
+export default MobileChatList
