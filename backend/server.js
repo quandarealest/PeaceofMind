@@ -21,8 +21,6 @@ app.use('/api/resident', require('./routes/residentRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
 app.use('/api/message', require('./routes/conversationRoutes'))
 
-app.use(errorHandler);
-
 const server = http.createServer(app)
 app.use(cors())
 const io = new Server(server, {
@@ -64,5 +62,15 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 });
+
+// serve frontend
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
+} else {
+  app.get('/', (req, res) => res.send('Please set env to production'))
+}
+
+app.use(errorHandler);
 
 server.listen(port, () => console.log(`Server started on port ${port}`))
