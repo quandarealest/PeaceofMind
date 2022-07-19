@@ -47,7 +47,22 @@ function Conversation(props) {
   useEffect(() => {
     // to be changed to use reducer and save to db
     socket.on('message', (message) => {
+      const onSaveDB = true
       setMessages([...messages, message])
+      console.log(message)
+      handleUpdateChat(activeChat.roomId,
+        {
+          familyMemberId: activeChat.familyMemberId,
+          roomId: activeChat.roomId,
+          supervisorId: activeChat.supervisorId,
+          chatLog: [...activeChat.chatLog, {
+            firstName: message.name.split(' ')[0],
+            lastName: message.name.split(' ')[1],
+            userId: message.userId,
+            text: message.text
+          }]
+        },
+        onSaveDB)
     })
   }, [messages])
 
@@ -57,6 +72,7 @@ function Conversation(props) {
 
   const handleSendMessage = (e) => {
     e.preventDefault()
+    const onSaveDB = false
     sendMessage({
       text: message,
       roomId: activeChat.roomId,
@@ -76,7 +92,8 @@ function Conversation(props) {
             userId: user._id,
             text: message
           }]
-        })
+        },
+        onSaveDB)
     })
   }
 

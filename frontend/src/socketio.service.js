@@ -21,7 +21,6 @@ export const joinRoom = ({ roomId, senderInfo }) => {
       alert(error);
     }
   });
-  console.log('Joining room...', { roomId });
 
 }
 

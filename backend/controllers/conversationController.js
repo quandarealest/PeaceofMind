@@ -59,8 +59,22 @@ const updateChatLog = asyncHandler(async (req, res) => {
   res.status(200).json(updatedConversation)
 })
 
+// @desc get chat log
+// @route  GET /api/message/:roomId
+// @access Private
+const getChatLog = asyncHandler(async (req, res) => {
+  const conversation = await Conversation.findOne({ roomId: req.params.roomId })
+  if (!conversation) {
+    res.status(400)
+    throw new Error('Conversation not found')
+  }
+
+  res.status(200).json(conversation)
+})
+
 module.exports = {
   registerConversation,
   getConversationList,
-  updateChatLog
+  updateChatLog,
+  getChatLog
 }

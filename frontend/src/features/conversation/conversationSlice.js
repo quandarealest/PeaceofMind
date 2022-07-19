@@ -25,7 +25,7 @@ export const getChatList = createAsyncThunk('conversation/getAll', async (_, thu
 // get active chat
 export const getActiveChat = createAsyncThunk('conversation/activeChat', async (roomId, thunkAPI) => {
   try {
-    return roomId
+    return await conversationService.getChatLog(roomId)
   } catch (error) {
     const message = ((error.response && error.response.data && error.response.data.message) || error.message || error.toString())
     return thunkAPI.rejectWithValue(message)
@@ -33,9 +33,14 @@ export const getActiveChat = createAsyncThunk('conversation/activeChat', async (
 })
 
 // get active chat
-export const updateChatLog = createAsyncThunk('conversation/updateChat', async ({ roomId, updatedConversation }, thunkAPI) => {
+export const updateChatLog = createAsyncThunk('conversation/updateChat', async ({ roomId, updatedConversation, onSaveDB }, thunkAPI) => {
   try {
-    return await conversationService.updateChatLog(roomId, updatedConversation)
+    console.log(onSaveDB)
+    if (onSaveDB) {
+      return await conversationService.updateChatLog(roomId, updatedConversation)
+    } else {
+      return updatedConversation
+    }
   } catch (error) {
     const message = ((error.response && error.response.data && error.response.data.message) || error.message || error.toString())
     return thunkAPI.rejectWithValue(message)
@@ -70,7 +75,12 @@ export const conversationSlice = createSlice({
         state.isConversationLoading = true
       })
       .addCase(getActiveChat.fulfilled, (state, action) => {
-        state.activeChat = state.chatList.find(chat => chat.roomId === action.payload)
+        const prevChat = state.chatList.find(chat => chat.roomId === action.payload.roomId)
+        state.activeChat = {
+          ...action.payload,
+          familyMemberInfo: prevChat.familyMemberInfo,
+          residentInfo: prevChat.residentInfo
+        }
         state.isSuccess = true
         state.isConversationLoading = false
         state.isError = false
@@ -83,8 +93,16 @@ export const conversationSlice = createSlice({
         state.message = action.payload
       })
       .addCase(updateChatLog.fulfilled, (state, action) => {
-        state.chatList = [...state.chatList.filter(chat => chat.roomId !== action.payload.roomId), { ...state.activeChat, chatLog: action.payload.chatLog }]
-        state.activeChat = { ...state.activeChat, chatLog: action.payload.chatLog }
+        state.chatList = [...state.chatList.filter(chat => chat.roomId !== action.payload.roomId), {
+          ...action.payload,
+          familyMemberInfo: state.activeChat.familyMemberInfo,
+          residentInfo: state.activeChat.residentInfo
+        }]
+        state.activeChat = {
+          ...action.payload,
+          familyMemberInfo: state.activeChat.familyMemberInfo,
+          residentInfo: state.activeChat.residentInfo
+        }
         state.isSuccess = true
         state.isError = false
         state.message = ''

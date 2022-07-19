@@ -32,9 +32,15 @@ const updateChatLog = async (roomId, updatedConversation) => {
 
 }
 
+const getChatLog = async (roomId) => {
+  const response = await axios.get(CHAT_API_URL + roomId)
+  return response.data
+}
+
 const conversationService = {
   getChatList,
   updateChatLog,
+  getChatLog
 }
 
 export default conversationService

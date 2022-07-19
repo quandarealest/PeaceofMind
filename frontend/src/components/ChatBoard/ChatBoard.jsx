@@ -32,15 +32,15 @@ function ChatBoard() {
     // return () => {
     //   dispatch(reset())
     // }
-  }, [dispatch])
+  }, [dispatch, isError])
 
 
   const handleActiveChat = (roomId) => {
     dispatch(getActiveChat(roomId))
   }
 
-  const handleUpdateChat = (roomId, updatedConversation) => {
-    dispatch(updateChatLog({ roomId, updatedConversation }))
+  const handleUpdateChat = (roomId, updatedConversation, onSaveDB) => {
+    dispatch(updateChatLog({ roomId, updatedConversation, onSaveDB }))
   }
 
   return (
