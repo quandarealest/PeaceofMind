@@ -23,12 +23,7 @@ app.use('/api/message', require('./routes/conversationRoutes'))
 
 const server = http.createServer(app)
 app.use(cors())
-const io = new Server(server, {
-  cors: {
-    origin: "http://127.0.0.1:3000",
-    methods: ["GET", "POST"]
-  },
-})
+const io = new Server(server)
 
 io.on('connection', (socket) => {
   console.log('user connected');
