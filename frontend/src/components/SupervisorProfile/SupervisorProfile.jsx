@@ -91,10 +91,9 @@ function SupervisorProfile() {
       id={mobileMenuId}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-    >
-      <ButtonBase sx={{ width: 200, height: 200, alignItems: 'center' }}>
+
+    >     
         <Img sx={{ width: 100, height: 100, alignItems: 'center' }} alt="profile" src="https://i.pinimg.com/474x/ae/ac/b9/aeacb924abc3e17e184d6d5d7f82dda0.jpg" />
-      </ButtonBase>
     </Grid>
 
   );
@@ -111,28 +110,47 @@ function SupervisorProfile() {
           }}
         >
           <Grid container spacing={2}>
-
-            <Grid item >
-              <ButtonBase sx={{ width: 300, height: 300 }}>
-                <Img sx={{ width: 300, height: 300 }} alt="profile" src="https://i.pinimg.com/474x/ae/ac/b9/aeacb924abc3e17e184d6d5d7f82dda0.jpg" />
-              </ButtonBase>
+        
+            <Grid item md={3} sx={{ display: { xs: 'none', md: 'flex' } }} >
+                <Img sx={{ width: 300, height: 300 }} alt="profile" src="https://i.pinimg.com/474x/ae/ac/b9/aeacb924abc3e17e184d6d5d7f82dda0.jpg" />            
+            </Grid>
+            <Grid item xs={12} sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <Img sx={{ width: 200, height: 200 }} alt="profile" src="https://i.pinimg.com/474x/ae/ac/b9/aeacb924abc3e17e184d6d5d7f82dda0.jpg" />            
             </Grid>
 
-            <Grid item xs={9} container direction="row" spacing={2}>
-              <Grid item>
-                <Typography component="h4" variant="h6">
-                  Farjana Rema
-                </Typography>
-                <Typography component="h4" variant="h8">
-                  Employee ID: 100206108
-                </Typography>
+            <Grid item md={9}  xs={12} container direction="row" spacing={2}>
+              <Grid item md={12} container sx={{ display: { xs: 'none', md: 'flex' } }} direction='row'>
+                <Grid item md={12}>
+                    <Typography component="h4" variant="h6" fullWidth>
+                    Farjana Rema
+                    </Typography>
+                </Grid>
+                <Grid item md={12}>
+                    <Typography component="h4" variant="h8" fullWidth>
+                    Employee ID: 100206108
+                    </Typography>
+                </Grid>
+                
+               
+              </Grid>
+              <Grid item xs={12} container  sx={{ display: { xs: 'flex', md: 'none' } }} direction='row'>
+              <Grid item xs={12}>
+                    <Typography component="h4" variant="h6" fullWidth align='center'>
+                    Farjana Rema
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography component="h4" variant="h8" fullWidth align='center'>
+                    Employee ID: 100206108
+                    </Typography>
+                </Grid>
               </Grid>
 
-              <Grid item >
-                <Grid item xs={12} >
+              <Grid item md={12}>
+                <Grid item xs={12} md={12}>
                   <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                      <TabList onChange={handleChange} aria-label="lab API tabs example">
+                      <TabList onChange={handleChange} aria-label="lab API tabs example" >
                         <Tab label="About" value="1" />
                         <Tab label="Account Info" value="2" />
                       </TabList>
@@ -141,7 +159,7 @@ function SupervisorProfile() {
                     <TabPanel value="1">
                       <form onSubmit={handleAboutSave}>
                         <Grid item container spacing={4}>
-                          <Grid item xs={6}>
+                          <Grid item xs={12} md={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               First Name
                             </Typography>
@@ -154,7 +172,7 @@ function SupervisorProfile() {
                               fullWidth
                             />
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid item xs={12} md={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Last Name
                               </Typography>
@@ -167,7 +185,7 @@ function SupervisorProfile() {
                               fullWidth
                             />
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid item xs={12} md={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Contact number
                             </Typography>
@@ -180,8 +198,8 @@ function SupervisorProfile() {
                               fullWidth
                             />
                           </Grid>
-                          <Grid item xs={8}>
-                            <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} >
+                          <Grid item xs={12} md={12}>
+                            <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}  fullWidth>
                               Save
                             </Button>
                           </Grid>
@@ -193,7 +211,7 @@ function SupervisorProfile() {
                     <TabPanel value="2">
                       <form onSubmit={handleAccountInfoChange}>
                         <Grid item container spacing={4}>
-                          <Grid item xs={6}>
+                          <Grid item xs={12} md={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               User Name
                             </Typography>
@@ -207,7 +225,7 @@ function SupervisorProfile() {
                               fullWidth
                             />
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid item xs={12} md={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Email
                             </Typography>
@@ -220,7 +238,7 @@ function SupervisorProfile() {
                               fullWidth
                             />
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid item xs={12} md={6}>
                             <Typography component="h4" variant="h8" padding={1}>
                               Password
                             </Typography>
@@ -234,8 +252,8 @@ function SupervisorProfile() {
                             />
                           </Grid>
 
-                          <Grid item xs={8}>
-                            <Button variant="contained" color="primary" type='submit' disabled={btnDisabled}>
+                          <Grid item xs={12} md={12}>
+                            <Button variant="contained" color="primary" type='submit' disabled={btnDisabled} fullWidth>
                               Save
                             </Button>
                           </Grid>

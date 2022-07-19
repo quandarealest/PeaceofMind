@@ -8,6 +8,7 @@ import { theme } from '../theme/CustomizedTheme'
 import AdminDashboard from '../components/AdminDashboard/AdminDashboard'
 import SupervisorDashboard from '../components/SupervisorDashboard/SupervisorDashboard'
 import { logout, reset } from '../features/auth/authSlice'
+import ResidentFamilyDashboard from '../components/ResidentFamily/ResidentFamilyDashboard'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -64,7 +65,7 @@ function Dashboard() {
                       ) : (
                           user.role === 'resident' ? (
                             <>
-                              Hello resident
+                              <ResidentFamilyDashboard/>
                 </>
                           ) : (
                               <>
