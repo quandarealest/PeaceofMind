@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Chat from './pages/Chat';
 import NewUser from './pages/NewUser';
 import Profile from './pages/Profile';
+import Resident from './pages/Resident';
 
 function App() {
   useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/user" element={<NewUser />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/message" element={<Chat />} />
+            <Route path="/resident" element={<Resident />} />
           </Routes>
         </div>
       </Router>
