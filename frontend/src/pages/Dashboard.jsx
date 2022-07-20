@@ -7,8 +7,11 @@ import jwt_decode from 'jwt-decode'
 import { theme } from '../theme/CustomizedTheme'
 import AdminDashboard from '../components/AdminDashboard/AdminDashboard'
 import SupervisorDashboard from '../components/SupervisorDashboard/SupervisorDashboard'
-import { logout, reset } from '../features/auth/authSlice'
+import CaregiverDashboard from '../components/CaregiverDashboard/CaregiverDashboard'
 import ResidentFamilyDashboard from '../components/ResidentFamily/ResidentFamilyDashboard'
+import { logout, reset } from '../features/auth/authSlice'
+
+
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -60,13 +63,13 @@ function Dashboard() {
                   ) : (
                       user.role === 'employee' ? (
                         <>
-                          This is employee dashboard
-              </>
+                          <CaregiverDashboard />
+                        </>
                       ) : (
                           user.role === 'resident' ? (
                             <>
                               This is resident dashboard
-                </>
+                            </>
                           ) : (
                               <>
                                 <ResidentFamilyDashboard />
