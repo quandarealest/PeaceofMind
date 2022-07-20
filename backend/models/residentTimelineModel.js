@@ -4,12 +4,12 @@ const residentTimelineSchema = mongoose.Schema({
   residentId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
-    ref: 'Resident'
+    ref: 'User'
   },
   postedEmployeeId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
-    ref: 'Employee'
+    ref: 'User'
   },
   photo: {
     data: Buffer,
@@ -21,8 +21,13 @@ const residentTimelineSchema = mongoose.Schema({
   postedTime: {
     type: Date,
     require: [true, 'Please input the posted time']
-  }
-}, {
+  },
+  Type: {
+  type: String,
+  require: [true, 'Please select a content type']
+},
+},
+{
   timestamps: true
 })
 

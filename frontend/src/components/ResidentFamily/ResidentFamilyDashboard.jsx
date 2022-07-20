@@ -46,7 +46,7 @@ const event = [{
     label: 'Hello Jennifer, I LOVE YOU...I miss you Queen',
     PostedTime: '2019-04-11T12:34:56.000Z',
     Employee: {
-        FirstName: 'Jennifer',
+        FirstName: 'Quan',
     },
     type:true,
 },
@@ -123,13 +123,13 @@ function ResidentFamilyDashboard(){
                      <ListItem>
                      <Item>
                         <Grid container>                       
-                            <Grid item xs={12} spacing={4} container  direction='row' justifyContent="left" >
-                                <Grid item xs={1} sm={1} >
+                            <Grid item xs={12} md={12} spacing={4} container  direction='row' justifyContent="left" >
+                                <Grid item xs={1} sm={1} md={1}>
                                     <ListItemAvatar>
                                         <Avatar user={eve.Employee} />
                                     </ListItemAvatar> 
                                 </Grid>
-                                <Grid item xs={10} sm={10} container  direction='column' justifyContent="left" style={{ marginLeft:'10px'}}> 
+                                <Grid item xs={10} sm={10} md={8} container  direction='column' justifyContent="left" style={{ marginLeft:'10px'}}> 
                                    <Grid item>
                                         <Typography  variant="h7">
                                             {eve.Employee ? eve.Employee.FirstName : 'Anonymous'}
@@ -143,7 +143,7 @@ function ResidentFamilyDashboard(){
                                    </Grid>
                                 </Grid>                              
                             </Grid>                              
-                            <Grid item xs={12}  justifyContent="center" >
+                            <Grid item xs={12} md={10} justifyContent="center" >
                                     <>
                                     {eve.type?
                                     (
