@@ -18,8 +18,11 @@ function AdminDashboard(props) {
   const residentSelector = useSelector(state => state.residents)
 
   useEffect(() => {
-    if (employeeSelector.isError || residentSelector.isError) {
+    if (employeeSelector.isError) {
       toast.error(employeeSelector.message)
+    }
+    if (residentSelector.isError) {
+      toast.error(residentSelector.message)
     }
     dispatch(getEmployeeList())
     dispatch(getResidentList())
@@ -67,13 +70,15 @@ function AdminDashboard(props) {
         rows={normalizedEmployeeList}
         isLoading={employeeSelector.isLoading}
         tableName="Employee List"
-        tableType="employee" />
+        tableType="employee"
+        includeCheckbox={true} />
       <PoMTable
         headCells={residentHeaderCells}
         rows={normalizedResidentList}
         isLoading={residentSelector.isLoading}
         tableName="Resident List"
-        tableType="resident" />
+        tableType="resident"
+        includeCheckbox={true} />
     </Box>
   )
 }

@@ -57,6 +57,30 @@ export const residentHeaderCells = [
   },
 ];
 
+export const residentMobileHeaderCells = [
+  {
+    id: 'residentId',
+    numeric: true,
+    disablePadding: true,
+    label: 'Resident ID',
+    index: 1,
+  },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+    index: 2,
+  },
+  {
+    id: 'roomNumber',
+    numeric: false,
+    disablePadding: false,
+    label: 'Room Number',
+    index: 3,
+  },
+];
+
 export const employeeHeaderCells = [
   {
     id: 'employeeId',

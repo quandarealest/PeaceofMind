@@ -62,7 +62,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const TableToolbar = (props) => {
-  const { numSelected, tableName, isLoading, headCells, tableType } = props;
+  const {
+    numSelected,
+    tableName,
+    isLoading,
+    headCells,
+    tableType,
+    disableAdd,
+    selectedId
+  } = props;
   const filterOptionHeadCells = generateFilterOption(headCells)
   const [option, setSelectedOption] = useState(filterOptionHeadCells[0])
   const navigate = useNavigate()
@@ -77,6 +85,16 @@ const TableToolbar = (props) => {
         newType: tableType
       }
     })
+  }
+
+  const handleViewDetail = () => {
+    if (tableType === 'resident') {
+      navigate('/resident-info', {
+        state: {
+          selectedUserId: selectedId
+        }
+      })
+    }
   }
 
   return (
@@ -102,17 +120,18 @@ const TableToolbar = (props) => {
           </Typography>
         ) : (
             <Typography
-              sx={{ flex: '1 1 100%', display: 'flex', alignItems: 'center' }}
+              sx={{ flex: { lg: '1 1 100%' }, display: 'flex', alignItems: 'center' }}
               variant="h6"
               id="tableTitle"
               component="div"
             >
               {tableName}
-              <Search>
+              <Search sx={{ width: { xs: 'unset', md: 'unset' } }}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
+                  sx={{ width: { xs: '150px', md: '100%', lg: '100%' } }}
                   placeholder="Search…"
                   inputProps={{ 'aria-label': 'search' }}
                 />
@@ -131,11 +150,13 @@ const TableToolbar = (props) => {
                   })}
                 </Select>
               </FormControl>
-              <Tooltip title="Add New Row">
-                <IconButton>
-                  <PersonAddIcon onClick={handleNavigateToAddUser} />
-                </IconButton>
-              </Tooltip>
+              {!disableAdd && (
+                <Tooltip title="Add New Row">
+                  <IconButton>
+                    <PersonAddIcon onClick={handleNavigateToAddUser} />
+                  </IconButton>
+                </Tooltip>
+              )}
               {isLoading ? (
                 <>
                   <CircularProgress sx={{ color: "#32c2b4", marginLeft: "5px" }} size={24} thickness={6} />
@@ -155,7 +176,7 @@ const TableToolbar = (props) => {
               <>
                 <Tooltip title="View">
                   <IconButton>
-                    <VisibilityIcon />
+                    <VisibilityIcon onClick={handleViewDetail} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Edit">

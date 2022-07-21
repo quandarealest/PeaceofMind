@@ -6,49 +6,49 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 
 const style1 = {
-    marginBottom: 2,
-  };
+  marginBottom: 2,
+};
 
-  const style2 = {
-    marginTop: 1,
-  };
+const style2 = {
+  marginTop: 1,
+};
 
 function Medical() {
 
-    const medicalInfo = {
-        BloodGroup: 'A',
-        Weight: '62 KG',
-        Height: '175 CM',
-        Medication: 'this person is not using any medication',
-        Allergies: 'allergic to fish',
-        Diet: 'n/a',
-        SpecialNote: 'please be careful of his hip',
-      };
+  const medicalInfo = {
+    BloodGroup: 'A',
+    Weight: '62 KG',
+    Height: '175 CM',
+    Medication: 'this person is not using any medication',
+    Allergies: 'allergic to fish',
+    Diet: 'n/a',
+    SpecialNote: 'please be careful of his hip',
+  };
 
-    const [value, setValue] = React.useState(medicalInfo);
+  const [value, setValue] = React.useState(medicalInfo);
 
-    const handleChange = (event) => {
-      setValue(event.target.value);
-    };
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
-    
+
     <>
       <Box component="form" noValidate autoComplete="off">
         <Grid sx={style1} container spacing={2}>
           <Grid item xs={6} md={4}>
             <Typography component="h6" variant="h8" fullWidth>
-                Height: {value.Height}
+              Height: {value.Height}
             </Typography>
           </Grid>
           <Grid item xs={6} md={4}>
             <Typography component="h6" variant="h8" fullWidth>
-                Weight: {value.Weight}
+              Weight: {value.Weight}
             </Typography>
           </Grid>
           <Grid item xs={6} md={4}>
             <Typography component="h6" variant="h8" fullWidth>
-                BloodGroup: {value.BloodGroup}
+              BloodGroup: {value.BloodGroup}
             </Typography>
           </Grid>
         </Grid>
@@ -56,47 +56,47 @@ function Medical() {
         <Grid sx={style2} container spacing={2}>
           <Grid item xs={6} md={4}>
             <TextField
-            id="Medication"
-            label="Medication"
-            multiline
-            rows={4}
-            defaultValue={value.Medication}
-            disabled
+              id="Medication"
+              label="Medication"
+              multiline
+              rows={4}
+              defaultValue={value.Medication}
+              disabled
             />
           </Grid>
           <Grid item xs={6} md={4}>
             <TextField
-            id="Allergies"
-            label="Allergies"
-            multiline
-            rows={4}
-            defaultValue={value.Allergies}
-            disabled
+              id="Allergies"
+              label="Allergies"
+              multiline
+              rows={4}
+              defaultValue={value.Allergies}
+              disabled
             />
           </Grid>
           <Grid item xs={6} md={4}>
             <TextField
-            id="Diet"
-            label="Diet"
-            multiline
-            rows={4}
-            defaultValue={value.Diet}
-            disabled
+              id="Diet"
+              label="Diet"
+              multiline
+              rows={4}
+              defaultValue={value.Diet}
+              disabled
             />
           </Grid>
           <Grid item xs={6} md={4}>
             <TextField
-            id="SpecialNote"
-            label="SpecialNote"
-            multiline
-            rows={4}
-            defaultValue={value.SpecialNote}
-            disabled
+              id="SpecialNote"
+              label="SpecialNote"
+              multiline
+              rows={4}
+              defaultValue={value.SpecialNote}
+              disabled
             />
           </Grid>
-        </Grid>    
-        
-      </Box> 
+        </Grid>
+
+      </Box>
     </>
   )
 

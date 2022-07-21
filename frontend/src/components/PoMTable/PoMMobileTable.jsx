@@ -29,7 +29,7 @@ import { getComparator } from './TableEnum'
 //   return stabilizedThis.map((el) => el[0]);
 // }
 
-export default function PoMTable(props) {
+export default function PoMMobileTable(props) {
   const {
     headCells,
     rows,
@@ -37,7 +37,7 @@ export default function PoMTable(props) {
     tableName,
     tableType,
     disableAdd,
-    includeCheckbox
+    includeCheckbox,
   } = props;
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState(headCells[0].index);
@@ -119,13 +119,14 @@ export default function PoMTable(props) {
           numSelected={selected.length}
           tableName={tableName}
           isLoading={isLoading}
+          selectedId={selected[0]}
           headCells={headCells}
           tableType={tableType}
           disableAdd={disableAdd}
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            // sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             // size={dense ? 'small' : 'medium'}
             size="medium"
@@ -182,13 +183,6 @@ export default function PoMTable(props) {
                             {row[1]}
                           </TableCell>
                           {renderNotIdColumns(row)}
-                          {/* {(row.length - 1).map(column => (
-                            <TableCell align="right">{column}</TableCell>
-                          ))} */}
-                          {/* <TableCell align="right">{row.calories}</TableCell>
-                          <TableCell align="right">{row.fat}</TableCell>
-                          <TableCell align="right">{row.carbs}</TableCell>
-                          <TableCell align="right">{row.protein}</TableCell> */}
                         </TableRow>
                       );
                     })}

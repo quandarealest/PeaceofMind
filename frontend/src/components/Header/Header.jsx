@@ -24,7 +24,7 @@ import './sidebar.css';
 
 function Header() {
 
-  const drawerWidth = 300;
+  const drawerWidth = 220;
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.auth)
@@ -69,6 +69,10 @@ function Header() {
     navigate('/')
   }
 
+  const onNavigateResident = () => {
+    navigate('/resident')
+  }
+
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -88,7 +92,7 @@ function Header() {
     >
       <MenuItem>
         <Button color="inherit" onClick={goToProfile}>
-          My Profile
+          {(user && user.userName !== null) ? user.userName : 'My Profile'}
         </Button>
 
       </MenuItem>
@@ -135,28 +139,32 @@ function Header() {
                         onClick={handleDrawerMenuClose} />
                     </div>
                     <ul className="sidebarList">
-                      <li className="sidebarListItem">
-                        <IconButton size="small" aria-label="show employees" color="inherit">
-                          {/* Badge is use for new notification alert */}
-                          <Badge>
-                            <PeopleAltIcon className="sidebarIcon" />
-                          </Badge>
-                        </IconButton>
-                        <p>Employees</p>
-                      </li>
-                      <li className="sidebarListItem">
-                        <IconButton size="small" aria-label="show residents" color="inherit">
-                          {/* Badge is use for new notification alert */}
-                          <Badge>
-                            <HomeIcon className="sidebarIcon" />
-                          </Badge>
-                        </IconButton>
-                        <p>Residents</p>
-                      </li>
+                      {(user && (user.role === 'supervisor' || user.role === 'admin')) && (
+                        <li className="sidebarListItem">
+                          <IconButton size="small" aria-label="show employees" sx={{ paddingLeft: 0 }} color="inherit">
+                            {/* Badge is use for new notification alert */}
+                            <Badge>
+                              <PeopleAltIcon className="sidebarIcon" />
+                            </Badge>
+                          </IconButton>
+                          <p>Employees</p>
+                        </li>
+                      )}
+                      {(user && (user.role === 'supervisor' || user.role === 'admin' || user.role === 'employee')) && (
+                        <li className="sidebarListItem" onClick={onNavigateResident}>
+                          <IconButton size="small" aria-label="show residents" sx={{ paddingLeft: 0 }} color="inherit">
+                            {/* Badge is use for new notification alert */}
+                            <Badge>
+                              <HomeIcon className="sidebarIcon" />
+                            </Badge>
+                          </IconButton>
+                          <p>Residents</p>
+                        </li>
+                      )}
                       <li className="sidebarListItem" onClick={onNavigateMessage}>
                         {/* <MailIcon className="sidebarIcon" />
                         Messages */}
-                        <IconButton size="small" aria-label="show 4 new mails" color="inherit">
+                        <IconButton size="small" aria-label="show 4 new mails" sx={{ paddingLeft: 0 }} color="inherit">
                           <Badge badgeContent={4} color="error">
                             <MailIcon className="sidebarIcon" />
                           </Badge>
@@ -164,7 +172,7 @@ function Header() {
                         <p>Messages</p>
                       </li>
                       <li className="sidebarListItem">
-                        <IconButton size="small" aria-label="show 17 new notification" color="inherit">
+                        <IconButton size="small" aria-label="show 17 new notification" sx={{ paddingLeft: 0 }} color="inherit">
                           <Badge badgeContent={17} color="error">
                             <NotificationsIcon className="sidebarIcon" />
                           </Badge>
@@ -172,7 +180,7 @@ function Header() {
                         <p>Notification</p>
                       </li>
                       <li className="sidebarListItem">
-                        <IconButton size="small" aria-label="setting" color="inherit">
+                        <IconButton size="small" aria-label="setting" sx={{ paddingLeft: 0 }} color="inherit">
                           <Badge>
                             <SettingsIcon className="sidebarIcon" />
                           </Badge>
@@ -240,8 +248,8 @@ function Header() {
                         </Badge>
                       </IconButton>
                       <Button color="inherit" onClick={goToProfile}>
-                        My Profile
-                        </Button>
+                        {(user && user.userName !== null) ? user.userName : 'My Profile'}
+                      </Button>
                       <Button color="inherit" onClick={onLogout}>
                         Sign Out
                         </Button>

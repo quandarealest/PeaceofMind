@@ -8,7 +8,7 @@ import { theme } from '../theme/CustomizedTheme'
 import AdminDashboard from '../components/AdminDashboard/AdminDashboard'
 import SupervisorDashboard from '../components/SupervisorDashboard/SupervisorDashboard'
 import CaregiverDashboard from '../components/CaregiverDashboard/CaregiverDashboard'
-import ResidentFamilyDashboard from '../components/ResidentFamily/ResidentFamilyDashboard'
+import ResidentFamilyDashboard from '../components/ResidentFamilyDashboard/ResidentFamilyDashboard'
 import { logout, reset } from '../features/auth/authSlice'
 
 

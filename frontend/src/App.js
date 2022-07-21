@@ -5,12 +5,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer'
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
 import NewUser from './pages/NewUser';
 import Profile from './pages/Profile';
 import Resident from './pages/Resident';
+import ResidentInfo from './pages/ResidentInfo';
 
 function App() {
   useEffect(() => {
@@ -31,7 +33,9 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/message" element={<Chat />} />
             <Route path="/resident" element={<Resident />} />
+            <Route path="/resident-info" element={<ResidentInfo />} />
           </Routes>
+          <Footer />
         </div>
       </Router>
       <ToastContainer />
