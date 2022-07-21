@@ -10,7 +10,6 @@ import SupervisorDashboard from '../components/SupervisorDashboard/SupervisorDas
 import CaregiverDashboard from '../components/CaregiverDashboard/CaregiverDashboard'
 import ResidentFamilyDashboard from '../components/ResidentFamilyDashboard/ResidentFamilyDashboard'
 import { logout, reset } from '../features/auth/authSlice'
-import ResidentFamilyDashboard from '../components/ResidentFamily/ResidentFamilyDashboard'
 
 
 
