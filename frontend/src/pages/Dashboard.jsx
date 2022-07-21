@@ -68,7 +68,7 @@ function Dashboard() {
                       ) : (
                           user.role === 'resident' ? (
                             <>
-                              This is resident dashboard
+                              <ResidentFamilyDashboard />
                             </>
                           ) : (
                               <>
