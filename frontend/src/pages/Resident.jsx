@@ -45,9 +45,7 @@ const Resident = () => {
     }
     dispatch(getResidentList())
 
-    return () => {
-      dispatch(residentReset())
-    }
+
   }, [residentSelector.isError, residentSelector.message, dispatch])
 
   const normalizedMobileResidentList = residentSelector.residents.length !== 0 ?

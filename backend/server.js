@@ -20,6 +20,7 @@ app.use('/api/employee', require('./routes/employeeRoutes'))
 app.use('/api/resident', require('./routes/residentRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
 app.use('/api/message', require('./routes/conversationRoutes'))
+app.use('/api/medical', require('./routes/medicalRoutes'))
 
 const server = http.createServer(app)
 app.use(cors())

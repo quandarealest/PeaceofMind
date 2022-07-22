@@ -4,7 +4,7 @@ const residentScheduleSchema = mongoose.Schema({
   residentId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
-    ref: 'Resident'
+    ref: 'User'
   },
   task: {
     type: String,

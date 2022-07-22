@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 
+import { weightConverter, heightConverter } from '../../common/NormalizingData'
+
 const style1 = {
   marginBottom: 2,
 };
@@ -13,8 +15,8 @@ const style2 = {
   marginTop: 1,
 };
 
-function Medical() {
-
+function Medical(props) {
+  const { basicMedicalRecord } = props
   const medicalInfo = {
     BloodGroup: 'A',
     Weight: '62 KG',
@@ -37,18 +39,42 @@ function Medical() {
       <Box component="form" noValidate autoComplete="off">
         <Grid sx={style1} container spacing={2}>
           <Grid item xs={6} md={4}>
-            <Typography component="h6" variant="h8" fullWidth>
-              Height: {value.Height}
+            <Typography component="h6" variant="button" fullWidth>
+              {basicMedicalRecord === null ? (
+                <>
+                  Height: N/A
+                </>
+              ) : (
+                  <>
+                    Height: {basicMedicalRecord.height} cm ({heightConverter(parseInt(basicMedicalRecord.height), 'cm', 'feet')} ft)
+                </>
+                )}
             </Typography>
           </Grid>
           <Grid item xs={6} md={4}>
-            <Typography component="h6" variant="h8" fullWidth>
-              Weight: {value.Weight}
+            <Typography component="h6" variant="button" fullWidth>
+              {basicMedicalRecord === null ? (
+                <>
+                  Weight: N/A
+                </>
+              ) : (
+                  <>
+                    Weight: {basicMedicalRecord.weight} kg ({weightConverter(parseInt(basicMedicalRecord.weight), 'kg', 'lbs')} lbs)
+                </>
+                )}
             </Typography>
           </Grid>
           <Grid item xs={6} md={4}>
-            <Typography component="h6" variant="h8" fullWidth>
-              BloodGroup: {value.BloodGroup}
+            <Typography component="h6" variant="button" fullWidth>
+              {basicMedicalRecord === null ? (
+                <>
+                  Blood Group: N/A
+                </>
+              ) : (
+                  <>
+                    Blood Group: {basicMedicalRecord.bloodGroup}
+                  </>
+                )}
             </Typography>
           </Grid>
         </Grid>

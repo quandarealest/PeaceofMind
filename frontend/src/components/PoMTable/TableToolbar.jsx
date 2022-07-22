@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { alpha, styled } from '@mui/material/styles';
 import { ThemeProvider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,6 +15,8 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { generateFilterOption } from './TableEnum'
+// import { getResidentDetail } from '../../features/resident/residentSlice'
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,6 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const TableToolbar = (props) => {
+  const dispatch = useDispatch()
   const {
     numSelected,
     tableName,
@@ -89,6 +93,7 @@ const TableToolbar = (props) => {
 
   const handleViewDetail = () => {
     if (tableType === 'resident') {
+      // dispatch(getResidentDetail(selectedId))
       navigate('/resident-info', {
         state: {
           selectedUserId: selectedId

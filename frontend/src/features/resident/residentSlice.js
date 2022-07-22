@@ -6,7 +6,8 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: ''
+  message: '',
+  detail: {}
 }
 
 // get resident list
@@ -14,6 +15,15 @@ export const getResidentList = createAsyncThunk('resident/getAll', async (_, thu
   try {
     const token = thunkAPI.getState().auth.user.token
     return await residentService.getResidentList(token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const getResidentDetail = createAsyncThunk('resident/getDetail', async (userId, thunkAPI) => {
+  try {
+    return await residentService.getResidentInformation(userId)
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)
@@ -39,6 +49,22 @@ export const residentSlice = createSlice({
         state.message = ''
       })
       .addCase(getResidentList.rejected, (state, action) => {
+        state.isSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(getResidentDetail.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getResidentDetail.fulfilled, (state, action) => {
+        state.detail = action.payload
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+        state.message = ''
+      })
+      .addCase(getResidentDetail.rejected, (state, action) => {
         state.isSuccess = false
         state.isLoading = false
         state.isError = true

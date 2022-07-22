@@ -6,12 +6,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Avatar,
   CircularProgress,
   Box,
   Typography,
 } from '@mui/material'
 import moment from 'moment'
+import PoMAvatar from '../PoMAvatar/PoMAvatar'
 
 import './ChatList.css'
 
@@ -58,7 +58,8 @@ function ChatList(props) {
           className={roomId === activeChat.roomId ? 'activeChat' : ''}
         >
           <ListItemIcon>
-            <Avatar {...stringAvatar(`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`)} />
+            <PoMAvatar firstName={familyMemberInfo.firstName} lastName={familyMemberInfo.lastName} />
+            {/* <Avatar {...stringAvatar(`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`)} /> */}
           </ListItemIcon>
           <ListItemText primary={`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}>
             {`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}
@@ -75,7 +76,8 @@ function ChatList(props) {
           className={roomId === activeChat.roomId ? 'activeChat' : ''}
         >
           <ListItemIcon>
-            <Avatar {...stringAvatar(`${supervisorInfo.firstName} ${supervisorInfo.lastName}`)} />
+            <PoMAvatar firstName={supervisorInfo.firstName} lastName={supervisorInfo.lastName} />
+            {/* <Avatar {...stringAvatar(`${supervisorInfo.firstName} ${supervisorInfo.lastName}`)} /> */}
           </ListItemIcon>
           <ListItemText primary={`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}>
             {`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}
@@ -123,7 +125,9 @@ function ChatList(props) {
                             className={roomId === activeChat.roomId ? 'activeChat' : ''}
                           >
                             <ListItemIcon>
-                              <Avatar {...stringAvatar(`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`)} />
+                              <PoMAvatar firstName={familyMemberInfo.firstName} lastName={familyMemberInfo.lastName} />
+
+                              {/* <Avatar {...stringAvatar(`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`)} /> */}
                             </ListItemIcon>
                             <ListItemText primary={`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}>
                               {`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}
@@ -140,7 +144,9 @@ function ChatList(props) {
                             className={roomId === activeChat.roomId ? 'activeChat' : ''}
                           >
                             <ListItemIcon>
-                              <Avatar {...stringAvatar(`${supervisorInfo.firstName} ${supervisorInfo.lastName}`)} />
+                              <PoMAvatar firstName={supervisorInfo.firstName} lastName={supervisorInfo.lastName} />
+
+                              {/* <Avatar {...stringAvatar(`${supervisorInfo.firstName} ${supervisorInfo.lastName}`)} /> */}
                             </ListItemIcon>
                             <ListItemText primary={`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}>
                               {`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}

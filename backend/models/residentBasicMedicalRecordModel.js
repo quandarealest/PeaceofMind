@@ -4,7 +4,7 @@ const residentBasicMedicalRecordSchema = mongoose.Schema({
   residentId: {
     type: mongoose.Schema.Types.ObjectId,
     require: true,
-    ref: 'Resident'
+    ref: 'User'
   },
   bloodGroup: {
     type: String,

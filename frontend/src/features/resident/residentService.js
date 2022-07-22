@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { RES_API_URL } from '../../common/api'
+import { RES_API_URL, MED_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
 
 //get resident list
@@ -31,6 +31,15 @@ const getResidentDetail = async (id) => {
   return response.data
 }
 
+const getResidentInformation = async (id) => {
+  const response = await axios.get(RES_API_URL + id)
+  const basicMedicalRecord = await axios.get(MED_API_URL + 'basic/' + response.data.userId)
+  return {
+    ...response.data,
+    basicMedicalRecord: basicMedicalRecord.data
+  }
+}
+
 //get family member detail
 const getFamilyMemberDetail = async (id) => {
   const response = await axios.get(RES_API_URL + '/family/' + id)
@@ -41,7 +50,8 @@ const getFamilyMemberDetail = async (id) => {
 const residentService = {
   getResidentList,
   getResidentDetail,
-  getFamilyMemberDetail
+  getFamilyMemberDetail,
+  getResidentInformation
 }
 
 export default residentService

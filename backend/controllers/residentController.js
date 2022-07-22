@@ -75,7 +75,7 @@ const getResidentList = asyncHandler(async (req, res) => {
   res.status(200).json(residentList)
 })
 
-// @desc get employee list
+// @desc get employee detail
 // @route  GET /api/resident/:id
 // @access Private
 const getResidentDetail = asyncHandler(async (req, res) => {
