@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { RES_API_URL, MED_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
+import { normalizedSpecialMedicalRecord } from '../../common/NormalizingData'
 
 //get resident list
 const getResidentList = async (token) => {
@@ -34,9 +35,12 @@ const getResidentDetail = async (id) => {
 const getResidentInformation = async (id) => {
   const response = await axios.get(RES_API_URL + id)
   const basicMedicalRecord = await axios.get(MED_API_URL + 'basic/' + response.data.userId)
+  const specialMedicalRecord = await axios.get(MED_API_URL + 'special/' + response.data.userId)
+
   return {
     ...response.data,
-    basicMedicalRecord: basicMedicalRecord.data
+    basicMedicalRecord: basicMedicalRecord.data,
+    specialMedicalRecord: normalizedSpecialMedicalRecord(specialMedicalRecord.data, response.data.userId)
   }
 }
 

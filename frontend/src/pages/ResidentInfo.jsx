@@ -36,7 +36,7 @@ function ResidentInfo() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1, margin: 4, height: 'calc(100vh - 90px - 32px - 32px)' }}>
+      <Box sx={{ flexGrow: 1, margin: 4, height: 'calc(100vh - 90px - 32px - 32px - 20px)' }}>
         {
           isLoading ? (
             <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >

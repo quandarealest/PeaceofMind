@@ -42,7 +42,7 @@ function Note() {
 
   return (
     <>
-      <Box sx={{ minWidth: 120 }}>
+      <Box>
         <FormControl fullWidth sx={style1}>
           <InputLabel id="demo-simple-select-label">Note Type</InputLabel>
           <Select

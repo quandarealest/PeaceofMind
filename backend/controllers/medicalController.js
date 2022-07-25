@@ -60,11 +60,11 @@ const registerSpecialMedicalRecord = asyncHandler(async (req, res) => {
   }
 
   //check if medical exist
-  const recordExist = await SpecialMedicalRecord.findOne({ residentId })
-  if (recordExist) {
-    res.status(409)
-    throw new Error('Special record already exist')
-  }
+  // const recordExist = await SpecialMedicalRecord.findOne({ residentId })
+  // if (recordExist) {
+  //   res.status(409)
+  //   throw new Error('Special record already exist')
+  // }
 
   const specialMedicalRecord = await SpecialMedicalRecord.create({
     residentId,

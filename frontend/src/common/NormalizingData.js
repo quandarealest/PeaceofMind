@@ -24,4 +24,48 @@ export const heightConverter = (value, from, to) => {
   } else {
     return (value / 0.032808).toFixed(2)
   }
-} 
+}
+
+export const normalizedSpecialMedicalRecord = (data, residentId) => {
+
+  let normalizedRecords = {
+    residentId: residentId,
+    medicals: []
+  }
+  data.forEach(element => {
+    const existedType = normalizedRecords.medicals.find(rec => rec.recordType === element.recordType) || {}
+
+    if (Object.keys(existedType).length !== 0) {
+      normalizedRecords.medicals = [
+        ...normalizedRecords.medicals.filter(res => res.recordType !== element.recordType),
+        {
+          recordType: existedType.recordType,
+          records: [
+            ...existedType.records,
+            {
+              _id: element._id,
+              recordTitle: element.recordTitle,
+              recordDescription: element.recordDescription
+            }
+          ]
+        }
+      ]
+    } else {
+      normalizedRecords.medicals = [
+        ...normalizedRecords.medicals,
+        {
+          recordType: element.recordType,
+          records: [
+            {
+              _id: element._id,
+              recordTitle: element.recordTitle,
+              recordDescription: element.recordDescription
+            }
+          ]
+        }
+      ]
+    }
+  });
+
+  return normalizedRecords
+}
