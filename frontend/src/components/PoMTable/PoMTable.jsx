@@ -122,6 +122,7 @@ export default function PoMTable(props) {
           headCells={headCells}
           tableType={tableType}
           disableAdd={disableAdd}
+          selectedId={selected[0]}
         />
         <TableContainer>
           <Table
