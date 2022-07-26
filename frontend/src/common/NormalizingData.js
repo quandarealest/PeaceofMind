@@ -69,3 +69,53 @@ export const normalizedSpecialMedicalRecord = (data, residentId) => {
 
   return normalizedRecords
 }
+
+export const normalizedNotes = (data, residentId) => {
+
+  let normalizedRecords = {
+    residentId: residentId,
+    notes: []
+  }
+  data.forEach(element => {
+    const existedType = normalizedRecords.notes.find(rec => rec.noteType === element.noteType) || {}
+
+    if (Object.keys(existedType).length !== 0) {
+      normalizedRecords.notes = [
+        ...normalizedRecords.notes.filter(res => res.noteType !== element.noteType),
+        {
+          noteType: existedType.noteType,
+          records: [
+            ...existedType.records,
+            {
+              _id: element._id,
+              note: element.note,
+              updatedAt: element.updatedAt,
+              createdId: element.createdId,
+              shareableId: element.shareableId,
+              createdUser: element.createdUser
+            }
+          ]
+        }
+      ]
+    } else {
+      normalizedRecords.notes = [
+        ...normalizedRecords.notes,
+        {
+          noteType: element.noteType,
+          records: [
+            {
+              _id: element._id,
+              note: element.note,
+              updatedAt: element.updatedAt,
+              createdId: element.createdId,
+              shareableId: element.shareableId,
+              createdUser: element.createdUser
+            }
+          ]
+        }
+      ]
+    }
+  });
+
+  return normalizedRecords
+}

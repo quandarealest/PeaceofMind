@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { RES_API_URL, MED_API_URL } from '../../common/api'
+import { RES_API_URL, MED_API_URL, NOTE_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
-import { normalizedSpecialMedicalRecord } from '../../common/NormalizingData'
+import { normalizedSpecialMedicalRecord, normalizedNotes } from '../../common/NormalizingData'
 
 //get resident list
 const getResidentList = async (token) => {
@@ -32,15 +32,30 @@ const getResidentDetail = async (id) => {
   return response.data
 }
 
-const getResidentInformation = async (id) => {
+// get resident detail info
+const getResidentInformation = async (id, token) => {
   const response = await axios.get(RES_API_URL + id)
   const basicMedicalRecord = await axios.get(MED_API_URL + 'basic/' + response.data.userId)
   const specialMedicalRecord = await axios.get(MED_API_URL + 'special/' + response.data.userId)
 
+  const notes = await axios.get(NOTE_API_URL + response.data.userId).then((res) => {
+    const response = res.data;
+    const notesWithCreatedUser = response.map(async (record) => {
+      const createdUserDetail = await employeeService.getEmployeeDetail(token, record.createdId).then(detail => {
+        return {
+          ...record,
+          createdUser: detail
+        }
+      })
+      return createdUserDetail
+    })
+    return notesWithCreatedUser
+  })
   return {
     ...response.data,
     basicMedicalRecord: basicMedicalRecord.data,
-    specialMedicalRecord: normalizedSpecialMedicalRecord(specialMedicalRecord.data, response.data.userId)
+    specialMedicalRecord: normalizedSpecialMedicalRecord(specialMedicalRecord.data, response.data.userId),
+    notes: normalizedNotes(await Promise.all(notes), response.data.userId)
   }
 }
 

@@ -25,8 +25,8 @@ import ScrollToBottom from 'react-scroll-to-bottom'
 import './Medical.css'
 
 
-function ResidentInfo(props) {
-  const { detail } = props
+function ResidentDetail(props) {
+  const { detail, user } = props
   const [tab, setTab] = useState('1');
 
   const onChangeTab = (event, newValue) => {
@@ -36,34 +36,34 @@ function ResidentInfo(props) {
   return (
     <>
       {(Object.keys(detail).length !== 0) && (
-        <ScrollToBottom className="specialMedical">
-          <Box>
-            <Grid>
-              <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <PoMAvatar sx={{ width: '70px', height: '70px' }} firstName={detail.firstName} lastName={detail.lastName} />
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" variant="h5">
-                      {detail.firstName}{' '}{detail.lastName}
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary">
-                      {detail.gender[0].toUpperCase() + detail.gender.substring(1)}, {moment().diff(detail.dob, 'years')} years old
+        <Box>
+          <Grid>
+            <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <PoMAvatar sx={{ width: '70px', height: '70px' }} firstName={detail.firstName} lastName={detail.lastName} />
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Typography component="div" variant="h5">
+                    {detail.firstName}{' '}{detail.lastName}
                   </Typography>
-                    <Typography variant="subtitle1" color="text.secondary">
-                      Resident ID: {detail.residentNumber}
-                    </Typography>
-                  </CardContent>
-                </Box>
-              </Card>
-              <TabContext value={tab} color="default">
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <TabList onChange={onChangeTab} aria-label="Resident Detail Tab">
-                    <Tab sx={{ flexGrow: 1 }} icon={<ListAltIcon />} label="Todo" value="1" />
-                    <Tab sx={{ flexGrow: 1 }} icon={<MedicalInformationIcon />} label="Medical" value="2" />
-                    <Tab sx={{ flexGrow: 1 }} icon={<CommentIcon />} label="Note" value="3" />
-                    <Tab sx={{ flexGrow: 1 }} icon={<ViewTimelineIcon />} label="Timeline" value="4" />
-                  </TabList>
-                </Box>
+                  <Typography variant="subtitle1" color="text.secondary">
+                    {detail.gender[0].toUpperCase() + detail.gender.substring(1)}, {moment().diff(detail.dob, 'years')} years old
+                  </Typography>
+                  <Typography variant="subtitle1" color="text.secondary">
+                    Resident ID: {detail.residentNumber}
+                  </Typography>
+                </CardContent>
+              </Box>
+            </Card>
+            <TabContext value={tab} color="default">
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList onChange={onChangeTab} aria-label="Resident Detail Tab">
+                  <Tab sx={{ flexGrow: 1 }} icon={<ListAltIcon />} label="Todo" value="1" />
+                  <Tab sx={{ flexGrow: 1 }} icon={<MedicalInformationIcon />} label="Medical" value="2" />
+                  <Tab sx={{ flexGrow: 1 }} icon={<CommentIcon />} label="Note" value="3" />
+                  <Tab sx={{ flexGrow: 1 }} icon={<ViewTimelineIcon />} label="Timeline" value="4" />
+                </TabList>
+              </Box>
+              <ScrollToBottom className="specialMedical">
                 <TabPanel sx={{ padding: '24px 0' }} value="1">
                   <Todo />
                 </TabPanel>
@@ -71,19 +71,19 @@ function ResidentInfo(props) {
                   <Medical basicMedicalRecord={detail.basicMedicalRecord} specialMedicalRecord={detail.specialMedicalRecord} />
                 </TabPanel>
                 <TabPanel sx={{ padding: '24px 0' }} value="3">
-                  <Note />
+                  <Note noteRecord={detail.notes} user={user} />
                 </TabPanel>
                 <TabPanel sx={{ padding: '24px 0' }} value="4">
                   <Timeline />
                 </TabPanel>
-              </TabContext>
-            </Grid>
-          </Box>
-        </ScrollToBottom>
+              </ScrollToBottom>
+            </TabContext>
+          </Grid>
+        </Box>
       )}
     </>
   )
 
 }
 
-export default ResidentInfo
+export default ResidentDetail

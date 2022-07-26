@@ -19,10 +19,6 @@ const style1 = {
   marginBottom: 2,
 };
 
-const style2 = {
-  marginTop: 1,
-};
-
 function Medical(props) {
   const { basicMedicalRecord, specialMedicalRecord } = props
 

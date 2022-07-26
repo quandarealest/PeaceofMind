@@ -20,13 +20,16 @@ function ResidentInfo() {
   const { detail, isError, isSuccess, isLoading, message } = useSelector(state => state.residents)
 
   useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
     if (!selectedUserId) {
       navigate('/resident')
     } else {
       if (isError) {
         toast.error(message)
       }
-      dispatch(getResidentDetail(selectedUserId))
+      dispatch(getResidentDetail({ userId: selectedUserId, token: user.token }))
     }
 
     return () => {
@@ -44,7 +47,7 @@ function ResidentInfo() {
             </Box>
           ) : (
               Object.keys(detail).length !== 0 && (
-                <ResidentDetail detail={detail} isLoading={isLoading} />
+                <ResidentDetail detail={detail} isLoading={isLoading} user={user} />
               )
             )}
 

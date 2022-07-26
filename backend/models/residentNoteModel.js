@@ -6,6 +6,17 @@ const residentNoteSchema = mongoose.Schema({
     require: true,
     ref: 'User'
   },
+  createdId: {
+    type: mongoose.Schema.Types.ObjectId,
+    require: true,
+    ref: 'User'
+  },
+  shareableId: {
+    type: [mongoose.Schema.Types.ObjectId],
+    require: false,
+    default: [],
+    ref: 'User'
+  },
   noteType: {
     type: String,
     require: [true, 'Please enter a note type']

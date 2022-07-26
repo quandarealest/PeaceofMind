@@ -1,79 +1,164 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import {
+  TextField,
+  Box,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Paper,
+  Grid,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+  Divider
+} from '@mui/material'
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SendIcon from '@mui/icons-material/Send';
+
+import { NoteType } from './ResidentEnum'
+import { normalizeDate } from '../../common/NormalizingData'
 
 const style1 = {
   marginBottom: 2,
 };
 
-function Note() {
+const style2 = {
+  marginTop: 1,
+};
 
-  const noteData = [{
-    label: 'my first note',
-    PostedTime: '2019-03-11T12:34:56.000Z',
-    type: true,
-  },
-  {
-    label: 'note number 1',
-    PostedTime: '2019-06-11T14:34:56.000Z',
-    type: false
-  },
-  {
-    label: 'latest note',
-    PostedTime: '2019-04-11T12:34:56.000Z',
-    type: true,
-  },
-  ];
+function Note(props) {
+  const { noteRecord, user } = props
 
-  const [value, setValue] = React.useState('');
+  const [noteOption, setNoteOption] = React.useState(NoteType[0].value);
+  const [newNoteValue, setNewNoteValue] = React.useState('');
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChangeOption = (event) => {
+    setNoteOption(event.target.value);
   };
+
+  const handleAddNewNote = (e) => {
+    e.preventDefault()
+    console.log(noteOption, newNoteValue.trim())
+  }
 
   return (
     <>
-      <Box>
-        <FormControl fullWidth sx={style1}>
-          <InputLabel id="demo-simple-select-label">Note Type</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={value}
-            label="Age"
-            onChange={handleChange}
-          >
-            <MenuItem value={10}>Daily Note</MenuItem>
-            <MenuItem value={20}>Special Note</MenuItem>
-            <MenuItem value={30}>Other Note</MenuItem>
-          </Select>
-        </FormControl>
-        <>
-          <Card>
-            <CardContent>
-              <Typography gutterBottom variant="h7" component="div">
-                note 1
-                        </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-                        </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Edit</Button>
-              <Button size="small">Delete</Button>
-            </CardActions>
-          </Card>
-        </>
+      <Box sx={{ justifyContent: 'center' }}>
+        <Grid xs={11} container spacing={0.5} sx={style1}>
+          <Grid item xs={12} md={2}>
+            <FormControl size="small" fullWidth>
+              <InputLabel id="demo-select-small">Note Type</InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={noteOption}
+                label="Note Type"
+                onChange={handleChangeOption}
+              >
+                {NoteType.map(opt => <MenuItem value={opt.value}>{opt.label}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <FormControl fullWidth>
+              <TextField
+                id="timeline-text"
+                label="Write Text"
+                multiline
+                rows={2}
+                value={newNoteValue}
+                onChange={e => setNewNoteValue(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid container sx={style2} justifyContent="flex-end">
+            <Button
+              variant="contained"
+              endIcon={<SendIcon />}
+              onClick={handleAddNewNote}
+              disabled={newNoteValue === ''}
+            >
+              Share
+            </Button>
+          </Grid>
+        </Grid>
+        <Divider light />
+        {Object.keys(noteRecord).length !== 0 ? (
+          <>
+            {noteRecord.notes.map(note => {
+              const { noteType, records } = note
+              return (
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>{noteType}</Typography>
+                  </AccordionSummary>
+                  {noteType === 'Private Note' ? (<>
+                    {records.map(rec => {
+                      const { _id, note, updatedAt, createdId, shareableId, createdUser } = rec
+                      if (shareableId.length > 0 && shareableId.includes(user._id) || (user._id === createdId)) {
+                        return (
+                          <AccordionDetails>
+                            <Card>
+                              <CardContent>
+                                <Typography gutterBottom variant="caption" component="div">
+                                  {`${createdUser.firstName} ${createdUser.lastName} - ${normalizeDate(new Date(updatedAt))}`}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                  {note}
+                                </Typography>
+                              </CardContent>
+                              <CardActions>
+                                <Button disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false} size="small">Update</Button>
+                                <Button disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false} size="small">Remove</Button>
+                              </CardActions>
+                            </Card>
+                          </AccordionDetails>
+                        )
+                      } else {
+                        return <></>
+                      }
+                    })}
+                  </>) : (
+                      <>
+                        {records.map(rec => {
+                          const { _id, note, updatedAt, createdId, shareableId, createdUser } = rec
+                          return (
+                            <AccordionDetails>
+                              <Card>
+                                <CardContent>
+                                  <Typography gutterBottom variant="caption" component="div">
+                                    {`${createdUser.firstName} ${createdUser.lastName} - ${normalizeDate(new Date(updatedAt))}`}
+                                  </Typography>
+                                  <Typography variant="body1" color="text.secondary">
+                                    {note}
+                                  </Typography>
+                                </CardContent>
+                                <CardActions>
+                                  <Button disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false} size="small">Update</Button>
+                                  <Button disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false} size="small">Remove</Button>
+                                </CardActions>
+                              </Card>
+                            </AccordionDetails>
+                          )
+                        })}
+                      </>
+                    )}
+                </Accordion>
+              )
+            })}
+          </>
+        ) : (<Typography>No Note Record</Typography>)}
+
       </Box>
     </>
   )

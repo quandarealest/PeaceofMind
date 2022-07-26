@@ -21,9 +21,9 @@ export const getResidentList = createAsyncThunk('resident/getAll', async (_, thu
   }
 })
 
-export const getResidentDetail = createAsyncThunk('resident/getDetail', async (userId, thunkAPI) => {
+export const getResidentDetail = createAsyncThunk('resident/getDetail', async ({ userId, token }, thunkAPI) => {
   try {
-    return await residentService.getResidentInformation(userId)
+    return await residentService.getResidentInformation(userId, token)
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)

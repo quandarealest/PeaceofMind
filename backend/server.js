@@ -21,6 +21,7 @@ app.use('/api/resident', require('./routes/residentRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
 app.use('/api/message', require('./routes/conversationRoutes'))
 app.use('/api/medical', require('./routes/medicalRoutes'))
+app.use('/api/note', require('./routes/noteRoutes'))
 
 const server = http.createServer(app)
 app.use(cors())
