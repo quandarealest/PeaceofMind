@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler')
-// const ConversationFamilySupervisorModel = require('../models/conversationFamilySupervisorModel')
 const Note = require('../models/residentNoteModel')
 
 // @desc Register new basic medical record
@@ -31,7 +30,9 @@ const registerNote = asyncHandler(async (req, res) => {
       createdId: noteRecord.createdId,
       noteType: noteRecord.noteType,
       note: noteRecord.note,
-      shareableId: noteRecord.shareableId
+      shareableId: noteRecord.shareableId,
+      createdAt: noteRecord.createdAt,
+      updatedAt: noteRecord.updatedAt
     })
   } else {
     res.status(400)
@@ -48,7 +49,53 @@ const getNoteList = asyncHandler(async (req, res) => {
   res.status(201).json(noteRecord)
 })
 
+// @desc Delete note
+// @route  DELETE /api/note/:id
+// @access Private
+const deleteNote = asyncHandler(async (req, res) => {
+  const noteRecord = await Note.findById(req.params.id)
+
+  if (!noteRecord) {
+    res.status(400)
+    throw new Error('Note not found')
+  }
+
+
+  // only the logged in user matches the note user
+  if (noteRecord.createdId.toString() !== req.user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
+  }
+
+  await noteRecord.remove()
+  res.status(200).json({ id: req.params.id })
+})
+
+// @desc Update note
+// @route  PUT /api/note/:id
+// @access Private
+const updateNote = asyncHandler(async (req, res) => {
+  const noteRecord = await Note.findById(req.params.id);
+
+  if (!noteRecord) {
+    res.status(400)
+    throw new Error('Note not found')
+  }
+
+  // only the logged in user matches the note user
+  if (noteRecord.createdId.toString() !== req.user.id) {
+    res.status(401)
+    throw new Error('User not authorized')
+  }
+
+  const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+  res.status(200).json(updatedNote)
+})
+
 module.exports = {
   registerNote,
   getNoteList,
+  deleteNote,
+  updateNote,
 }

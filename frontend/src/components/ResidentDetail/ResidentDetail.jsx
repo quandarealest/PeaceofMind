@@ -1,6 +1,8 @@
 import moment from 'moment'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Grid } from '@mui/material'
+import { toast } from 'react-toastify'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography';
 import Tab from '@mui/material/Tab';
@@ -14,7 +16,6 @@ import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Todo from './Todo'
 import Medical from './Medical'
 import Note from './Note'
@@ -24,10 +25,19 @@ import ScrollToBottom from 'react-scroll-to-bottom'
 
 import './Medical.css'
 
+import { resetCRUDNote } from '../../features/resident/residentSlice'
 
 function ResidentDetail(props) {
   const { detail, user } = props
   const [tab, setTab] = useState('1');
+  const { isCRUDNoteSuccess, isLoading } = useSelector(state => state.residents)
+
+
+  useEffect(() => {
+    if (isCRUDNoteSuccess) {
+      toast.success(`An action for note is success on: ${detail.firstName} ${detail.lastName}`)
+    }
+  }, [isCRUDNoteSuccess])
 
   const onChangeTab = (event, newValue) => {
     setTab(newValue);
@@ -71,7 +81,7 @@ function ResidentDetail(props) {
                   <Medical basicMedicalRecord={detail.basicMedicalRecord} specialMedicalRecord={detail.specialMedicalRecord} />
                 </TabPanel>
                 <TabPanel sx={{ padding: '24px 0' }} value="3">
-                  <Note noteRecord={detail.notes} user={user} />
+                  <Note detail={detail} noteRecord={detail.notes} user={user} isLoading={isLoading} />
                 </TabPanel>
                 <TabPanel sx={{ padding: '24px 0' }} value="4">
                   <Timeline />

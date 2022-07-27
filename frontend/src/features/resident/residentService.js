@@ -3,6 +3,23 @@ import { RES_API_URL, MED_API_URL, NOTE_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
 import { normalizedSpecialMedicalRecord, normalizedNotes } from '../../common/NormalizingData'
 
+//create new note for resident
+const registerResidentNote = async (token, newNote) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios.post(NOTE_API_URL, newNote)
+
+  const createdUser = await employeeService.getEmployeeDetail(token, response.data.createdId)
+  return {
+    ...response.data,
+    createdUser: createdUser
+  }
+}
+
 //get resident list
 const getResidentList = async (token) => {
   const config = {
@@ -66,11 +83,42 @@ const getFamilyMemberDetail = async (id) => {
   return response.data
 }
 
+
+//remove note
+const removeNote = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const response = await axios.delete(NOTE_API_URL + id, config)
+  return response.data
+}
+
+//update a note
+const updateNote = async (id, noteData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const response = await axios.put(NOTE_API_URL + id, noteData, config)
+  const createdUser = await employeeService.getEmployeeDetail(token, response.data.createdId)
+  return {
+    ...response.data,
+    createdUser: createdUser
+  }
+}
+
 const residentService = {
   getResidentList,
   getResidentDetail,
   getFamilyMemberDetail,
-  getResidentInformation
+  getResidentInformation,
+  registerResidentNote,
+  removeNote,
+  updateNote
 }
 
 export default residentService

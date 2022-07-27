@@ -17,7 +17,7 @@ function ResidentInfo() {
   const selectedUserId = location.state.selectedUserId
 
   const { user } = useSelector(state => state.auth)
-  const { detail, isError, isSuccess, isLoading, message } = useSelector(state => state.residents)
+  const { detail, isError, isLoading, message } = useSelector(state => state.residents)
 
   useEffect(() => {
     if (!user) {
@@ -31,7 +31,6 @@ function ResidentInfo() {
       }
       dispatch(getResidentDetail({ userId: selectedUserId, token: user.token }))
     }
-
     return () => {
       dispatch(residentReset())
     }
