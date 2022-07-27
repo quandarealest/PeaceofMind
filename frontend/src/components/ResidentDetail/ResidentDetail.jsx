@@ -25,7 +25,6 @@ import ScrollToBottom from 'react-scroll-to-bottom'
 
 import './Medical.css'
 
-import { resetCRUDNote } from '../../features/resident/residentSlice'
 
 function ResidentDetail(props) {
   const { detail, user } = props
