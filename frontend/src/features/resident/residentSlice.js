@@ -179,20 +179,22 @@ export const residentSlice = createSlice({
       })
       .addCase(updateNote.fulfilled, (state, action) => {
         const newNoteList = state.detail.notes.notes.map(note => {
-          return {
-            ...note,
-            records: [
-              ...note.records.filter(rec => rec._id !== action.payload._id),
-              {
-                _id: action.payload._id,
-                note: action.payload.note,
-                updatedAt: action.payload.updatedAt,
-                createdId: action.payload.createdId,
-                shareableId: action.payload.shareableId,
-                createdUser: action.payload.createdUser
-              }
-            ]
-          }
+          if (note.noteType === action.payload.noteType) {
+            return {
+              ...note,
+              records: [
+                ...note.records.filter(rec => rec._id !== action.payload._id),
+                {
+                  _id: action.payload._id,
+                  note: action.payload.note,
+                  updatedAt: action.payload.updatedAt,
+                  createdId: action.payload.createdId,
+                  shareableId: action.payload.shareableId,
+                  createdUser: action.payload.createdUser
+                }
+              ]
+            }
+          } else return note
         })
         state.detail.notes = {
           residentId: state.detail.notes.residentId,

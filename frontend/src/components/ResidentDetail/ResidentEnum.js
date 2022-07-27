@@ -11,3 +11,14 @@ export const NoteType = [
     value: 'Private Note'
   },
 ]
+
+export const TimelineType = [
+  {
+    label: 'Text',
+    value: 'txt'
+  },
+  {
+    label: 'Image',
+    value: 'img'
+  },
+]

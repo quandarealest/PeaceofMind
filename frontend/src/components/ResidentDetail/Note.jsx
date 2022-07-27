@@ -101,7 +101,6 @@ function Note(props) {
 
   const handleUpdateNote = (e, oldNote, noteType) => {
     e.preventDefault()
-    console.log(oldNote)
     const updatedNote = {
       residentId: detail.userId,
       createdId: user._id,
@@ -129,7 +128,7 @@ function Note(props) {
 
   return (
     <>
-      <Box sx={{ justifyContent: 'center' }}>
+      <Grid container spacing={1} sx={{ justifyContent: 'center' }}>
         <Grid xs={11} container spacing={0.5} sx={style1}>
           <Grid item xs={12} md={2}>
             <FormControl size="small" fullWidth>
@@ -382,7 +381,7 @@ function Note(props) {
             </>
           )}
 
-      </Box>
+      </Grid>
     </>
   )
 
