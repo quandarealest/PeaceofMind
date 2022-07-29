@@ -37,47 +37,47 @@ function ResidentFamilyDashboard(props) {
       const { roomId } = timeline
       const { info } = user
       joinRoom({ roomId, senderInfo: { firstName: info.firstName, lastName: info.lastName } })
+
+      socket.on('feed', (newFeed) => {
+        const { info } = user
+        const isSaveDB = true
+        setFeeds([newFeed])
+        dispatch(updateFeed({
+          isSaveDB, updatedTimeline: {
+            ...timeline,
+            timelineLog: newFeed.type === 'txt' ? ([
+              ...timeline.timelineLog,
+              {
+                postedEmployeeId: user._id,
+                firstName: info.firstName,
+                lastName: info.lastName,
+                type: newFeed.type,
+                postedTime: new Date(),
+                note: newFeed.data
+              }
+            ]) : ([
+              ...timeline.timelineLog,
+              {
+                postedEmployeeId: user._id,
+                firstName: info.firstName,
+                lastName: info.lastName,
+                type: newFeed.type,
+                postedTime: new Date(),
+                photo: {
+                  base64: newFeed.data.value.split(',')[1],
+                  imageFormat: newFeed.data.value.split(',')[0]
+                }
+              }
+            ])
+          }
+        }))
+      })
     }
     return () => {
       disconnectSocket()
     }
   }, [timeline])
 
-  useEffect(() => {
-    socket.on('feed', (newFeed) => {
-      const { info } = user
-      const isSaveDB = true
-      dispatch(updateFeed({
-        isSaveDB, updatedTimeline: {
-          ...timeline,
-          timelineLog: newFeed.type === 'txt' ? ([
-            ...timeline.timelineLog,
-            {
-              postedEmployeeId: user._id,
-              firstName: info.firstName,
-              lastName: info.lastName,
-              type: newFeed.type,
-              postedTime: new Date(),
-              note: newFeed.data
-            }
-          ]) : ([
-            ...timeline.timelineLog,
-            {
-              postedEmployeeId: user._id,
-              firstName: info.firstName,
-              lastName: info.lastName,
-              type: newFeed.type,
-              postedTime: new Date(),
-              photo: {
-                base64: newFeed.data.value.split(',')[1],
-                imageFormat: newFeed.data.value.split(',')[0]
-              }
-            }
-          ])
-        }
-      }))
-    })
-  }, [feeds])
 
   const handleDateChange = (newDate) => {
     setStartDate(newDate);
