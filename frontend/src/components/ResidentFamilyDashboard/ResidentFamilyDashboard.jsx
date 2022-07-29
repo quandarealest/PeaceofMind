@@ -48,21 +48,21 @@ function ResidentFamilyDashboard(props) {
             timelineLog: newFeed.type === 'txt' ? ([
               ...timeline.timelineLog,
               {
-                postedEmployeeId: user._id,
-                firstName: info.firstName,
-                lastName: info.lastName,
+                postedEmployeeId: newFeed.postedEmployeeId,
+                firstName: newFeed.firstName,
+                lastName: newFeed.lastName,
                 type: newFeed.type,
-                postedTime: new Date(),
+                postedTime: newFeed.postedTime,
                 note: newFeed.data
               }
             ]) : ([
               ...timeline.timelineLog,
               {
-                postedEmployeeId: user._id,
-                firstName: info.firstName,
-                lastName: info.lastName,
+                postedEmployeeId: newFeed.postedEmployeeId,
+                firstName: newFeed.firstName,
+                lastName: newFeed.lastName,
                 type: newFeed.type,
-                postedTime: new Date(),
+                postedTime: newFeed.postedTime,
                 photo: {
                   base64: newFeed.data.value.split(',')[1],
                   imageFormat: newFeed.data.value.split(',')[0]

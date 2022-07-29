@@ -32,7 +32,10 @@ function ResidentDetail(props) {
   const { detail, user, feed } = props
   const [tab, setTab] = useState('1');
   const { isCRUDNoteSuccess, isLoading } = useSelector(state => state.residents)
-
+  const cssProps = {
+    width: '80px',
+    height: '80px'
+  }
 
   useEffect(() => {
     if (isCRUDNoteSuccess) {
@@ -49,7 +52,7 @@ function ResidentDetail(props) {
         <Box>
           <Grid>
             <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <PoMAvatar sx={{ width: '70px', height: '70px' }} firstName={detail.firstName} lastName={detail.lastName} />
+              <PoMAvatar {...cssProps} firstName={detail.firstName} lastName={detail.lastName} />
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                   <Typography component="div" variant="h5">

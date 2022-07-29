@@ -18,18 +18,20 @@ const stringToColor = (string) => {
   return color;
 }
 
-const stringAvatar = (name) => {
+const stringAvatar = (name, props) => {
   return {
     sx: {
       bgcolor: stringToColor(name),
+      ...props
     },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
 
 function PoMAvatar(props) {
+  const { firstName, lastName, ...rest } = props
   return (
-    <Avatar {...stringAvatar(`${props.firstName} ${props.lastName}`)} {...props} />
+    <Avatar {...stringAvatar(`${props.firstName} ${props.lastName}`, rest)} />
   )
 }
 
