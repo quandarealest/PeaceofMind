@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { initiateSocketConnection, disconnectSocket } from './socketio.service'
+import { disconnectSocket } from './socketio.service'
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'

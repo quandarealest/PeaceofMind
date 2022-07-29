@@ -24,10 +24,12 @@ import PoMAvatar from '../PoMAvatar/PoMAvatar'
 import ScrollToBottom from 'react-scroll-to-bottom'
 
 import './Medical.css'
-
+import {
+  disconnectSocket,
+} from '../../socketio.service'
 
 function ResidentDetail(props) {
-  const { detail, user } = props
+  const { detail, user, feed } = props
   const [tab, setTab] = useState('1');
   const { isCRUDNoteSuccess, isLoading } = useSelector(state => state.residents)
 
@@ -37,7 +39,6 @@ function ResidentDetail(props) {
       toast.success(`An action for note is success on: ${detail.firstName} ${detail.lastName}`)
     }
   }, [isCRUDNoteSuccess])
-
   const onChangeTab = (event, newValue) => {
     setTab(newValue);
   };
@@ -83,7 +84,7 @@ function ResidentDetail(props) {
                   <Note detail={detail} noteRecord={detail.notes} user={user} isLoading={isLoading} />
                 </TabPanel>
                 <TabPanel sx={{ padding: '24px 0' }} value="4">
-                  <Timeline />
+                  <Timeline timeline={feed} user={user} />
                 </TabPanel>
               </ScrollToBottom>
             </TabContext>

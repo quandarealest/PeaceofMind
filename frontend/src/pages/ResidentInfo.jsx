@@ -8,7 +8,7 @@ import ResidentDetail from '../components/ResidentDetail/ResidentDetail'
 import { theme } from '../theme/CustomizedTheme'
 import { logout, reset } from '../features/auth/authSlice'
 import { reset as residentReset, getResidentDetail } from '../features/resident/residentSlice'
-
+import { reset as timelineReset, getResidentTimeline } from '../features/timeline/timelineSlice'
 
 function ResidentInfo() {
   const location = useLocation()
@@ -18,10 +18,22 @@ function ResidentInfo() {
 
   const { user } = useSelector(state => state.auth)
   const { detail, isError, isLoading, message } = useSelector(state => state.residents)
-
+  const { feed } = useSelector(state => state.feed)
   useEffect(() => {
     if (!user) {
       navigate('/login')
+    }
+    const localUser = JSON.parse(localStorage.getItem('user'))
+    if (localUser) {
+      const token = localUser?.token
+      //JWT check if token expired
+      if (token) {
+        const decodedToken = jwt_decode(token)
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+          dispatch(logout())
+          dispatch(reset())
+        };
+      }
     }
     if (!selectedUserId) {
       navigate('/resident')
@@ -30,9 +42,11 @@ function ResidentInfo() {
         toast.error(message)
       }
       dispatch(getResidentDetail({ userId: selectedUserId, token: user.token }))
+      dispatch(getResidentTimeline(selectedUserId))
     }
     return () => {
       dispatch(residentReset())
+      dispatch(timelineReset())
     }
   }, [isError, message, dispatch])
 
@@ -46,7 +60,7 @@ function ResidentInfo() {
             </Box>
           ) : (
               Object.keys(detail).length !== 0 && (
-                <ResidentDetail detail={detail} isLoading={isLoading} user={user} />
+                <ResidentDetail detail={detail} isLoading={isLoading} user={user} feed={feed} />
               )
             )}
 

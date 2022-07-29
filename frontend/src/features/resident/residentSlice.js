@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import residentService from './residentService'
+import timelineService from '../timeline/timelineService'
 
 const initialState = {
   residents: [],

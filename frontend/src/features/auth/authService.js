@@ -17,7 +17,7 @@ const login = async (userData) => {
   const response = await axios.post(USER_API_URL + 'login', userData)
 
   if (response.data) {
-    if (response.data.role === 'supervisor' || response.data.role === 'supervisor') {
+    if (response.data.role === 'supervisor' || response.data.role === 'employee') {
       const employeeInfo = await employeeService.getEmployeeDetail(response.data.token, response.data._id)
       localStorage.setItem('user', JSON.stringify({ ...response.data, info: employeeInfo }))
       return { ...response.data, info: employeeInfo }

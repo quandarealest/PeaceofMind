@@ -53,7 +53,6 @@ function Conversation(props) {
   }, [activeChat])
 
   useEffect(() => {
-    // to be changed to use reducer and save to db
     socket.on('message', (message) => {
       const onSaveDB = true
       setMessages([...messages, message])

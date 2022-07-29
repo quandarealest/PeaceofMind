@@ -1,15 +1,10 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { Stack, TextField, Box } from '@mui/material';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { ListItem } from '@mui/material';
-import { ListItemText } from '@mui/material';
-import { ListItemAvatar } from '@mui/material';
-import { Avatar } from '@mui/material';
 import { List } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ScrollToBottom from 'react-scroll-to-bottom'
@@ -22,73 +17,18 @@ import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import SendIcon from '@mui/icons-material/Send';
+import moment from 'moment'
 
 import { TimelineType } from './ResidentEnum'
-
-
-const Task = styled('div')({
-  display: 'flex',
-  justifyContent: 'space-between',
-});
-
-const event = [{
-  label: 'John had a great session of Cardio today. He does enjoy doing that',
-  PostedTime: '2019-03-11T12:34:56.000Z',
-  Employee: {
-    FirstName: 'Farjana',
-  },
-  type: true,
-},
-
-
-{
-  label: 'https://www.homecareassistancewinnipeg.ca/wp-content/uploads/2022/02/Planning-for-Long-Term-Senior-Home-Care.jpg',
-  PostedTime: '2019-06-11T14:34:56.000Z',
-  Employee: {
-    FirstName: 'Quan',
-  },
-  type: false
-},
-{
-  label: 'Hello Jennifer, I LOVE YOU...I miss you Queen',
-  PostedTime: '2019-04-11T12:34:56.000Z',
-  Employee: {
-    FirstName: 'Jennifer',
-  },
-  type: true,
-},
-{
-  label: 'https://homecarehospitalbeds.com/wp-content/uploads/2022/02/What_Is_Assisted_Living-1024x680-1.jpeg',
-  PostedTime: '2019-08-11T12:34:56.000Z',
-  Employee: {
-    FirstName: 'Jenish',
-  },
-  type: false,
-},
-{
-  label: 'Sunday funday for us. John likes walking in the garden during the sunny day',
-  PostedTime: '2019-05-11T11:34:56.000Z',
-  Employee: {
-    FirstName: 'Iresha',
-  },
-  type: true,
-},
-{
-  label: 'John likes sleeping alot. He enjoys sleeping fron 2-3pm',
-  PostedTime: '2019-07-11T12:34:56.000Z',
-  Employee: {
-    FirstName: 'JenniferQuan',
-  },
-  type: true,
-},
-
-];
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  padding: theme.spacing(1),
-  color: theme.palette.text.secondary,
-}));
+import { updateFeed } from '../../features/timeline/timelineSlice'
+import Feed from './Feed'
+import {
+  initiateSocketConnection,
+  disconnectSocket,
+  socket,
+  joinRoom,
+  sendFeed
+} from '../../socketio.service'
 
 const style2 = {
   marginTop: 1,
@@ -96,25 +36,133 @@ const style2 = {
 };
 
 function Timeline(props) {
-  const [selectedFile, setSelectedFile] = useState(null)
+  const dispatch = useDispatch()
+  const { timeline, user } = props
+  const [feeds, setFeeds] = useState(timeline.timelineLog)
+  const [selectedFile, setSelectedFile] = useState({})
   const [newTimelineValue, setNewTimelineValue] = useState('');
   const [timelineOption, setTimelineOption] = useState(TimelineType[0].value);
+
+
+  useEffect(() => {
+    initiateSocketConnection();
+    if (Object.keys(timeline).length !== 0) {
+      const { roomId } = timeline
+      const { info } = user
+      joinRoom({ roomId, senderInfo: { firstName: info.firstName, lastName: info.lastName } })
+    }
+    return () => {
+      disconnectSocket()
+    }
+  }, [timeline])
+
+  useEffect(() => {
+    socket.on('feed', (newFeed) => {
+      const { info } = user
+      const isSaveDB = true
+      setFeeds([...feeds, newFeed])
+      dispatch(updateFeed({
+        isSaveDB, updatedTimeline: {
+          ...timeline,
+          timelineLog: newFeed.type === 'txt' ? ([
+            ...timeline.timelineLog,
+            {
+              postedEmployeeId: user._id,
+              firstName: info.firstName,
+              lastName: info.lastName,
+              type: newFeed.type,
+              postedTime: new Date(),
+              note: newFeed.data
+            }
+          ]) : ([
+            ...timeline.timelineLog,
+            {
+              postedEmployeeId: user._id,
+              firstName: info.firstName,
+              lastName: info.lastName,
+              type: newFeed.type,
+              postedTime: new Date(),
+              photo: {
+                base64: newFeed.data.value.split(',')[1],
+                imageFormat: newFeed.data.value.split(',')[0]
+              }
+            }
+          ])
+        }
+      }))
+    })
+  }, [feeds])
 
   const handleChangeOption = (e) => {
     setTimelineOption(e.target.value);
   };
 
   const handleUploadImg = (e) => {
-    var file = e.target.files[0];
-    setSelectedFile(file)
-    // const reader = new FileReader();
-    // var url = reader.readAsDataURL(file);
-    // console.log(url); // Would see a path?
+    let files = e.target.files;
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(files[0]);
 
-    // reader.onloadend = () => {
-    //   setSelectedFile(reader.result)
-    // };
-    // setSelectedFile(event.target.files[0])
+    fileReader.onload = (event) => {
+      setSelectedFile({
+        name: e.target.files[0].name,
+        type: e.target.files[0].type,
+        value: event.target.result
+      })
+    }
+  }
+
+  const handleSendFeed = (e) => {
+    e.preventDefault()
+    const isSaveDB = false
+    const { info } = user
+    const newFeed = {
+      roomId: timeline.roomId,
+      residentId: timeline.residentId,
+      type: timelineOption,
+      postedTime: new Date(),
+      data: timelineOption === 'txt' ? newTimelineValue : selectedFile,
+      postedEmployeeId: user._id,
+      firstName: info.firstName,
+      lastName: info.lastName
+    }
+    sendFeed(newFeed, (error) => {
+      if (error !== '') {
+        toast.error(error)
+      } else {
+        dispatch(updateFeed({
+          isSaveDB, updatedTimeline: {
+            ...timeline,
+            timelineLog: newFeed.type === 'txt' ? ([
+              ...timeline.timelineLog,
+              {
+                postedEmployeeId: user._id,
+                firstName: info.firstName,
+                lastName: info.lastName,
+                type: newFeed.type,
+                postedTime: new Date(),
+                note: newFeed.data
+              }
+            ]) : ([
+              ...timeline.timelineLog,
+              {
+                postedEmployeeId: user._id,
+                firstName: info.firstName,
+                lastName: info.lastName,
+                type: newFeed.type,
+                postedTime: new Date(),
+                photo: {
+                  base64: newFeed.data.value.split(',')[1],
+                  imageFormat: newFeed.data.value.split(',')[0]
+                }
+              }
+            ])
+          }
+        }))
+        setSelectedFile({})
+        setNewTimelineValue('')
+        toast.success('Added new timeline')
+      }
+    })
   }
 
   return (
@@ -162,7 +210,7 @@ function Timeline(props) {
                     onChange={handleUploadImg}
                   />
                 </Button>
-                {selectedFile !== null && (
+                {Object.keys(selectedFile).length !== 0 && (
                   <Typography variant="body2">
                     {`${selectedFile.name}`}
                   </Typography>
@@ -170,7 +218,12 @@ function Timeline(props) {
               </Grid>
             )}
           <Grid container sx={style2} justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendIcon />}>
+            <Button
+              variant="contained"
+              endIcon={<SendIcon />}
+              onClick={handleSendFeed}
+              disabled={timelineOption === 'txt' ? (newTimelineValue === '') : (Object.keys(selectedFile).length === 0)}
+            >
               Share
             </Button>
           </Grid>
@@ -181,45 +234,21 @@ function Timeline(props) {
           </Divider>
         </Grid>
         <Grid item xs={12}>
-          <ScrollToBottom>
+          <ScrollToBottom mode='top'>
             <List>
-              {event.map(eve => (
+              {timeline.timelineLog.length !== 0 ? (
                 <>
-                  <ListItem>
-                    <Item>
-                      <Grid container>
-                        <Grid item xs={12} spacing={4} container direction='row' justifyContent="left" >
-                          <Grid item xs={1} sm={1} >
-                            <ListItemAvatar>
-                              <Avatar user={eve.Employee} />
-                            </ListItemAvatar>
-                          </Grid>
-                          <Grid item xs={10} sm={10} container direction='column' justifyContent="left" style={{ marginLeft: '10px' }}>
-                            <Grid item>
-                              <Typography variant="h7">
-                                {eve.Employee ? eve.Employee.FirstName : 'Anonymous'}
-                              </Typography>
-                            </Grid>
-                            <Grid item>
-                              <ListItemText
-                                secondary={new Date(eve.PostedTime).toLocaleString()}
-                                secondaryTypographyProps={{ fontSize: '11px' }}
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                        <Grid item xs={12} justifyContent="center" >
-                          <>
-                            <Typography component="h2" variant="h7" fullwidth sx={{ padding: 1.5 }}>
-                              {eve.label}
-                            </Typography>
-                          </>
-                        </Grid>
-                      </Grid>
-                    </Item>
-                  </ListItem>
-                </>
-              ))}
+                  {[...timeline.timelineLog]
+                    .sort((left, right) => moment.utc(right.postedTime).diff(moment.utc(left.postedTime)))
+                    .map(feed => {
+                      return (
+                        <Feed feed={feed} />
+                      )
+                    })}
+                </>) : (
+                  <>
+                    No feed, add new and share!
+              </>)}
             </List>
           </ScrollToBottom>
         </Grid>

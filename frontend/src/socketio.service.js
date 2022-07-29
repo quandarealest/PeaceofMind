@@ -35,3 +35,7 @@ export const joinRoom = ({ roomId, senderInfo }) => {
 export const sendMessage = ({ text, roomId, name, createdAt, userId }, callback) => {
   socket.emit('sendMessage', { text, roomId, name, createdAt, userId }, callback);
 }
+
+export const sendFeed = (newFeed, callback) => {
+  socket.emit('sendFeed', newFeed, callback);
+}
