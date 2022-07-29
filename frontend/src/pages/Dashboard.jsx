@@ -63,7 +63,7 @@ function Dashboard() {
 
   return (
     <ThemeProvider theme={theme}>
-      {user ? (
+      {user && user.info && user.info.firstName && user.info.lastName ? (
         <>
           <Box sx={{ flexGrow: 1, margin: 4 }}>
             <Typography component="h2" variant="h6" gutterBottom>
