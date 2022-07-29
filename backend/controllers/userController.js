@@ -87,7 +87,40 @@ const generateToken = (id) => {
   })
 }
 
+// @desc get user list
+// @route  GET /api/user
+// @access Private
+
+const getUserList = asyncHandler(async (req, res) => {
+  const userList = await User.find()
+
+  res.status(200).json(userList)
+})
+
+// @desc get user detail
+// @route  GET /api/user/:id
+// @access Private
+
+const getUserDetail = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id })
+
+  if (!user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  // check for user
+  if (!req.user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+
+  res.status(200).json(user)
+})
+
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  getUserList,
+  getUserDetail
 }
