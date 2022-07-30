@@ -2,7 +2,7 @@ export const normalizeDate = (date) => {
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
-  const normalizedDate = date.getDate('dd') + ' ' + monthNames[(date.getMonth() + 1)] + ', ' + date.getFullYear() + ' ' + date.getHours() + ":" + date.getMinutes()
+  const normalizedDate = date.getDate('dd') + ' ' + monthNames[(date.getMonth())] + ', ' + date.getFullYear() + ' ' + date.getHours() + ":" + date.getMinutes()
   return normalizedDate
 }
 
@@ -24,6 +24,15 @@ export const heightConverter = (value, from, to) => {
   } else {
     return (value / 0.032808).toFixed(2)
   }
+}
+
+export const formatPhoneNumber = (phoneNumberString) => {
+  const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+  }
+  return '';
 }
 
 export const normalizedSpecialMedicalRecord = (data, residentId) => {

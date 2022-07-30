@@ -10,7 +10,9 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Button
 } from '@mui/material'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import moment from 'moment'
 
 import './ChatList.css'
@@ -45,7 +47,7 @@ const stringAvatar = (name) => {
 
 function MobileChatList(props) {
 
-  const { isLoading, chatList, activeChat, handleActiveChat, user } = props
+  const { isLoading, chatList, activeChat, handleActiveChat, user, newChat } = props
 
   const renderActiveChatComponent = () => {
     const { familyMemberInfo, roomId, updatedAt, supervisorInfo } = activeChat;
@@ -103,8 +105,18 @@ function MobileChatList(props) {
                   ) : (null)
               }
               <Divider />
-              <Grid item xs={12} style={{ padding: '10px' }}>
-                <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth />
+              <Grid container xs={12} sx={{ padding: '5px' }}>
+                <Grid item xs={7} sx={{ padding: '5px' }}>
+                  <TextField size="small" id="outlined-basic-email" label="Search" variant="outlined" />
+                </Grid>
+                <Grid item xs={5} sx={{ paddingTop: '5px', paddingBottom: '5px', display: 'flex', justifyContent: 'center' }}>
+                  <Button onClick={e => {
+                    e.preventDefault()
+                    newChat()
+                  }} size="small" variant="contained" endIcon={<QuestionAnswerIcon />}>
+                    New Chat
+                  </Button>
+                </Grid>
               </Grid>
               <Divider />
               {chatList.length !== 0 ? (

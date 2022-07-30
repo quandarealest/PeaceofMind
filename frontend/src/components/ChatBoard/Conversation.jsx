@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SendIcon from '@mui/icons-material/Send';
+import InfoIcon from '@mui/icons-material/Info';
 
 import './Message.css'
 
@@ -30,11 +31,13 @@ import {
 
 function Conversation(props) {
   const drawerWidth = 300;
-  const { isLoading, activeChat, handleUpdateChat, mobileChatListComponent } = props
-  const [drawerAnchorEl, setDrawerAnchorEl] = useState(null)
+  const { isLoading, activeChat, handleUpdateChat, mobileChatListComponent, mobileChatterInfoComponent } = props
+  const [drawerChatListAnchorEl, setDrawerChatListAnchorEl] = useState(null)
+  const [drawerChatterInfoAnchorEl, setDrawerChatterInfoAnchorEl] = useState(null)
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState(activeChat.chatLog)
-  const isDrawerOpen = Boolean(drawerAnchorEl)
+  const isDrawerChatListOpen = Boolean(drawerChatListAnchorEl)
+  const isDrawerChatterInfoOpen = Boolean(drawerChatterInfoAnchorEl)
 
   const { user } = useSelector(state => state.auth)
 
@@ -72,24 +75,32 @@ function Conversation(props) {
     })
   }, [messages])
 
-  const handleDrawerMenuClose = () => {
-    setDrawerAnchorEl(null)
+  const handleDrawerChatListClose = () => {
+    setDrawerChatListAnchorEl(null)
   }
 
-  const handleDrawerMenuOpen = (event) => {
-    setDrawerAnchorEl(event.currentTarget)
+  const handleDrawerChatListOpen = (event) => {
+    setDrawerChatListAnchorEl(event.currentTarget)
+  }
+
+  const handleDrawerChatterInfoClose = () => {
+    setDrawerChatterInfoAnchorEl(null)
+  }
+
+  const handleDrawerChatterInfoOpen = (event) => {
+    setDrawerChatterInfoAnchorEl(event.currentTarget)
   }
 
   const handleChangeMessage = (e) => {
     setMessage(e.target.value)
   }
 
-  const handleSideBar = (childComponent) => {
+  const handleSideBarChatList = (childComponent) => {
     return (
       <>
         <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
-          {isDrawerOpen ? (
-            <div class="overlay" onClick={handleDrawerMenuClose}>
+          {isDrawerChatListOpen ? (
+            <div class="overlay" onClick={handleDrawerChatListClose}>
             </div>
           ) : (null)}
           <Drawer
@@ -108,9 +119,45 @@ function Conversation(props) {
             }}
             variant="persistent"
             anchor="left"
-            id={drawerMenuId}
-            open={isDrawerOpen}
-            onClose={handleDrawerMenuClose}
+            id={drawerChatListId}
+            open={isDrawerChatListOpen}
+            onClose={handleDrawerChatListClose}
+          >
+            {childComponent ? (
+              childComponent
+            ) : (null)}
+          </Drawer>
+        </Box>
+      </>
+    )
+  }
+
+  const handleSideBarChatterInfo = (childComponent) => {
+    return (
+      <>
+        <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
+          {isDrawerChatterInfoOpen ? (
+            <div class="overlay" onClick={handleDrawerChatterInfoClose}>
+            </div>
+          ) : (null)}
+          <Drawer
+            sx={{
+              zIndex: 99,
+              '& .MuiBackdrop-root': {
+                // display: 'none',
+              },
+              '& .MuiDrawer-paper': {
+                width: isDrawerChatterInfoOpen ? drawerWidth : 0,
+                position: 'absolute',
+                height: 'calc(100vh - 90px - 32px - 32px)',
+              },
+              display: { xs: 'flex', md: 'flex', lg: 'none' }
+            }}
+            variant="persistent"
+            anchor="right"
+            id={drawerChatterInfoId}
+            open={true}
+            onClose={handleDrawerChatterInfoClose}
           >
             {childComponent ? (
               childComponent
@@ -148,12 +195,14 @@ function Conversation(props) {
     })
   }
 
-  const drawerMenuId = 'primary-drawer-menu';
+  const drawerChatListId = 'primary-drawer-menu';
+  const drawerChatterInfoId = 'secondary-drawer-menu';
 
   return (
-    <Grid item lg={9} md={12} xs={12}>
-      {handleSideBar(mobileChatListComponent)}
-      <Box sx={{ display: { xs: 'block', md: 'block', lg: 'none' }, paddingLeft: '20px' }}
+    <Grid item lg={6} md={12} xs={12} sx={{ position: 'relative' }}>
+      {handleSideBarChatList(mobileChatListComponent)}
+      {handleSideBarChatterInfo(mobileChatterInfoComponent)}
+      <Box sx={{ display: { xs: 'flex', md: 'flex', lg: 'none' }, padding: '0 10px', justifyContent: 'space-between' }}
       >
         <>
           <IconButton
@@ -161,10 +210,20 @@ function Conversation(props) {
             edge='start'
             color='inherit'
             aria-label='drawer'
-            onClick={handleDrawerMenuOpen}
-            aria-controls={drawerMenuId}
+            onClick={handleDrawerChatListOpen}
+            aria-controls={drawerChatListId}
           >
             <ArrowBackIosNewIcon />
+          </IconButton>
+          <IconButton
+            size='large'
+            edge='end'
+            color='inherit'
+            aria-label='drawer'
+            onClick={handleDrawerChatterInfoOpen}
+            aria-controls={drawerChatterInfoId}
+          >
+            <InfoIcon />
           </IconButton>
         </>
       </Box>
@@ -189,7 +248,7 @@ function Conversation(props) {
         ) : (
             <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography>
-                Start a new conversation
+                Start a new conversation 💬
               </Typography>
             </Box>
           )}
@@ -210,6 +269,7 @@ function Conversation(props) {
             disabled={Object.keys(activeChat).length === 0}
             color="primary"
             aria-label="add"
+            sx={{ zIndex: 1 }}
             onClick={handleSendMessage}>
             <SendIcon />
           </Fab>

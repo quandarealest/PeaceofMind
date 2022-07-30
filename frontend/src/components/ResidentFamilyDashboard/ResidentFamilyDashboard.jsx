@@ -92,9 +92,9 @@ function ResidentFamilyDashboard(props) {
             </Box>
           ) : (
               Object.keys(timeline).length !== 0 && (
-                <Grid container p={1} spacing={2} align="center">
-                  <Grid item xs={12} container direction="row" justifyContent="center">
-                    <Grid item xs={6}>
+                <Grid container p={1} spacing={2} sx={{ justifyContent: 'center' }}>
+                  <Grid container xs={12} sx={{ justifyContent: 'center' }} >
+                    <Grid item>
                       <LocalizationProvider dateAdapter={AdapterMoment}>
                         <Stack spacing={3}>
                           <DesktopDatePicker
@@ -107,14 +107,14 @@ function ResidentFamilyDashboard(props) {
                         </Stack>
                       </LocalizationProvider>
                     </Grid >
-                    <Grid item xs={4}>
+                    <Grid item>
                       <Button variant="contained" startIcon={<AccessTimeIcon />}>
                         Now
                       </Button>
                     </Grid>
                   </Grid >
 
-                  <Grid item xs={12}>
+                  <Grid item xs={12} md={4}>
                     <ScrollToBottom mode='top'>
                       <List>
                         {timeline.timelineLog.length !== 0 ? (
@@ -129,7 +129,7 @@ function ResidentFamilyDashboard(props) {
                           </>) : (
                             <>
                               No feed, add new and share!
-              </>)}
+                            </>)}
                       </List>
                     </ScrollToBottom>
                   </Grid>

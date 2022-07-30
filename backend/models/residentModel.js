@@ -11,6 +11,11 @@ const residentSchema = mongoose.Schema({
     require: true,
     ref: 'Employee'
   },
+  familyMemberId: {
+    type: mongoose.Schema.Types.ObjectId,
+    require: true,
+    ref: 'ResidentFamily'
+  },
   firstName: {
     type: String,
     require: [true, 'Please enter the first name']

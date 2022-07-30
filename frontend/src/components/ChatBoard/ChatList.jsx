@@ -9,43 +9,17 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Button
 } from '@mui/material'
 import moment from 'moment'
 import PoMAvatar from '../PoMAvatar/PoMAvatar'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 import './ChatList.css'
 
-
-const stringToColor = (string) => {
-  let hash = 0;
-  let i;
-
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = '#';
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-
-  return color;
-}
-
-const stringAvatar = (name) => {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  };
-}
-
 function ChatList(props) {
 
-  const { isLoading, chatList, activeChat, handleActiveChat, user } = props
+  const { isLoading, chatList, activeChat, handleActiveChat, user, newChat } = props
 
   const renderActiveChatComponent = () => {
     const { familyMemberInfo, roomId, updatedAt, supervisorInfo } = activeChat;
@@ -59,7 +33,6 @@ function ChatList(props) {
         >
           <ListItemIcon>
             <PoMAvatar firstName={familyMemberInfo.firstName} lastName={familyMemberInfo.lastName} />
-            {/* <Avatar {...stringAvatar(`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`)} /> */}
           </ListItemIcon>
           <ListItemText primary={`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}>
             {`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}
@@ -77,7 +50,6 @@ function ChatList(props) {
         >
           <ListItemIcon>
             <PoMAvatar firstName={supervisorInfo.firstName} lastName={supervisorInfo.lastName} />
-            {/* <Avatar {...stringAvatar(`${supervisorInfo.firstName} ${supervisorInfo.lastName}`)} /> */}
           </ListItemIcon>
           <ListItemText primary={`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}>
             {`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}
@@ -105,8 +77,18 @@ function ChatList(props) {
                   ) : (null)
               }
               <Divider />
-              <Grid item xs={12} style={{ padding: '10px' }}>
-                <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth />
+              <Grid container xs={12} sx={{ padding: '5px' }}>
+                <Grid item xs={7} sx={{ padding: '5px' }}>
+                  <TextField size="small" id="outlined-basic-email" label="Search" variant="outlined" />
+                </Grid>
+                <Grid item xs={5} sx={{ padding: '5px', display: 'flex', justifyContent: 'center' }}>
+                  <Button onClick={e => {
+                    e.preventDefault()
+                    newChat()
+                  }} size="small" variant="contained" endIcon={<QuestionAnswerIcon />}>
+                    New Chat
+                  </Button>
+                </Grid>
               </Grid>
               <Divider />
               {chatList.length !== 0 ? (
@@ -127,7 +109,6 @@ function ChatList(props) {
                             <ListItemIcon>
                               <PoMAvatar firstName={familyMemberInfo.firstName} lastName={familyMemberInfo.lastName} />
 
-                              {/* <Avatar {...stringAvatar(`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`)} /> */}
                             </ListItemIcon>
                             <ListItemText primary={`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}>
                               {`${familyMemberInfo.firstName} ${familyMemberInfo.lastName}`}
@@ -145,8 +126,6 @@ function ChatList(props) {
                           >
                             <ListItemIcon>
                               <PoMAvatar firstName={supervisorInfo.firstName} lastName={supervisorInfo.lastName} />
-
-                              {/* <Avatar {...stringAvatar(`${supervisorInfo.firstName} ${supervisorInfo.lastName}`)} /> */}
                             </ListItemIcon>
                             <ListItemText primary={`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}>
                               {`${supervisorInfo.firstName} ${supervisorInfo.lastName}`}
@@ -158,9 +137,11 @@ function ChatList(props) {
                     })}
                 </List>
               ) : (
-                  <Typography>
-                    No current chat, start a new chat now!
-                  </Typography>
+                  <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography>
+                      No current chat, start a new one now!
+                    </Typography>
+                  </Box>
                 )}
             </>
           )}

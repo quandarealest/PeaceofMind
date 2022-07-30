@@ -146,8 +146,17 @@ const registerFamilyMember = asyncHandler(async (req, res) => {
   }
 })
 
-// @desc get employee list
-// @route  GET /api/resident/:id
+// @desc get family list
+// @route  GET /api/resident/family
+// @access Private
+const getFamilyMemberList = asyncHandler(async (req, res) => {
+  const familyList = await FamilyMember.find()
+
+  res.status(200).json(familyList)
+})
+
+// @desc get family detail
+// @route  GET /api/resident/family/:id
 // @access Private
 const getFamilyMemberDetail = asyncHandler(async (req, res) => {
   const member = await FamilyMember.findOne({ userId: req.params.id })
@@ -164,4 +173,5 @@ module.exports = {
   registerFamilyMember,
   getResidentDetail,
   getFamilyMemberDetail,
+  getFamilyMemberList,
 }

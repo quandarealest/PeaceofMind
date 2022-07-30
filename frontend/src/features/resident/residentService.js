@@ -21,35 +21,6 @@ const registerResidentNote = async (token, newNote) => {
   }
 }
 
-//get resident list
-const getResidentList = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-
-  const response = await axios.get(RES_API_URL, config)
-
-  const residentWithSupervisorDetailList = await response.data.map(async (res) => {
-    const supervisor = await employeeService.getEmployeeDetail(token, res.supervisorEmployeeId)
-
-    return {
-      ...res,
-      supervisor: supervisor
-    }
-  })
-
-  return await Promise.all(residentWithSupervisorDetailList)
-}
-
-//get resident detail
-const getResidentDetail = async (id) => {
-  const response = await axios.get(RES_API_URL + id)
-
-  return response.data
-}
-
 // get resident detail info
 const getResidentInformation = async (id, token) => {
   const response = await axios.get(RES_API_URL + id)
@@ -78,9 +49,48 @@ const getResidentInformation = async (id, token) => {
   }
 }
 
+//get resident list
+const getResidentList = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const residentList = await axios.get(RES_API_URL, config).then((res) => {
+    const response = res.data
+    const residentWithSupervisorDetailList = response.map(async (record) => {
+      const supervisor = await employeeService.getEmployeeDetail(token, record.supervisorEmployeeId)
+      const family = await getFamilyMemberDetail(record.familyMemberId)
+      return {
+        ...record,
+        supervisor,
+        family
+      }
+    })
+    return residentWithSupervisorDetailList
+  })
+  return await Promise.all(residentList)
+}
+
+//get resident detail
+const getResidentDetail = async (id) => {
+  const response = await axios.get(RES_API_URL + id)
+
+  return response.data
+}
+
+
 //get family member detail
 const getFamilyMemberDetail = async (id) => {
-  const response = await axios.get(RES_API_URL + '/family/' + id)
+  const response = await axios.get(RES_API_URL + 'family/' + id)
+
+  return response.data
+}
+
+//get family member list
+const getFamilyMemberList = async () => {
+  const response = await axios.get(RES_API_URL + 'family/')
 
   return response.data
 }
@@ -117,6 +127,7 @@ const residentService = {
   getResidentList,
   getResidentDetail,
   getFamilyMemberDetail,
+  getFamilyMemberList,
   getResidentInformation,
   registerResidentNote,
   removeNote,

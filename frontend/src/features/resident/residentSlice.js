@@ -127,7 +127,19 @@ export const residentSlice = createSlice({
               ]
             }
           } else {
-            return note
+            return {
+              noteType: note.noteType,
+              records: [
+                {
+                  _id: newNote._id,
+                  note: newNote.note,
+                  updatedAt: newNote.updatedAt,
+                  createdId: newNote.createdId,
+                  shareableId: newNote.shareableId,
+                  createdUser: newNote.createdUser
+                }
+              ]
+            }
           }
         })
         state.detail.notes = {

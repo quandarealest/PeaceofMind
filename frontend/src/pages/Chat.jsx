@@ -37,7 +37,7 @@ const Chat = () => {
   return (
     <ThemeProvider theme={theme}>
       {user ? (
-        <Box sx={{ flexGrow: 1, margin: 4, height: 'calc(100vh - 90px - 32px - 32px)' }}>
+        <Box sx={{ flexGrow: 1, margin: { xs: 1, md: 4 }, height: 'calc(100vh - 90px - 32px - 32px)' }}>
           <ChatBoard />
         </Box>
       ) : (null)}

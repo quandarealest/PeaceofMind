@@ -161,16 +161,18 @@ function Header() {
                           <p>Residents</p>
                         </li>
                       )}
-                      <li className="sidebarListItem" onClick={onNavigateMessage}>
-                        {/* <MailIcon className="sidebarIcon" />
+                      {(user && (user.role === 'supervisor' || user.role === 'family')) && (
+                        <li className="sidebarListItem" onClick={onNavigateMessage}>
+                          {/* <MailIcon className="sidebarIcon" />
                         Messages */}
-                        <IconButton size="small" aria-label="show 4 new mails" sx={{ paddingLeft: 0 }} color="inherit">
-                          <Badge badgeContent={4} color="error">
-                            <MailIcon className="sidebarIcon" />
-                          </Badge>
-                        </IconButton>
-                        <p>Messages</p>
-                      </li>
+                          <IconButton size="small" aria-label="show 4 new mails" sx={{ paddingLeft: 0 }} color="inherit">
+                            <Badge badgeContent={4} color="error">
+                              <MailIcon className="sidebarIcon" />
+                            </Badge>
+                          </IconButton>
+                          <p>Messages</p>
+                        </li>
+                      )}
                       <li className="sidebarListItem">
                         <IconButton size="small" aria-label="show 17 new notification" sx={{ paddingLeft: 0 }} color="inherit">
                           <Badge badgeContent={17} color="error">

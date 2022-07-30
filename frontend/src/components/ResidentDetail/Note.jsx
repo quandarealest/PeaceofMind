@@ -130,7 +130,7 @@ function Note(props) {
     <>
       <Grid container spacing={1} sx={{ justifyContent: 'center' }}>
         <Grid xs={11} container spacing={0.5} sx={style1}>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12}>
             <FormControl size="small" fullWidth>
               <InputLabel id="demo-select-small">Note Type</InputLabel>
               <Select
@@ -181,7 +181,7 @@ function Note(props) {
               </FormControl>
             )}
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12}>
             <FormControl fullWidth>
               <TextField
                 id="timeline-text"
@@ -205,103 +205,29 @@ function Note(props) {
           </Grid>
         </Grid>
         <Divider light />
-        {isLoading ? (
-          <>
-            Loading
-          </>) : (
+        <Grid xs={11} container spacing={0.5}>
+          {isLoading ? (
             <>
-              {(Object.keys(noteRecord).length !== 0 || noteRecord !== undefined) ? (
-                <>
-                  {noteRecord.notes.map(note => {
-                    const { noteType, records } = note
-                    return (
-                      <Accordion>
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="panel1a-content"
-                          id="panel1a-header"
-                        >
-                          <Typography>{noteType}</Typography>
-                        </AccordionSummary>
-                        {noteType === 'Private Note' ? (<>
-                          {records.map(rec => {
-                            const { _id, note, updatedAt, createdId, shareableId, createdUser } = rec
-                            if (shareableId.length > 0 && shareableId.includes(user._id) || (user._id === createdId)) {
-                              return (
-                                <AccordionDetails>
-                                  <Card>
-                                    <CardContent>
-                                      <Typography gutterBottom variant="caption" component="div">
-                                        {`${createdUser.firstName} ${createdUser.lastName} - ${normalizeDate(new Date(updatedAt))}`}
-                                      </Typography>
-                                      {updatingNoteId === _id ? (
-                                        <TextField
-                                          fullWidth
-                                          hiddenLabel
-                                          id="filled-hidden-label-small"
-                                          size="small"
-                                          value={updatingNoteValue}
-                                          onChange={(e) => setUpdatingNoteValue(e.target.value)}
-                                        />
-                                      ) : (
-                                          <Typography variant="body1" color="text.secondary">
-                                            { note}
-                                          </Typography>
-                                        )}
-                                    </CardContent>
-                                    <CardActions>
-                                      {updatingNoteId === _id ? (
-                                        <>
-                                          <Button
-                                            disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
-                                            size="small"
-                                            disabled={updatingNoteValue === ''}
-                                            onClick={(e) => handleUpdateNote(e, rec, noteType)}
-                                          >
-                                            Save
-                                            </Button>
-                                          <Button
-                                            disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
-                                            size="small"
-                                            color="error"
-                                            onClick={(e) => {
-                                              e.preventDefault()
-                                              setUpdatingNoteId('')
-                                              setUpdatingNoteValue('')
-                                            }}
-                                          >Cancel</Button>
-                                        </>
-                                      ) : (
-                                          <>
-                                            <Button
-                                              disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
-                                              size="small"
-                                              onClick={(e) => {
-                                                e.preventDefault()
-                                                setUpdatingNoteId(_id)
-                                                setUpdatingNoteValue(note)
-                                              }}
-                                            >
-                                              Update</Button>
-                                            <Button
-                                              disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
-                                              size="small"
-                                              onClick={(e) => handleRemoveNote(e, _id)}
-                                            >Remove</Button>
-                                          </>
-                                        )}
-                                    </CardActions>
-                                  </Card>
-                                </AccordionDetails>
-                              )
-                            } else {
-                              return <></>
-                            }
-                          })}
-                        </>) : (
-                            <>
-                              {records.map(rec => {
-                                const { _id, note, updatedAt, createdId, shareableId, createdUser } = rec
+              Loading
+          </>) : (
+              <>
+                {(Object.keys(noteRecord).length !== 0 || noteRecord !== undefined) ? (
+                  <>
+                    {noteRecord.notes.map(note => {
+                      const { noteType, records } = note
+                      return (
+                        <Accordion sx={{ width: '100%' }}>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                          >
+                            <Typography>{noteType}</Typography>
+                          </AccordionSummary>
+                          {noteType === 'Private Note' ? (<>
+                            {records.map(rec => {
+                              const { _id, note, updatedAt, createdId, shareableId, createdUser } = rec
+                              if (shareableId.length > 0 && shareableId.includes(user._id) || (user._id === createdId)) {
                                 return (
                                   <AccordionDetails>
                                     <Card>
@@ -320,7 +246,7 @@ function Note(props) {
                                           />
                                         ) : (
                                             <Typography variant="body1" color="text.secondary">
-                                              {note}
+                                              { note}
                                             </Typography>
                                           )}
                                       </CardContent>
@@ -365,22 +291,97 @@ function Note(props) {
                                               >Remove</Button>
                                             </>
                                           )}
-
                                       </CardActions>
                                     </Card>
                                   </AccordionDetails>
                                 )
-                              })}
-                            </>
-                          )}
-                      </Accordion>
-                    )
-                  })}
-                </>
-              ) : (<Typography>No Note Record</Typography>)}
-            </>
-          )}
+                              } else {
+                                return <></>
+                              }
+                            })}
+                          </>) : (
+                              <>
+                                {records.map(rec => {
+                                  const { _id, note, updatedAt, createdId, shareableId, createdUser } = rec
+                                  return (
+                                    <AccordionDetails>
+                                      <Card>
+                                        <CardContent>
+                                          <Typography gutterBottom variant="caption" component="div">
+                                            {`${createdUser.firstName} ${createdUser.lastName} - ${normalizeDate(new Date(updatedAt))}`}
+                                          </Typography>
+                                          {updatingNoteId === _id ? (
+                                            <TextField
+                                              fullWidth
+                                              hiddenLabel
+                                              id="filled-hidden-label-small"
+                                              size="small"
+                                              value={updatingNoteValue}
+                                              onChange={(e) => setUpdatingNoteValue(e.target.value)}
+                                            />
+                                          ) : (
+                                              <Typography variant="body1" color="text.secondary">
+                                                {note}
+                                              </Typography>
+                                            )}
+                                        </CardContent>
+                                        <CardActions>
+                                          {updatingNoteId === _id ? (
+                                            <>
+                                              <Button
+                                                disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
+                                                size="small"
+                                                disabled={updatingNoteValue === ''}
+                                                onClick={(e) => handleUpdateNote(e, rec, noteType)}
+                                              >
+                                                Save
+                                            </Button>
+                                              <Button
+                                                disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
+                                                size="small"
+                                                color="error"
+                                                onClick={(e) => {
+                                                  e.preventDefault()
+                                                  setUpdatingNoteId('')
+                                                  setUpdatingNoteValue('')
+                                                }}
+                                              >Cancel</Button>
+                                            </>
+                                          ) : (
+                                              <>
+                                                <Button
+                                                  disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
+                                                  size="small"
+                                                  onClick={(e) => {
+                                                    e.preventDefault()
+                                                    setUpdatingNoteId(_id)
+                                                    setUpdatingNoteValue(note)
+                                                  }}
+                                                >
+                                                  Update</Button>
+                                                <Button
+                                                  disabled={user._id !== createdId ? (user.role === 'supervisor' ? false : true) : false}
+                                                  size="small"
+                                                  onClick={(e) => handleRemoveNote(e, _id)}
+                                                >Remove</Button>
+                                              </>
+                                            )}
 
+                                        </CardActions>
+                                      </Card>
+                                    </AccordionDetails>
+                                  )
+                                })}
+                              </>
+                            )}
+                        </Accordion>
+                      )
+                    })}
+                  </>
+                ) : (<Typography>No Note Record</Typography>)}
+              </>
+            )}
+        </Grid>
       </Grid>
     </>
   )

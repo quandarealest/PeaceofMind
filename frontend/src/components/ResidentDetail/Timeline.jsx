@@ -186,7 +186,7 @@ function Timeline(props) {
             </FormControl>
           </Grid>
           {timelineOption === 'txt' ? (
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12}>
               <FormControl fullWidth>
                 <TextField
                   id="timeline-text"
@@ -233,7 +233,7 @@ function Timeline(props) {
             <Chip label="Timeline" />
           </Divider>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={4}>
           <ScrollToBottom mode='top'>
             <List>
               {timeline.timelineLog.length !== 0 ? (

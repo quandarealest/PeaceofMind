@@ -63,16 +63,27 @@ function Dashboard() {
 
   return (
     <ThemeProvider theme={theme}>
-      {user && user.info && user.info.firstName && user.info.lastName ? (
+      {user ? (
         <>
-          <Box sx={{ flexGrow: 1, margin: 4 }}>
-            <Typography component="h2" variant="h6" gutterBottom>
-              {getGreeting()}, {`${user.info.firstName} ${user.info.lastName}`}
+          {user.role === 'admin' ? (
+            <Box sx={{ flexGrow: 1, margin: 4 }}>
+              <Typography component="h2" variant="h6" gutterBottom>
+                {getGreeting()}, admin
+              </Typography>
+              <Typography component="h2" variant="h7" gutterBottom>
+                You're viewing Grace Remus Day Care's Dashboard
             </Typography>
-            <Typography component="h2" variant="h7" gutterBottom>
-              You're viewing Grace Remus Day Care's Dashboard
+            </Box>
+          ) : (
+              <Box sx={{ flexGrow: 1, margin: 4 }}>
+                <Typography component="h2" variant="h6" gutterBottom>
+                  {getGreeting()}, {`${user.info.firstName} ${user.info.lastName}`}
+                </Typography>
+                <Typography component="h2" variant="h7" gutterBottom>
+                  You're viewing Grace Remus Day Care's Dashboard
             </Typography>
-          </Box>
+              </Box>
+            )}
           <Box sx={{ flexGrow: 1, display: 'flex', margin: 4 }}>
             {
               user.role === 'admin' ? (
