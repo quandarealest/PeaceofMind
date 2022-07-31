@@ -6,7 +6,7 @@ const {
   getResidentList,
   getResidentDetail,
   getFamilyMemberDetail,
-  getFamilyMemberList
+  getFamilyMemberList,
   updateResident,
 } = require('../controllers/residentController')
 const { protect } = require('../middleware/authMiddleware')
