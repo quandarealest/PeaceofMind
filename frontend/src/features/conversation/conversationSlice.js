@@ -8,6 +8,7 @@ const initialState = {
   isSuccess: false,
   isChatListLoading: false,
   isConversationLoading: false,
+  isCreateNewChatLoading: false,
   message: ''
 }
 
@@ -16,6 +17,16 @@ export const getChatList = createAsyncThunk('conversation/getAll', async ({ user
   try {
     // const token = thunkAPI.getState().auth.user.token
     return await conversationService.getChatList(userId, role, token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+// create new chat
+export const createNewChat = createAsyncThunk('conversation/createChat', async ({ conversationData, token }, thunkAPI) => {
+  try {
+    return await conversationService.createNewChat(conversationData, token)
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)
@@ -111,6 +122,29 @@ export const conversationSlice = createSlice({
       })
       .addCase(updateChatLog.rejected, (state, action) => {
         state.isSuccess = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(createNewChat.pending, state => {
+        state.isCreateNewChatLoading = true
+        state.isChatListLoading = true
+      })
+      .addCase(createNewChat.fulfilled, (state, action) => {
+        state.chatList = [
+          ...state.chatList,
+          action.payload
+        ]
+        state.activeChat = action.payload
+        state.isSuccess = true
+        state.isCreateNewChatLoading = false
+        state.isChatListLoading = false
+        state.isError = false
+        state.message = ''
+      })
+      .addCase(createNewChat.rejected, (state, action) => {
+        state.isSuccess = false
+        state.isCreateNewChatLoading = false
+        state.isChatListLoading = false
         state.isError = true
         state.message = action.payload
       })

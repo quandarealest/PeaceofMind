@@ -24,6 +24,7 @@ function ChatBoard() {
     isChatListLoading,
     isError,
     isConversationLoading,
+    isCreateNewChatLoading,
     isSuccess,
     message,
     chatList,
@@ -95,7 +96,13 @@ function ChatBoard() {
         isLoading={isChatListLoading}
         user={user}
       />
-      <NewChatDialog open={openNewChatDialog} onClose={handleCloseNewChat} residents={residents} />
+      <NewChatDialog
+        open={openNewChatDialog}
+        onClose={handleCloseNewChat}
+        residents={residents}
+        user={user}
+        chatList={chatList}
+      />
     </Grid>
   )
 }

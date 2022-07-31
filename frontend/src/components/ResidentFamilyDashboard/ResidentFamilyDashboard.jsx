@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react'
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import { Stack, TextField } from '@mui/material';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -91,7 +91,7 @@ function ResidentFamilyDashboard(props) {
               <CircularProgress sx={{ marginLeft: "5px" }} size={40} thickness={6} />
             </Box>
           ) : (
-              Object.keys(timeline).length !== 0 && (
+              Object.keys(timeline).length !== 0 ? (
                 <Grid container p={1} spacing={2} sx={{ justifyContent: 'center' }}>
                   <Grid container xs={12} sx={{ justifyContent: 'center' }} >
                     <Grid item>
@@ -127,17 +127,24 @@ function ResidentFamilyDashboard(props) {
                                 )
                               })}
                           </>) : (
-                            <>
-                              No feed, add new and share!
-                            </>)}
+                            <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+                              <Typography>No currently feed found</Typography>
+                            </Box>
+                          )}
                       </List>
                     </ScrollToBottom>
                   </Grid>
                 </Grid >
-              ))}
+              ) : (
+                  <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+                    <Typography>The caregiver will upload your loved one's feed here</Typography>
+                  </Box>
+                ))}
         </>
       ) : (
-          <>Please contact your caregiver for more information</>
+          <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+            <Typography>Please contact your caregiver for more information</Typography>
+          </Box>
         )}
     </Box>
   )

@@ -4,6 +4,21 @@ import employeeService from '../employee/employeeService'
 import residentService from '../resident/residentService'
 
 
+//create new chat
+const createNewChat = async (conversationData, token) => {
+  const response = await axios.post(CHAT_API_URL, conversationData)
+  const familyMemberInfo = await residentService.getFamilyMemberDetail(response.data.familyMemberId)
+  const supervisorInfo = await employeeService.getEmployeeDetail(token, response.data.supervisorId)
+  const residentInfo = await residentService.getResidentDetail(familyMemberInfo.residentId)
+
+  return {
+    ...response.data,
+    familyMemberInfo,
+    supervisorInfo,
+    residentInfo
+  }
+}
+
 //get chat list
 const getChatList = async (userId, role, token) => {
 
@@ -44,7 +59,8 @@ const getChatLog = async (roomId) => {
 const conversationService = {
   getChatList,
   updateChatLog,
-  getChatLog
+  getChatLog,
+  createNewChat
 }
 
 export default conversationService

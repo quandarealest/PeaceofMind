@@ -9,14 +9,17 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import ListSubheader from '@mui/material/ListSubheader';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import { useDispatch } from 'react-redux'
+
+import { createNewChat } from '../../features/conversation/conversationSlice'
 
 export default function NewChatDialog(props) {
-  const { open, onClose, residents } = props
   const theme = useTheme();
+  const dispatch = useDispatch()
+  const { open, onClose, residents, user, chatList } = props
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [selectedUserId, setSelectedUserId] = React.useState('');
 
@@ -25,10 +28,63 @@ export default function NewChatDialog(props) {
     setSelectedUserId(e.target.value);
   };
 
+  const handleStartNewChat = (e) => {
+    e.preventDefault()
+    let roomId = Math.floor(Math.random() * (99999 - 10000)) + 10000
+    if (chatList.find(chat => chat.roomId === roomId)) {
+      while (chatList.find(chat => chat.roomId === roomId)) {
+        roomId = Math.floor(Math.random() * (99999 - 10000)) + 10000
+      }
+    }
+    if (user.role === 'supervisor') {
+      const conversationData = {
+        familyMemberId: selectedUserId,
+        supervisorId: user._id,
+        roomId: roomId.toString()
+      }
+
+      dispatch(createNewChat({ conversationData, token: user.token })).then(() => {
+        onClose()
+      })
+    }
+    if (user.role === 'family') {
+      const conversationData = {
+        supervisorId: selectedUserId,
+        familyMemberId: user._id,
+        roomId: roomId.toString()
+      }
+
+      dispatch(createNewChat({ conversationData, token: user.token })).then(() => {
+        onClose()
+      })
+
+    }
+  }
 
   const handleClose = () => {
     onClose();
   };
+
+  const renderResidentOption = () => {
+    const { supervisor } = newFamilyChatOption
+    return (
+      <MenuItem sx={{ display: 'block' }} value={supervisor.userId}>
+        <Typography variant="subtitle2">{`${supervisor.firstName} ${supervisor.lastName}`}</Typography>
+      </MenuItem>
+    )
+  }
+
+  const newSupervisorChatOption = residents.filter(res => {
+    if (chatList.find(chat => chat.familyMemberId === res.familyMemberId)) {
+      return false
+    }
+    return true
+  })
+
+  let newFamilyChatOption = residents.find(res => res.familyMemberId === user._id) || {}
+  if (Object.keys(newFamilyChatOption).length !== 0) {
+    newFamilyChatOption = chatList.find(chat => chat.familyMemberId === newFamilyChatOption.familyMemberId) ? {} : newFamilyChatOption
+  }
 
   return (
     <div>
@@ -43,36 +99,38 @@ export default function NewChatDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {residents.length !== 0 ? (
+            {(user.role === 'supervisor' && newSupervisorChatOption.length !== 0) || (user.role === 'family' && Object.keys(newFamilyChatOption).length !== 0) ? (
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel htmlFor="grouped-select">User</InputLabel>
                 <Select
-                  // value={selectedUserId}
                   defaultValue=""
                   id="grouped-select"
                   label="User"
                   onChange={handleChange}>
-                  {residents.map(res => {
-                    const { family } = res
-                    return (
-                      <MenuItem sx={{ display: 'block' }} value={family.userId}>
-                        <Typography variant="subtitle2">{`${family.firstName} ${family.lastName}`}</Typography>
-                        <Typography variant="body2">{`${res.firstName} ${res.lastName} - ${res.residentNumber}`}</Typography>
-                      </MenuItem>
-                    )
-                  })}
+                  {user.role === 'supervisor' && (
+                    newSupervisorChatOption.map(res => {
+                      const { family } = res
+                      return (
+                        <MenuItem sx={{ display: 'block' }} value={family.userId}>
+                          <Typography variant="subtitle2">{`${family.firstName} ${family.lastName}`}</Typography>
+                          <Typography variant="body2">{`${res.firstName} ${res.lastName} - ${res.residentNumber}`}</Typography>
+                        </MenuItem>
+                      )
+                    })
+                  )}
+                  {user.role === 'family' && (renderResidentOption())}
 
                 </Select>
               </FormControl>
             ) : (
                 <Typography>
-                  Cannot fetch user list
+                  Currently no one new to create new chat
                 </Typography>
               )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>
+          <Button disabled={selectedUserId === ''} onClick={handleStartNewChat}>
             Start
           </Button>
         </DialogActions>

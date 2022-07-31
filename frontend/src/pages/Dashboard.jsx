@@ -80,7 +80,7 @@ function Dashboard() {
                   {getGreeting()}, {`${user.info.firstName} ${user.info.lastName}`}
                 </Typography>
                 <Typography component="h2" variant="h7" gutterBottom>
-                  You're viewing Grace Remus Day Care's Dashboard
+                  You're viewing Grace Remus Day Care
             </Typography>
               </Box>
             )}

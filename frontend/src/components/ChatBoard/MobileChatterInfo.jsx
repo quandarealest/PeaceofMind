@@ -116,7 +116,6 @@ function MobileChatterInfo(props) {
 
   const renderSupervisorInfo = () => {
     const { supervisorInfo } = activeChat
-    console.log(supervisorInfo.contactNumber)
     const renderInfoData = [
       {
         title: 'Name',
