@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { USER_API_URL,RES_API_URL, MED_API_URL, NOTE_API_URL, TIMELINE_API_URL } from '../../common/api'
+import { USER_API_URL,RES_API_URL, MED_API_URL, NOTE_API_URL, TIMELINE_API_URL,RES_Family_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
 import timelineService from '../timeline/timelineService'
 import { normalizedSpecialMedicalRecord, normalizedNotes } from '../../common/NormalizingData'
@@ -11,16 +11,23 @@ const registerResident = async (newUserResident,newResident, newUserFamily,newRe
       Authorization: `Bearer ${token}`
     }
   }
-  const userResident = await axios.post(USER_API_URL,newUserResident)
-  const userResidentFamily = await axios.post(USER_API_URL,newUserFamily)
+  const userResident = await axios.post(USER_API_URL,newUserResident,config)
+  const userResidentFamily = await axios.post(USER_API_URL,newUserFamily,config)
   const tempResidentData = {
     ...newResident,
     userId: userResident.data._id,
     familyMemberId: userResidentFamily.data._id,
-    supervisorEmployeeId:token._id,
+    
   }
   console.log(tempResidentData);
-  const response=await axios.post(RES_API_URL,tempResidentData)
+  const creatingResident=await axios.post(RES_API_URL,tempResidentData,config)
+  const tempResidentFamilyData = {
+    ...newResidentFamily,
+    userId: userResidentFamily.data._id, 
+    residentId:creatingResident.data.userId
+
+  }
+  const response=await axios.post(RES_Family_API_URL,tempResidentFamilyData,config)
   return response.data
 }
 
@@ -144,6 +151,7 @@ const updateNote = async (id, noteData, token) => {
 }
 
 const residentService = {
+  registerResident,
   getResidentList,
   getResidentDetail,
   getFamilyMemberDetail,

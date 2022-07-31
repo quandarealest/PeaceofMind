@@ -8,6 +8,7 @@ const Resident = require('../models/residentModel')
 
 const registerResident = asyncHandler(async (req, res) => {
   const {
+    userId,
     supervisorEmployeeId,
     firstName,
     lastName,
@@ -15,7 +16,8 @@ const registerResident = asyncHandler(async (req, res) => {
     residentNumber,
     roomNumber,
     gender,
-    dob } = req.body
+    dob,
+    familyMemberId} = req.body
   if (!firstName
     || !lastName
     || !contactNumber
@@ -23,7 +25,9 @@ const registerResident = asyncHandler(async (req, res) => {
     || !roomNumber
     || !gender
     || !dob
-    || !supervisorEmployeeId) {
+    || !supervisorEmployeeId
+    ||!familyMemberId
+    ||! userId) {
     res.status(400)
     throw new Error('Please add all fields')
   }
@@ -36,7 +40,7 @@ const registerResident = asyncHandler(async (req, res) => {
   }
 
   const resident = await Resident.create({
-    userId: req.user.id,
+    userId,
     firstName,
     lastName,
     contactNumber,
@@ -44,14 +48,16 @@ const registerResident = asyncHandler(async (req, res) => {
     roomNumber,
     gender,
     dob,
-    supervisorEmployeeId
+    supervisorEmployeeId,
+    familyMemberId
   })
-
+  console.log(resident)
   if (resident) {
     res.status(201).json({
       _id: resident._id,
       userId: resident.userId,
       supervisorEmployeeId: resident.supervisorEmployeeId,
+      familyMemberId:resident.familyMemberId,
       firstName: resident.firstName,
       lastName: resident.lastName,
       contactNumber: resident.contactNumber,

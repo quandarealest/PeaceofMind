@@ -13,9 +13,9 @@ import {register} from '../../features/auth/authSlice';
 import {CreateResident} from '../../features/resident/residentSlice';
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-
-export default function PersonalDetails(props) {
-
+import Typography from '@mui/material/Typography';
+export default function PersonalDetails() {
+    
     const dispatch = useDispatch()
     const [residentID, setresidentID] = useState('');
     const [residentRoomNo, setresidentRoomNo] = useState('');
@@ -27,7 +27,7 @@ export default function PersonalDetails(props) {
     const [residentDOB, setresidentDOB] = useState(null);
     const [residentGender, setresidentGender] = useState('');
     const [residentPassword,   setresidentPassword] = useState('');
-    const { user,resident,isSuccess, isError, message } = useSelector(state => state.auth)
+    const {user,isSuccess, isError, message } = useSelector(state => state.auth)
 //Resident Family
     const [ResidentFamilyfirstName, setResidentFamilyfirstName] = useState('');
     const [ResidentFamilylastName, setResidentFamilylastName] = useState('');
@@ -42,7 +42,7 @@ export default function PersonalDetails(props) {
         if (isError) {
           toast.error(message)
         } 
-      }, [user, isError, isSuccess, message, dispatch])
+      }, [user, isError, isSuccess, message])
     const handleAddNewUser = (e) => {
         e.preventDefault()
         const newUserResident = {
@@ -62,7 +62,9 @@ export default function PersonalDetails(props) {
             residentNumber:residentID,
             roomNumber:residentRoomNo.trim(),
             gender:residentGender.trim(),
-            dob:residentDOB
+            dob:residentDOB,
+            supervisorEmployeeId:user.info.userId,
+
         }
        // console.log(newResident);
         const newUserFamily = {
@@ -78,11 +80,16 @@ export default function PersonalDetails(props) {
             emergencyContact:EmergencyContact
             
         }
-     //   console.log(newResidentFamily);
+        //console.log(user.info.userId);
         dispatch(CreateResident({newUserResident,newResident, newUserFamily,newResidentFamily, token: user.token}))
       }
     return (
                 <>
+                <Grid item xs={12} sm={12}>
+                    <Typography component="h4" variant="h6">
+                    Personal Information:
+                    </Typography>   
+                 </Grid>
                     <Grid item xs={12} sm={6}>
                             <TextField
                                 required
@@ -215,6 +222,14 @@ export default function PersonalDetails(props) {
                                 </RadioGroup>
                             </FormControl>
                     </Grid>
+                    <Grid item xs={12} sm={12}>
+                    <Typography component="h4" variant="h6">
+                           Family Information:
+                    </Typography>  
+                    </Grid>
+ 
+
+                    
                     <Grid item xs={12} sm={6}>
                         <TextField
                         
@@ -222,7 +237,7 @@ export default function PersonalDetails(props) {
                         required
                         fullWidth
                         id="ResidentFamilyfirstName"
-                        label="First Name"
+                        label="Family First Name"
                         autoFocus
                         value={ResidentFamilyfirstName}
                                         onChange={e => setResidentFamilyfirstName(e.target.value)}
@@ -233,7 +248,7 @@ export default function PersonalDetails(props) {
                   required
                   fullWidth
                   id="ResidentFamilylastName"
-                  label="Last Name"
+                  label="Family Last Name"
                   name="ResidentFamilylastName"
                   value={ResidentFamilylastName}
                   onChange={e => setResidentFamilylastName(e.target.value)}
@@ -246,7 +261,7 @@ export default function PersonalDetails(props) {
                                 required
                                 fullWidth
                                 id="Familyemail"
-                                label="Family emailAddress"
+                                label="Family Email Address"
                                 name="Familyemail"
                                 autoComplete="Familyemail"
                                 value={residentFamilyemail}
@@ -254,7 +269,20 @@ export default function PersonalDetails(props) {
                             />
                         
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="ResidentFamilycontactNumber"
+                  label="Contact Number"
+                  name="ResidentFamilycontactNumber"
+                  value={ResidentFamilycontactNumber}
+                  onChange={e => setResidentFamilycontactNumber(e.target.value)}
+                 
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
                    
                    <TextField
                        required
@@ -280,19 +308,7 @@ export default function PersonalDetails(props) {
                                 onChange={e => setresidentFamilyPassword(e.target.value)}
                             />
                     </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="ResidentFamilycontactNumber"
-                  label="Contact Number"
-                  name="ResidentFamilycontactNumber"
-                  value={ResidentFamilycontactNumber}
-                  onChange={e => setResidentFamilycontactNumber(e.target.value)}
-                 
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                <FormControl fullWidth >
                <InputLabel id="EmergencyContactlabel">Emergency Contact</InputLabel>
                     <Select

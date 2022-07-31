@@ -26,16 +26,14 @@ import MedicalInformation from './MedicalInformation';
 import ResidentNotes from './ResidentNotes';
 import { useDispatch, useSelector } from 'react-redux'
 
-const steps = ['Personal Details', 'Family Information', 'Medical Information','Resident Notes'];
+const steps = ['Basic Details','Medical Information','Resident Notes'];
 
 
 export default function ResidentAddingNew() {
-  
+ 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const optionalSet=new Set([2,3]);
- 
-
+  const optionalSet=new Set([1,2]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -93,17 +91,14 @@ export default function ResidentAddingNew() {
         return (
           <PersonalDetails/>
         );
-      case 1:
-        return (
-          <FamilyInformation/>
-        );
-        case 2:
+      
+        case 1:
         return (
          <MedicalInformation/>
         );
-        case 3:
+        case 2:
             return (
-             <ResidentNotes/>
+              <ResidentNotes/>
             );
       default:
         return 'Unknown step';

@@ -1,5 +1,6 @@
 export const EMP_API_URL = '/api/employee/'
 export const RES_API_URL = '/api/resident/'
+export const RES_Family_API_URL = '/api/resident/family'
 export const USER_API_URL = '/api/user/'
 export const CHAT_API_URL = '/api/message/'
 export const MED_API_URL = '/api/medical/'
