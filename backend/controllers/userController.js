@@ -80,6 +80,22 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc update user
+// @route  PUT /api/user/:id
+// @access Private
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id })
+
+  if (!user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true,})
+
+  res.status(200).json(updatedUser)
+})
+
 // generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -118,9 +134,27 @@ const getUserDetail = asyncHandler(async (req, res) => {
   res.status(200).json(user)
 })
 
+// @desc delete user
+// @route  DELETE /api/user/:id
+// @access Private
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id })
+
+  if (!user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  await User.findByIdAndDelete(req.params.id)
+
+  res.status(200).json({message: 'User deleted'})
+})
+
 module.exports = {
   registerUser,
   loginUser,
   getUserList,
-  getUserDetail
+  getUserDetail,
+  deleteUser,
+  updateUser,
 }

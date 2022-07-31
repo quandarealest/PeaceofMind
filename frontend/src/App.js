@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
 import NewUser from './pages/NewUser';
+import EditUser from './pages/EditUser';
 import Profile from './pages/Profile';
 import Resident from './pages/Resident';
 import ResidentInfo from './pages/ResidentInfo';
@@ -30,6 +31,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/user" element={<NewUser />} />
+            <Route path="/user-detail" element={<EditUser />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/message" element={<Chat />} />
             <Route path="/resident" element={<Resident />} />

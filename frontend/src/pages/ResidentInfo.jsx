@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import jwt_decode from 'jwt-decode'
 import { toast } from 'react-toastify'
 import { ThemeProvider, Box, CircularProgress } from '@mui/material'
 import ResidentDetail from '../components/ResidentDetail/ResidentDetail'
 import { theme } from '../theme/CustomizedTheme'
-import { logout, reset } from '../features/auth/authSlice'
 import { reset as residentReset, getResidentDetail } from '../features/resident/residentSlice'
 
 

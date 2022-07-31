@@ -6,6 +6,7 @@ const Employee = require('../models/employeeModel')
 // @access Private
 const registerEmployee = asyncHandler(async (req, res) => {
   const {
+    userId,
     firstName,
     lastName,
     contactNumber,
@@ -32,7 +33,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
   }
 
   const employee = await Employee.create({
-    userId: req.user.id,
+    userId,
     firstName,
     lastName,
     contactNumber,
@@ -85,8 +86,42 @@ const getEmployeeDetail = asyncHandler(async (req, res) => {
   res.status(200).json(employee)
 })
 
+// @desc update employee
+// @route  PUT /api/employee/:id
+// @access Private
+const updateEmployee = asyncHandler(async (req, res) => {
+  const employee = await Employee.findOne({ userId: req.params.id })
+
+  if (!employee) {
+    res.status(400)
+    throw new Error('Employee not found')
+  }
+
+  const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, req.body, {new: true,})
+
+  res.status(200).json(updatedEmployee)
+})
+
+// @desc delete employee
+// @route  DELETE /api/employee/:id
+// @access Private
+const deleteEmployee = asyncHandler(async (req, res) => {
+  const employee = await Employee.findOne({ userId: req.params.id })
+
+  if (!employee) {
+    res.status(400)
+    throw new Error('Employee not found')
+  }
+
+  await Employee.findByIdAndDelete(req.params.id)
+
+  res.status(200).json({message: 'Employee deleted'})
+})
+
 module.exports = {
   registerEmployee,
   getEmployeeList,
-  getEmployeeDetail
+  getEmployeeDetail,
+  updateEmployee,
+  deleteEmployee
 }
