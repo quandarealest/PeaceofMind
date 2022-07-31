@@ -1,8 +1,28 @@
 import axios from 'axios'
-import { RES_API_URL, MED_API_URL, NOTE_API_URL, TIMELINE_API_URL } from '../../common/api'
+import { USER_API_URL,RES_API_URL, MED_API_URL, NOTE_API_URL, TIMELINE_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
 import timelineService from '../timeline/timelineService'
 import { normalizedSpecialMedicalRecord, normalizedNotes } from '../../common/NormalizingData'
+
+//create new resident
+const registerResident = async (newUserResident,newResident, newUserFamily,newResidentFamily,token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const userResident = await axios.post(USER_API_URL,newUserResident)
+  const userResidentFamily = await axios.post(USER_API_URL,newUserFamily)
+  const tempResidentData = {
+    ...newResident,
+    userId: userResident.data._id,
+    familyMemberId: userResidentFamily.data._id,
+    supervisorEmployeeId:token._id,
+  }
+  console.log(tempResidentData);
+  const response=await axios.post(RES_API_URL,tempResidentData)
+  return response.data
+}
 
 //create new note for resident
 const registerResidentNote = async (token, newNote) => {

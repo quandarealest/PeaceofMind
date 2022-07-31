@@ -11,6 +11,15 @@ const initialState = {
   message: '',
   detail: {}
 }
+// create new resident
+export const CreateResident = createAsyncThunk('resident/Create', async ({newUserResident,newResident, newUserFamily,newResidentFamily,token}, thunkAPI) => {
+  try {
+    return await residentService.registerResident(newUserResident,newResident, newUserFamily,newResidentFamily,token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 
 // create new note
 export const registerNewNote = createAsyncThunk('resident/newNote', async ({ newNote, token }, thunkAPI) => {
