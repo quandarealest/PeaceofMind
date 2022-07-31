@@ -14,6 +14,37 @@ const getEmployeeList = async (token) => {
   return response.data
 }
 
+const createEmployee = async (userData, employeeData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const user = await axios.post(USER_API_URL, userData, config)
+  const tempEmployeeData = {
+    ...employeeData,
+    userId: user.data._id,
+  }
+  const response = await axios.post(EMP_API_URL, tempEmployeeData, config)
+  return response.data
+}
+
+const updateEmployee = async (id, userData, employeeData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  const user = await axios.put(USER_API_URL + id, userData, config)
+  const response = await axios.put(EMP_API_URL + id, employeeData, config)
+  return {
+    ...response.data,
+     user: user.data
+   } 
+}
+
 const getEmployeeDetail = async (token, id) => {
   const config = {
     headers: {
