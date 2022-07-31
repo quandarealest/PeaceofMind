@@ -7,6 +7,8 @@ import ResidentDetail from '../components/ResidentDetail/ResidentDetail'
 import { theme } from '../theme/CustomizedTheme'
 import { reset as residentReset, getResidentDetail } from '../features/resident/residentSlice'
 import { reset as timelineReset, getResidentTimeline } from '../features/timeline/timelineSlice'
+import jwt_decode from 'jwt-decode'
+import { logout , reset } from '../features/auth/authSlice'
 
 function ResidentInfo() {
   const location = useLocation()
