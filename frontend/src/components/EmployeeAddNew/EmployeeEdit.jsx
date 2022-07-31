@@ -11,38 +11,47 @@ import FormLabel from '@mui/material/FormLabel'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
-import { createEmployee, reset } from '../../features/employee/employeeSlice'
+import { updateEmployee, reset } from '../../features/employee/employeeSlice'
 import { toast } from 'react-toastify'
 import { theme } from '../../theme/CustomizedTheme'
 import { FormControl, RadioGroup, Radio, InputLabel, Select, MenuItem } from '@mui/material';
 import { selectEmployeeOptions } from './AddNewEnum'
 
 
-export default function EmployeeAddNew(props) {
+function EmployeeEdit(props) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { userData, employeeData } = props
-  const { user, employees, isSuccess, isError, isLoading: employeeLoading, message } = useSelector(state => state.auth)
 
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [rePassword, setRePassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [option, setOption] = useState(selectEmployeeOptions[0].value)
+  const { detail, user } = props
+  const { employees, isSuccess, isError, message } = useSelector(state => state.auth)
+  //const { isLoading} = useSelector(state => state.employee)
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [employeeNumber, setEmployeeNumber] = useState('');
-  //newNoteValue.trim()
+  const [userName, setUserName] = useState(detail.user.userName);
+  const [password, setPassword] = useState(detail.user.password);
+  const [rePassword, setRePassword] = useState(detail.user.password);
+  const [email, setEmail] = useState(detail.user.email);
+  const [option, setOption] = useState(detail.user.role)
+
+  const [firstName, setFirstName] = useState(detail.firstName);
+  const [lastName, setLastName] = useState(detail.lastName);
+  const [contactNumber, setContactNumber] = useState(detail.contactNumber);
+  const [employeeNumber, setEmployeeNumber] = useState(detail.employeeNumber);
+
+  const [employeeId, setEmployeeId] = useState(detail.userId);
 
   const [btnDisabled, setBtnDisabled] = useState(true)
 
   const handleChangeRoleOption = (e) => {
-    setOption(selectEmployeeOptions.find(opt => opt.value === e.target.value))
+    setOption(e.target.value);
     setBtnDisabled(false);
   }
+
+  const handleAboutInputChange = (e) => {
+    const { name, value } = e.target;
+    setBtnDisabled(false);
+
+  };
 
   useEffect(() => {
     if (isError) {
@@ -52,27 +61,24 @@ export default function EmployeeAddNew(props) {
     if (isSuccess || employees) {
       navigate('/')
     }
-
-    dispatch(reset())
   }, [user, employees, isError, isSuccess, message, navigate, dispatch])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleUpdateEmployee = (e) => {
+    e.preventDefault()
     const userData = {
       userName: userName.trim(),
       password: password.trim(),
       email: email.trim(),
-      role: option.value,
+      role: option,
     }
     const employeeData = {   
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      contactNumber: contactNumber.trim(),
+      contactNumber: contactNumber,
       employeeNumber: employeeNumber.trim(),
     }
-
-    dispatch(createEmployee({user: userData, employee: employeeData, token: user.token}))
-  };
+    dispatch(updateEmployee({ id: employeeId, user: userData, employee: employeeData, token: user.token }))
+  }
 
   const handleCancel = (e) => {
     e.preventDefault();
@@ -110,6 +116,9 @@ export default function EmployeeAddNew(props) {
                   autoFocus
                   value={firstName}
                   onChange={e => setFirstName(e.target.value)}
+                  //onChange={e => setBtnDisabled(!e.target.value)}
+                  //onChange={e => { this.setFirstName(e.target.value); this.setBtnDisabled(!e.target.value) }}
+
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -132,7 +141,7 @@ export default function EmployeeAddNew(props) {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value={email}
+                  value={user.email}
                   onChange={e => setEmail(e.target.value)}
                 />
               </Grid>
@@ -217,10 +226,11 @@ export default function EmployeeAddNew(props) {
                   <InputLabel id="demo-simple-select-label">Role</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={option.value}
-                    label={option.title}
+                    id="role"
+                    value={option}
+                    label="Role"
                     onChange={handleChangeRoleOption}
+                    //onChange={e => handleChangeRoleOption(e.target.value)}
                   >
                     {selectEmployeeOptions.map(opt => {
                       return <MenuItem value={opt.value}>{opt.title}</MenuItem>
@@ -234,7 +244,8 @@ export default function EmployeeAddNew(props) {
                   fullWidth
                   variant="contained"
                   disabled={btnDisabled}
-                  onClick={(e) => handleSubmit(e)}
+                  onClick={(e) => handleUpdateEmployee(e)}
+                  //onChange={(e) => setUpdatingNoteValue(e.target.value)}
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Submit
@@ -259,3 +270,5 @@ export default function EmployeeAddNew(props) {
     </ThemeProvider>
   );
 }
+
+export default EmployeeEdit

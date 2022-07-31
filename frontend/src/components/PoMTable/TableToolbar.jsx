@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { alpha, styled } from '@mui/material/styles';
 import { ThemeProvider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +15,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { generateFilterOption } from './TableEnum'
+import { deleteEmployee } from '../../features/employee/employeeSlice';
 // import { getResidentDetail } from '../../features/resident/residentSlice'
 
 
@@ -99,8 +100,58 @@ const TableToolbar = (props) => {
           selectedUserId: selectedId
         }
       })
+    } else {
+        navigate('/user-detail', {
+          state: {
+            newType: tableType,
+            selectedUserId: selectedId
+          }
+        })
     }
   }
+
+  const handleEditDetail = () => {
+    /*if (tableType === 'resident') {
+      navigate('/user', {
+        state: {
+          newType: tableType,
+          selectedUserId: selectedId
+        }
+      })
+    } else {
+        navigate('/user-detail', {
+          state: {
+            newType: tableType,
+            selectedUserId: selectedId
+          }
+        })
+    }*/
+  }
+
+  const { user } = useSelector(state => state.auth)
+
+
+  const handleRemoveEmployee = (e) => {
+    e.preventDefault()
+    //dispatch(deleteEmployee({ id: selectedId, token: user.token }))
+  }
+
+/*
+  const handleDelete = () => {
+    if (tableType === 'resident') {
+      navigate('/', {
+        state: {
+          selectedUserId: selectedId
+        }
+      })
+    } else {
+        navigate('/', {
+          state: {
+            selectedUserId: selectedId
+          }
+        })
+    }
+  }*/
 
   return (
     <ThemeProvider>
@@ -186,12 +237,12 @@ const TableToolbar = (props) => {
                 </Tooltip>
                 <Tooltip title="Edit">
                   <IconButton>
-                    <EditIcon />
+                    <EditIcon onClick={handleEditDetail} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete">
                   <IconButton>
-                    <DeleteIcon />
+                    <DeleteIcon onClick = {handleRemoveEmployee}/>
                   </IconButton>
                 </Tooltip>
               </>
