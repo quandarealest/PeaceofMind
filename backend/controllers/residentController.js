@@ -194,6 +194,4 @@ module.exports = {
   registerFamilyMember,
   getResidentDetail,
   getFamilyMemberDetail,
-  getFamilyMemberList,
-  updateResident,
 }
