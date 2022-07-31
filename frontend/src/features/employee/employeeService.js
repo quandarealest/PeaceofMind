@@ -36,13 +36,18 @@ const updateEmployee = async (id, userData, employeeData, token) => {
       Authorization: `Bearer ${token}`
     }
   }
+  //console.log(id)
+  //console.log(userData)
+  //console.log(employeeData)
 
-  const user = await axios.put(USER_API_URL + id, userData, config)
   const response = await axios.put(EMP_API_URL + id, employeeData, config)
+  //console.log(response.data)
+  const user = await axios.put(USER_API_URL + id, userData, config)
+  //console.log(user.data)
   return {
     ...response.data,
-     user: user.data
-   } 
+    user: user.data
+  }
 }
 
 const getEmployeeDetail = async (token, id) => {
