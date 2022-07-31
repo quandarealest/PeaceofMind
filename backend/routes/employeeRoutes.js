@@ -4,6 +4,8 @@ const {
   registerEmployee,
   getEmployeeList,
   getEmployeeDetail,
+  updateEmployee,
+  deleteEmployee,
   // getResidentList,
   // getResidentDetail,
   // registerResident,
@@ -16,7 +18,7 @@ const { protect } = require('../middleware/authMiddleware')
 
 //employee functions
 router.route('/').post(protect, registerEmployee).get(protect, getEmployeeList)
-router.route('/:id').get(protect, getEmployeeDetail)
+router.route('/:id').get(protect, getEmployeeDetail).put(protect, updateEmployee).delete(protect, deleteEmployee)
 // .put(protect, editEmployeeDetail).delete(protect, removeEmployee)
 
 module.exports = router
