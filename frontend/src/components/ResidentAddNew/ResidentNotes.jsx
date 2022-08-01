@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { FormControl, RadioGroup, Radio, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl,InputLabel, Select, MenuItem } from '@mui/material';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react';
@@ -13,14 +13,8 @@ import Chip from '@mui/material/Chip';
 import {Box,Checkbox,ListItemText} from '@mui/material'
 import { NoteType } from '../ResidentDetail/ResidentEnum'
 import { getEmployeeList, reset } from '../../features/employee/employeeSlice'
-import { registerNewNote, deleteNote, updateNote } from '../../features/resident/residentSlice'
-const style1 = {
-  marginBottom: 2,
-};
+import { registerNewNote} from '../../features/resident/residentSlice'
 
-const style2 = {
-  marginTop: 1,
-};
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -42,16 +36,14 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function ResidentNotes (props) {
+export default function ResidentNotes () {
     const theme = useTheme();
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [ResidentNote, setResidentNote] =useState('');
     const [personName, setPersonName] = useState([]);
     const [noteOption, setNoteOption] = useState(NoteType[0].value);
-    const { user } = useSelector(state => state.auth)
-    const { employees, isError, isLoading: employeeLoading, message } = useSelector(state => state.employees)
-    console.log(user._id)
+    const { user } = useSelector(state => state.auth);
+    const { employees, isError, isLoading: employeeLoading, message } = useSelector(state => state.employees);
     useEffect(() => {
       if (isError) {
         toast.error(message)
@@ -60,6 +52,7 @@ export default function ResidentNotes (props) {
         dispatch(reset())
       }
     }, [isError, message, employeeLoading])
+
     const handleChangeOption = (event) => {
       setNoteOption(event.target.value);
       if (event.target.value === 'Private Note') {
@@ -67,7 +60,7 @@ export default function ResidentNotes (props) {
       }
     };
     
-  const handleAddShareableUser = (event) => {
+    const handleAddShareableUser = (event) => {
     const {
       target: { value },
     } = event;
@@ -75,17 +68,18 @@ export default function ResidentNotes (props) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
-  };
+    };
+
     const handleNote = (e) => {
       e.preventDefault()
-      const newNote={
+      const Note={
         residentId:"62e6f1c4f768be71f389bfdd", 
         createdId:user._id,
         shareableId:personName,
         noteType:noteOption,
         note: ResidentNote.trim()
       }
-      dispatch(registerNewNote({newNote, token: user.token}))
+      dispatch(registerNewNote({newNote:Note, token: user.token}))
     }
     return (
         <>     
