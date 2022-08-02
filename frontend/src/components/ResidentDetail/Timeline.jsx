@@ -37,7 +37,7 @@ const style2 = {
 
 function Timeline(props) {
   const dispatch = useDispatch()
-  const { timeline, user } = props
+  const { timeline = {}, user } = props
   const [feeds, setFeeds] = useState(timeline.timelineLog)
   const [selectedFile, setSelectedFile] = useState({})
   const [newTimelineValue, setNewTimelineValue] = useState('');
@@ -236,7 +236,7 @@ function Timeline(props) {
         <Grid item xs={12} md={4}>
           <ScrollToBottom mode='top'>
             <List>
-              {timeline.timelineLog.length !== 0 ? (
+              {Object.keys(timeline).length !== 0 && timeline.timelineLog.length !== 0 ? (
                 <>
                   {[...timeline.timelineLog]
                     .sort((left, right) => moment.utc(right.postedTime).diff(moment.utc(left.postedTime)))
