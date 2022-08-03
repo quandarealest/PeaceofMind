@@ -17,7 +17,7 @@ const registerResident = asyncHandler(async (req, res) => {
     roomNumber,
     gender,
     dob,
-    familyMemberId} = req.body
+    familyMemberId } = req.body
   if (!firstName
     || !lastName
     || !contactNumber
@@ -26,8 +26,8 @@ const registerResident = asyncHandler(async (req, res) => {
     || !gender
     || !dob
     || !supervisorEmployeeId
-    ||!familyMemberId
-    ||! userId) {
+    || !familyMemberId
+    || !userId) {
     res.status(400)
     throw new Error('Please add all fields')
   }
@@ -51,13 +51,12 @@ const registerResident = asyncHandler(async (req, res) => {
     supervisorEmployeeId,
     familyMemberId
   })
-  console.log(resident)
   if (resident) {
     res.status(201).json({
       _id: resident._id,
       userId: resident.userId,
       supervisorEmployeeId: resident.supervisorEmployeeId,
-      familyMemberId:resident.familyMemberId,
+      familyMemberId: resident.familyMemberId,
       firstName: resident.firstName,
       lastName: resident.lastName,
       contactNumber: resident.contactNumber,

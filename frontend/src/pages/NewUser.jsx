@@ -40,8 +40,8 @@ function NewUser() {
       { newType === 'employee' ? (
         <EmployeeAddNew />
       ) : (
-        <ResidentAddingNew/>
-      )}
+          <ResidentAddingNew user={user} />
+        )}
     </>
   )
 }

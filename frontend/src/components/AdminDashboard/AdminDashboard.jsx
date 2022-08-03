@@ -28,8 +28,8 @@ function AdminDashboard(props) {
     dispatch(getResidentList())
 
     return () => {
-      dispatch(employeeReset())
-      dispatch(residentReset())
+      // dispatch(employeeReset())
+      // dispatch(residentReset())
     }
   }, [employeeSelector.isError, employeeSelector.message, residentSelector.isError, residentSelector.message, dispatch])
 

@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux'
 
 import { createNewChat } from '../../features/conversation/conversationSlice'
+import { generateRandomId } from '../../common/NormalizingData'
 
 export default function NewChatDialog(props) {
   const theme = useTheme();
@@ -30,10 +31,10 @@ export default function NewChatDialog(props) {
 
   const handleStartNewChat = (e) => {
     e.preventDefault()
-    let roomId = Math.floor(Math.random() * (99999 - 10000)) + 10000
+    let roomId = generateRandomId()
     if (chatList.find(chat => chat.roomId === roomId)) {
       while (chatList.find(chat => chat.roomId === roomId)) {
-        roomId = Math.floor(Math.random() * (99999 - 10000)) + 10000
+        roomId = generateRandomId()
       }
     }
     if (user.role === 'supervisor') {

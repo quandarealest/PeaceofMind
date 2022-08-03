@@ -22,6 +22,7 @@ const cssProps = {
 function ChatterInfo(props) {
   const navigate = useNavigate()
   const { activeChat, isLoading, user } = props
+
   const renderLine = (title, data) => {
     return (
       <Grid sx={{ marginBottom: '5px' }} spacing={2} container>
@@ -198,7 +199,7 @@ function ChatterInfo(props) {
                         {renderResidentInfo()}
                         <Button fullWidth onClick={handleNavigateResDetail}>
                           Resident Information
-                    </Button>
+                        </Button>
                       </AccordionDetails>
                     </Accordion>
                   </>

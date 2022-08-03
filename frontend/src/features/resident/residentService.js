@@ -1,34 +1,133 @@
 import axios from 'axios'
-import { USER_API_URL,RES_API_URL, MED_API_URL, NOTE_API_URL, TIMELINE_API_URL,RES_Family_API_URL } from '../../common/api'
+import { USER_API_URL, RES_API_URL, MED_API_URL, NOTE_API_URL, TIMELINE_API_URL } from '../../common/api'
 import employeeService from '../employee/employeeService'
 import timelineService from '../timeline/timelineService'
 import { normalizedSpecialMedicalRecord, normalizedNotes } from '../../common/NormalizingData'
 
 //create new resident
-const registerResident = async (newUserResident,newResident, newUserFamily,newResidentFamily,token) => {
+const registerResident = async (newResident, newFamily, newMedical, newNote, token) => {
+  const { user: residentUser } = newResident
+  const { user: familyUser } = newFamily
+  const { basicMedicalRecord, specialMedicalRecord } = newMedical
+  const { diet, allergy, medication } = specialMedicalRecord
+  const { specialNote, dailyNote, privateNote } = newNote
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   }
-  const userResident = await axios.post(USER_API_URL,newUserResident,config)
-  const userResidentFamily = await axios.post(USER_API_URL,newUserFamily,config)
-  const tempResidentData = {
-    ...newResident,
-    userId: userResident.data._id,
-    familyMemberId: userResidentFamily.data._id,
-    
-  }
-  console.log(tempResidentData);
-  const creatingResident=await axios.post(RES_API_URL,tempResidentData,config)
-  const tempResidentFamilyData = {
-    ...newResidentFamily,
-    userId: userResidentFamily.data._id, 
-    residentId:creatingResident.data.userId
+  //create users for resident and family
+  const resResidentUser = await axios.post(USER_API_URL, residentUser, config)
+  const resFamilyUser = await axios.post(USER_API_URL, familyUser, config)
 
+  //create resident
+  const resResident = await axios.post(RES_API_URL, {
+    userId: resResidentUser.data._id,
+    familyMemberId: resFamilyUser.data._id,
+    gender: newResident.gender,
+    dob: newResident.dob,
+    roomNumber: newResident.roomNumber,
+    residentNumber: newResident.residentNumber,
+    contactNumber: newResident.contactNumber,
+    firstName: newResident.firstName,
+    lastName: newResident.lastName,
+    supervisorEmployeeId: newResident.supervisorEmployeeId
+  }, config)
+
+  //create family
+  const resFamily = await axios.post(RES_API_URL + 'family/', {
+    userId: resFamilyUser.data._id,
+    residentId: resResidentUser.data._id,
+    emergencyContact: newFamily.emergencyContact,
+    contactNumber: newFamily.contactNumber,
+    lastName: newFamily.lastName,
+    firstName: newFamily.firstName,
+  }, config)
+
+  //create basic medical record
+  const resBasicMedicalRecord = await axios.post(MED_API_URL + 'basic/', {
+    residentId: resResidentUser.data._id,
+    bloodGroup: basicMedicalRecord.bloodGroup,
+    weight: basicMedicalRecord.weight,
+    height: basicMedicalRecord.height
+  })
+
+  //create diet medical record
+  if (diet.length !== 0) {
+    diet.forEach(async (el) => {
+      const resDiet = await axios.post(MED_API_URL + 'special/', {
+        residentId: resResidentUser.data._id,
+        recordType: 'Diet',
+        recordTitle: el.recordTitle,
+        recordDescription: el.recordDescription
+      })
+    });
   }
-  const response=await axios.post(RES_Family_API_URL,tempResidentFamilyData,config)
-  return response.data
+
+  //create allergy medical record
+  if (allergy.length !== 0) {
+    allergy.forEach(async (el) => {
+      const resAllergy = await axios.post(MED_API_URL + 'special/', {
+        residentId: resResidentUser.data._id,
+        recordType: 'Allergies',
+        recordTitle: el.recordTitle,
+        recordDescription: el.recordDescription
+      })
+    });
+  }
+
+  //create medication medical record
+  if (medication.length !== 0) {
+    medication.forEach(async (el) => {
+      const resMedication = await axios.post(MED_API_URL + 'special/', {
+        residentId: resResidentUser.data._id,
+        recordType: 'Medicines',
+        recordTitle: el.recordTitle,
+        recordDescription: el.recordDescription
+      })
+    });
+  }
+
+  //create daily note
+  if (dailyNote.length !== 0) {
+    dailyNote.forEach(async (el) => {
+      const resDailyNote = await axios.post(NOTE_API_URL, {
+        residentId: resResidentUser.data._id,
+        createdId: el.createdId,
+        shareableId: el.shareableId,
+        noteType: el.noteType,
+        note: el.note
+      })
+    });
+  }
+
+  //create special note
+  if (specialNote.length !== 0) {
+    specialNote.forEach(async (el) => {
+      const resSpecialNote = await axios.post(NOTE_API_URL, {
+        residentId: resResidentUser.data._id,
+        createdId: el.createdId,
+        shareableId: el.shareableId,
+        noteType: el.noteType,
+        note: el.note
+      })
+    });
+  }
+
+  //create special note
+  if (privateNote.length !== 0) {
+    privateNote.forEach(async (el) => {
+      const resPrivateNote = await axios.post(NOTE_API_URL, {
+        residentId: resResidentUser.data._id,
+        createdId: el.createdId,
+        shareableId: el.shareableId,
+        noteType: el.noteType,
+        note: el.note
+      })
+    });
+  }
+
+  return resResidentUser.data._id
 }
 
 //create new note for resident
