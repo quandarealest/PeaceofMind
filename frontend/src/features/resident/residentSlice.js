@@ -11,6 +11,15 @@ const initialState = {
   message: '',
   detail: {}
 }
+// create new resident
+export const createResident = createAsyncThunk('resident/create', async ({ newMedical, newResident, newFamily, newNote, token }, thunkAPI) => {
+  try {
+    return await residentService.registerResident(newResident, newFamily, newMedical, newNote, token)
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 
 // create new note
 export const registerNewNote = createAsyncThunk('resident/newNote', async ({ newNote, token }, thunkAPI) => {
@@ -220,6 +229,22 @@ export const residentSlice = createSlice({
       })
       .addCase(updateNote.rejected, (state, action) => {
         state.isCRUDNoteSuccess = false
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(createResident.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(createResident.fulfilled, (state, action) => {
+        // state.residents = action.payload
+        state.isSuccess = true
+        state.isLoading = false
+        state.isError = false
+        state.message = ''
+      })
+      .addCase(createResident.rejected, (state, action) => {
+        state.isSuccess = false
         state.isLoading = false
         state.isError = true
         state.message = action.payload

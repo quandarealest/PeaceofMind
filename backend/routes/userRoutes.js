@@ -8,6 +8,7 @@ const { loginUser,
 const { protect } = require('../middleware/authMiddleware')
 
 //for userController
+
 router.route('/').post(registerUser).get(protect, getUserList)
 router.route('/login').post(loginUser)
 router.route('/:id').get(protect, getUserDetail)

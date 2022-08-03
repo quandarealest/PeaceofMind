@@ -12,7 +12,6 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     email,
     role } = req.body
-
   if (!userName
     || !password
     || !email

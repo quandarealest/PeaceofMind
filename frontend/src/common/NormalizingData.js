@@ -11,6 +11,18 @@ export const normalizePhoneNumber = (phone) => {
   return normalizedPhone;
 }
 
+export const generateRandomId = (list, duplicateValue) => {
+
+  let id = Math.floor(Math.random() * (99999 - 10000)) + 10000
+  if (list.find(el => el[`${duplicateValue}`] === id)) {
+    while (list.find(el => el[`${duplicateValue}`] === id)) {
+      id = Math.floor(Math.random() * (99999 - 10000)) + 10000
+    }
+  }
+
+  return id
+}
+
 export const weightConverter = (value, from, to) => {
   if (from === 'kg' && to === 'lbs') {
     return parseInt(value * 2.2046)
