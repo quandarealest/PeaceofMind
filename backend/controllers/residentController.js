@@ -92,6 +92,22 @@ const getResidentDetail = asyncHandler(async (req, res) => {
   res.status(200).json(resident)
 })
 
+// @desc update resident
+// @route  PUT /api/resident/:id
+// @access Private
+const updateResident = asyncHandler(async (req, res) => {
+  const resident = await Resident.findOne({ _id: req.params.id })
+
+  if (!resident) {
+    res.status(400)
+    throw new Error('Resident not found')
+  }
+
+  const updatedResident = await Resident.findByIdAndUpdate(req.params.id, req.body, {new: true,})
+
+  res.status(200).json(updatedResident)
+})
+
 
 // --- FAMILY MEMBER --
 
@@ -178,5 +194,5 @@ module.exports = {
   registerFamilyMember,
   getResidentDetail,
   getFamilyMemberDetail,
-  getFamilyMemberList,
+  updateResident,
 }
