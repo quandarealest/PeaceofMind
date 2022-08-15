@@ -25,6 +25,7 @@ import ResidentNotes from './ResidentNotes';
 import { NoteType } from '../ResidentDetail/ResidentEnum'
 import ResidentFinalDisplay from './ResidentFinalDisplay'
 import { createResident } from '../../features/resident/residentSlice'
+import { generateRandomId } from '../../common/NormalizingData'
 
 
 const steps = ['Basic Details', 'Medical Information', 'Resident Notes'];
@@ -90,7 +91,8 @@ export default function ResidentAddingNew(props) {
 	const optionalSet = new Set([2]);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(createResident({ newResident: createdResident, newFamily: createdFamily, newMedical: createdMedical, newNote: createdNote, token: user.token }))
+		const roomId = generateRandomId()
+		dispatch(createResident({ newResident: createdResident, newFamily: createdFamily, newMedical: createdMedical, newNote: createdNote, token: user.token, roomId }))
 			.then((res) => {
 				toast.success(`New resident ${createdResident.firstName} ${createdResident.lastName} - ${createdResident.residentNumber} has been added to the system successfully`)
 				navigate('/resident-info', {

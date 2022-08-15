@@ -5,7 +5,7 @@ import timelineService from '../timeline/timelineService'
 import { normalizedSpecialMedicalRecord, normalizedNotes } from '../../common/NormalizingData'
 
 //create new resident
-const registerResident = async (newResident, newFamily, newMedical, newNote, token) => {
+const registerResident = async (newResident, newFamily, newMedical, newNote, token, roomId) => {
   const { user: residentUser } = newResident
   const { user: familyUser } = newFamily
   const { basicMedicalRecord, specialMedicalRecord } = newMedical
@@ -43,6 +43,11 @@ const registerResident = async (newResident, newFamily, newMedical, newNote, tok
     lastName: newFamily.lastName,
     firstName: newFamily.firstName,
   }, config)
+
+  const resTimeline = await axios.post(TIMELINE_API_URL, {
+    residentId: resResidentUser.data._id,
+    roomId: roomId,
+  })
 
   //create basic medical record
   const resBasicMedicalRecord = await axios.post(MED_API_URL + 'basic/', {
